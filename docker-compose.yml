@@ -1,0 +1,59 @@
+services:
+
+  django_app:
+    build:
+      context: ./backend
+    env_file:
+      - .env.development
+    entrypoint: [ "/app/entrypoint_gunicorn.sh" ]
+    ports:
+      - 8002:8002
+    volumes:
+      - ./backend:/app
+      - shared-media:/app/media
+    tty: true  # Enable terminal allocation
+    stdin_open: true  # Keep stdin open for interactive input
+    healthcheck:
+      test: [ "CMD-SHELL", "curl -f http://localhost:8002/ || exit 1" ]
+      interval: 5s
+      timeout: 2s
+      retries: 3
+
+  react_app:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    env_file:
+      - .env.development
+    restart: always
+    volumes:
+      - ./frontend:/app
+    environment:
+      - PORT=3003
+    ports:
+      - 3003:3003
+    healthcheck:
+      test: [ "CMD-SHELL", "curl -f http://localhost:3003 || exit 1" ]
+      interval: 5s
+      timeout: 2s
+      retries: 3
+
+  nginx:
+    build:
+      context: .
+      dockerfile: ./nginx/Dockerfile
+    env_file:
+      - .env.development
+    restart: always
+    volumes:
+      - ./nginx/monitor.conf:/etc/nginx/conf.d/monitor.conf
+      - shared-media:/app/media
+    ports:
+      - 83:83
+    depends_on:
+      react_app:
+        condition: service_healthy
+      django_app:
+        condition: service_healthy
+volumes:
+  shared-media:
