@@ -8,7 +8,7 @@ COPY ./frontend/package.json ./
 COPY ./frontend/package-lock.json ./
 RUN npm ci
 COPY ./frontend/ ./
-COPY .env.development ./.env
+COPY .env /.env
 RUN npm run build
 
 # The second stage
