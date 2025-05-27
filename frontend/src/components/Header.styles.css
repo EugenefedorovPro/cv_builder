@@ -1,0 +1,115 @@
+.cv-header {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    background-color: #f8f8f8;
+    border-bottom: 2px solid #333;
+    box-sizing: border-box;
+    font-family: Verdana, sans-serif;
+    margin-top: 60px;
+}
+
+.photo-container {
+    margin-right: 20px;
+}
+
+.profile-photo {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.photo-placeholder {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background-color: #ccc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #666;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.header-content {
+    flex-grow: 1;
+}
+
+.name {
+    font-size: 24px;
+    margin: 0 0 10px 0;
+    color: #333;
+}
+
+.contact-info {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    font-size: 14px;
+    color: #555;
+}
+
+.contact-info p {
+    margin: 0;
+}
+
+.contact-info a {
+    color: #0066cc;
+    text-decoration: none;
+}
+
+.contact-info a:hover {
+    text-decoration: underline;
+}
+
+.location {
+    font-size: 14px;
+    color: #555;
+    margin-top: 5px;
+}
+
+/* Responsive adjustments for large screens (vertical navbar) */
+@media (min-width: 992px) {
+    .cv-header {
+        margin-left: 250px;
+        margin-top: 0;
+        width: calc(210mm - 250px);
+        max-width: calc(100% - 250px);
+    }
+}
+
+/* Responsive adjustments for smaller screens (horizontal navbar) */
+@media (max-width: 991px) {
+    .cv-header {
+        flex-direction: column;
+        align-items: flex-start;
+        height: auto; /* Remove fixed height for flexibility */
+        padding: 15px;
+        width: 100%; /* Full width on small screens */
+    }
+
+    .photo-container {
+        margin: 0 0 15px 0;
+    }
+
+    .profile-photo {
+        width: 60px;
+        height: 60px;
+    }
+
+    .name {
+        font-size: 20px;
+    }
+
+    .contact-info {
+        flex-direction: column;
+        gap: 10px;
+        font-size: 12px;
+    }
+
+    .location {
+        font-size: 12px;
+    }
+}

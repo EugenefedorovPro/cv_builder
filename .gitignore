@@ -1,4 +1,4 @@
 .env*
 .idea/
 *.sqlite*
-*tree.md
+tree.md
