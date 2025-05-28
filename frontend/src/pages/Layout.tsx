@@ -2,6 +2,10 @@ import {Col, Container, Row, Stack} from "react-bootstrap";
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import NavbarCV from "../components/Navbar";
+import HeaderCV from "../components/HeaderCV";
+import HardSkillsCV from "../components/HardSkills";
+import "./Layout.styles.css";
+
 
 const Layout = () => {
 
@@ -12,7 +16,7 @@ const Layout = () => {
 
         >
             <Row
-                className="g-0"
+                className=""
             >
 
                 <Col
@@ -20,50 +24,63 @@ const Layout = () => {
                     md={12}
                     sm={12}
                     xs={12}
-                    className="navbar-col d-lg-flex flex-lg-column bg-info"
+                    className="navbar-col d-lg-flex flex-lg-column"
                 >
                     {<NavbarCV/>}
                 </Col>
 
                 <Col
+                    className="outer-body-col flex-lg-column"
                     lg={10}
                     md={12}
                     sm={12}
                     xs={12}
-                    className="main-content bg-warning d-lg-flex flex-lg-column position-relative"
 
                 >
 
                     <Row>
 
                         <Col
-                            lg={{span: 9, order: 1}}
-                            md={{span: 12, order: 2}}
-                            sm={{span: 12, order: 2}}
-                            xs={{span: 12, order: 2}}
+                            className="inner-body-col bg-info"
+                            lg={9}
+                            md={12}
+                            sm={12}
+                            xs={12}
                         >
                             <Stack
                                 gap={3}
-                                style={{"height": "100vh"}}
+                                className=""
                             >
-                                <div className="header-placeholder text-center">
-                                    <h3>HeaderCV</h3>
+                                <div
+                                    className="header-div"
+                                >
+                                    {<HeaderCV
+                                        name="Eugene Proskulikov"
+                                        phone="096-564-40-20"
+                                        email="eupro@gmail.com"
+                                        linkedin="linkedin.eupro"
+                                        github="fithub.eupro"
+                                        country="Ukraine"
+                                        city="Kyiv"
+                                        district="Left Bank"
+                                        photo="some photo"
+                                    />}
                                 </div>
 
                                 <div className="hard-skills-placeholder text-center">
-                                    <h3>Manifest</h3>
+                                    {/*<h3>Manifest</h3>*/}
                                 </div>
 
                                 <div className="cases-placeholder text-center">
-                                    <h3>Experience</h3>
+                                    {/*<h3>Experience</h3>*/}
                                 </div>
 
                                 <div className="why-me-placeholder text-center">
-                                    <h3>Soft skills</h3>
+                                    {/*<h3>Soft skills</h3>*/}
                                 </div>
 
                                 <div className="feedback-placeholder text-center">
-                                    <h3>Hobbies</h3>
+                                    {/*<h3>Hobbies</h3>*/}
                                 </div>
 
 
@@ -73,16 +90,19 @@ const Layout = () => {
                         </Col>
 
                         <Col
-                            lg={{span: 3, order: 2}}
-                            md={{span: 12, order: 1}}
-                            sm={{span: 12, order: 1}}
-                            xs={{span: 12, order: 1}}
-                            className="hard-skills-col bg-success d-lg-flex flex-lg-column position-relative"
+                            className="hard-skills-col d-lg-flex flex-lg-column position-relative"
+                            lg={3}
+                            md={12}
+                            sm={12}
+                            xs={12}
                         >
                             <div
-                                className="hardskills-placeholder text-center"
+                                className="hard-skills-div text-center"
                             >
-                                <h3>Hard Skills</h3>
+                                {<HardSkillsCV
+                                    category="languages"
+                                    hard_skills="Python, JS, C, R"
+                                />}
                             </div>
                         </Col>
 

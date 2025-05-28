@@ -1,59 +1,42 @@
-import React, {useState} from 'react';
-import {Col, Container, Dropdown, Nav, Navbar, Row} from 'react-bootstrap';
+import React from 'react';
+import {Nav, Navbar, NavDropdown, Container, Form, Button} from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const NavbarCV = () => {
-    const [language, setLanguage] = useState("EN");
 
-    const handleSelect = (lang: any) => {
-        setLanguage(lang);
-        // Optional: persist in localStorage or update i18n library
-    };
     return (
-        <Navbar expand="md" className="bg-danger-subtle d-lg-flex flex-lg-column p-3 h-100 bg-info align-items-start">
-            <Navbar.Brand className="mb-lg-auto bg-body" href="/">CV</Navbar.Brand>
-            <Navbar.Toggle className=""/>
-            <Navbar.Collapse className="w-100">
+        <Navbar expand="sm">
 
-                <Container fluid className="h-100 d-lg-flex flex-lg-column">
-                    <Row className="h-100 d-lg-flex flex-lg-column">
+            <Container className="m-0 flex-lg-column align-items-start">
+                <Navbar.Brand className="" href="#home">CV</Navbar.Brand>
 
-                        <Col className=" d-lg-flex flex-lg-column bg-info-subtle">
-                            <Nav className="d-lg-flex flex-lg-column">
-                                <Nav.Link href="#cases">Cases</Nav.Link>
-                                <Nav.Link href="#why-me">Why me?</Nav.Link>
-                                <Nav.Link href="#feedback">Feedback</Nav.Link>
-                            </Nav>
+                <Navbar.Toggle aria-controls="basic-nav-dropdown"/>
+                <Navbar.Collapse className="">
 
-                        </Col>
+                    <Nav variant="" defaultActiveKey="/" className="flex-lg-column">
 
-                        <Col className="d-lg-flex flex-lg-column bg-info">
-                            <Nav className="d-lg-flex flex-lg-column h-100 bg-secondary">
-                                <div className="ms-0 ms-sm-auto ms-lg-0 mt-lg-auto">
+                        <Nav.Item>
+                            <Nav.Link href="#cases">Cases</Nav.Link>
+                        </Nav.Item>
 
-                                    <Dropdown onSelect={handleSelect}>
-                                        <Dropdown.Toggle variant="light" id="language-dropdown">
-                                            {language}
-                                        </Dropdown.Toggle>
+                        <Nav.Item>
+                            <Nav.Link href="#why-me">Why me?</Nav.Link>
+                        </Nav.Item>
 
-                                        <Dropdown.Menu>
-                                            <Dropdown.Item eventKey="EN">English</Dropdown.Item>
-                                            <Dropdown.Item eventKey="UA">Ukrainian</Dropdown.Item>
-                                            <Dropdown.Item eventKey="RU">Russian</Dropdown.Item>
-                                        </Dropdown.Menu>
-                                    </Dropdown>
+                        <Nav.Item>
+                            <Nav.Link href="#feedback">Feedback</Nav.Link>
+                        </Nav.Item>
 
-                                </div>
-                            </Nav>
+                        <NavDropdown title="ENG">
+                            <NavDropdown.Item eventKey="1">ENG</NavDropdown.Item>
+                            <NavDropdown.Item eventKey="2">UKR</NavDropdown.Item>
+                            <NavDropdown.Item eventKey="3">RUS</NavDropdown.Item>
+                        </NavDropdown>
 
-                        </Col>
-                    </Row>
+                    </Nav>
 
-                </Container>
-
-
-            </Navbar.Collapse>
-
+                </Navbar.Collapse>
+            </Container>
         </Navbar>
 
     )

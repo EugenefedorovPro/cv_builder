@@ -45,16 +45,6 @@ class Header(models.Model):
         db_table = "header"
 
 
-class Manifest(models.Model):
-    manifest_text = models.TextField()
-
-    def __str__(self):
-        return f"Manifest: {self.manifest_text[:50]}..."
-
-    class Meta:
-        db_table = "manifest"
-
-
 class HardSkill(models.Model):
     hard_skill_text = models.TextField()
     created_at = models.DateTimeField(auto_now_add = True)
@@ -67,6 +57,16 @@ class HardSkill(models.Model):
 
     class Meta:
         db_table = "hard_skill"
+
+
+class Manifest(models.Model):
+    manifest_text = models.TextField()
+
+    def __str__(self):
+        return f"Manifest: {self.manifest_text[:50]}..."
+
+    class Meta:
+        db_table = "manifest"
 
 
 class Project(models.Model):

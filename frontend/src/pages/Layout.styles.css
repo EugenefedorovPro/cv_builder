@@ -1,0 +1,16 @@
+:root {
+    --navbar-color: #ddf4d7;
+    --hard-skills-color: #f4f4d7;
+    --one-color: #ead7f4;
+    --tow--color: #a497ab;
+    --three-color: #9bab97;
+}
+
+
+.navbar-col {
+    background-color: var(--navbar-color);
+}
+
+.hard-skills-div {
+    background-color: var(--hard-skills-color);
+}
