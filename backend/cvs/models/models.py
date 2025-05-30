@@ -25,9 +25,9 @@ class Photos(models.Model):
         db_table = "photos"
 
 class Header(models.Model):
+    phone = models.CharField(max_length = 50)
     first_name = models.CharField(max_length = 255)
     second_name = models.CharField(max_length = 255)
-    phone = models.CharField(max_length = 50)
     email = models.EmailField()
     linkedin = models.URLField(blank = True, null = True)
     github = models.URLField(blank = True, null = True)
@@ -320,7 +320,6 @@ class EducationResume(models.Model):
 
 
 class Resume(models.Model):
-    user = models.ForeignKey("CustomUser", on_delete = models.CASCADE)
     description = models.CharField(max_length = 255)
     unique_url_tail = models.CharField(max_length = 50, unique = True)
 
@@ -334,6 +333,7 @@ class Resume(models.Model):
     manifest = models.ForeignKey("Manifest", on_delete = models.CASCADE)
     why_me = models.ForeignKey("WhyMe", on_delete = models.CASCADE)
     is_public = models.BooleanField(default = True)
+    user = models.ForeignKey("CustomUser", on_delete = models.CASCADE)
 
     def save(self, *args, **kwargs):
         if not self.unique_url_tail:

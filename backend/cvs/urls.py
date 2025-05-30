@@ -4,6 +4,6 @@ from .views import HeaderView
 app_name = "cvs"
 
 urlpatterns = [
-    path("", HeaderView.as_view(), name = "header"),
+    path("header/", HeaderView.as_view(), name = "header"),
 
     ]

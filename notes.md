@@ -1,3 +1,45 @@
+/media/photos/Eugene_Proskulikov_photo_2020-07-07_.jpg
+
+______________________
+settings.py: 
+
+    STATIC_URL = "static/"
+    STATIC_ROOT = BASE_DIR / "staticfiles"
+
+    MEDIA_URL = "media/"
+    MEDIA_ROOT = BASE_DIR / "media"
+
+models.py
+
+    class Photos(models.Model):
+        photo_url = models.ImageField(blank = True, null = True, upload_to = "photos/")
+
+urls.py in project:
+
+    if settings.DEBUG:
+        urlpatterns += static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
+        urlpatterns += static(settings.STATIC_URL, document_root = settings.STATIC_ROOT)
+
+I do not see any photos in my media folder?
+
+____________________
+I work with React TS.
+
+I see two ways of splitting my code to separate parts:
+First approach with three files:
+- fetch data from back with axios
+- import data to component which react bootstrap
+- import component to general Layout.
+
+Second approach with two files
+- fetch data from back with axios and populate bootstrap fields in the same file
+- import component to general Layout.
+
+which approach is better?
+what are alternatives?
+
+
+________________________________________
 def save(self, *args):
     self.user = request.user
     super().save(*args)

@@ -54,17 +54,7 @@ const Layout = () => {
                                 <div
                                     className="header-div"
                                 >
-                                    {<HeaderCV
-                                        name="Eugene Proskulikov"
-                                        phone="096-564-40-20"
-                                        email="eupro@gmail.com"
-                                        linkedin="linkedin.eupro"
-                                        github="fithub.eupro"
-                                        country="Ukraine"
-                                        city="Kyiv"
-                                        district="Left Bank"
-                                        photo="some photo"
-                                    />}
+                                    {<HeaderCV/>}
                                 </div>
 
                                 <div className="hard-skills-placeholder text-center">
@@ -90,7 +80,7 @@ const Layout = () => {
                         </Col>
 
                         <Col
-                            className="hard-skills-col d-lg-flex flex-lg-column position-relative"
+                            className="hard-skills-col d-lg-flex flex-lg-column position-relative g-0"
                             lg={3}
                             md={12}
                             sm={12}
