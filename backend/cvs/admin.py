@@ -1,33 +1,39 @@
 from django.contrib import admin
 
-from .models import (Case,
-                     CaseResume,
-                     CustomUser,
-                     Education,
-                     EducationResume,
-                     Experience,
-                     ExperienceResume,
-                     Feedback,
-                     HardSkill,
-                     HardSkillResume,
-                     Header,
-                     Hobby,
-                     HobbyResume,
-                     LanguageChoice,
-                     Manifest,
-                     OccupationChoice,
-                     Photos,
-                     Project,
-                     ProjectResume,
-                     SizeChoice,
-                     SoftSkill,
-                     SoftSkillResume,
-                     WhyMe,
-                     )
+from cvs.models.models import (Case,
+                               CaseResume,
+                               CustomUser,
+                               Education,
+                               EducationResume,
+                               Experience,
+                               ExperienceResume,
+                               Feedback,
+                               HardSkill,
+                               HardSkillResume,
+                               Header,
+                               Hobby,
+                               HobbyResume,
+                               LanguageChoice,
+                               Manifest,
+                               OccupationChoice,
+                               Photos,
+                               Project,
+                               ProjectResume,
+                               SizeChoice,
+                               SoftSkill,
+                               SoftSkillResume,
+                               WhyMe,
+                               )
+
+
+# @admin.register(Header)
+# class HeaderAdmin(admin.ModelAdmin):
+#     exclude = ("user",)
+
 
 admin.site.register(CustomUser)
-admin.site.register(Photos)
 admin.site.register(Header)
+admin.site.register(Photos)
 admin.site.register(Manifest)
 admin.site.register(HardSkill)
 admin.site.register(Project)

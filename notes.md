@@ -1,3 +1,15 @@
+def save(self, *args):
+    self.user = request.user
+    super().save(*args)
+
+
+I want the user of my django app to have access only to instances of the model he has created.
+The point this is that I use standard admin contrib from django. 
+What are the best practices of doing this?
+
+
+
+________________________________________
 How to make Navbar vertical for large screens and horizontal for md and sm?
 I have already created the grid and going to insert NavbarCV to Col, which bevhaves as I want.
 Actually, I need NavbarCV to adapt to the behaviour of that column.

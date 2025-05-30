@@ -24,9 +24,9 @@ class Photos(models.Model):
     class Meta:
         db_table = "photos"
 
-
 class Header(models.Model):
-    name = models.CharField(max_length = 255)
+    first_name = models.CharField(max_length = 255)
+    second_name = models.CharField(max_length = 255)
     phone = models.CharField(max_length = 50)
     email = models.EmailField()
     linkedin = models.URLField(blank = True, null = True)
@@ -37,9 +37,10 @@ class Header(models.Model):
     photo = models.ForeignKey("Photos", on_delete = models.CASCADE, blank = True, null = True)
     created_at = models.DateTimeField(auto_now_add = True)
     updated_at = models.DateTimeField(auto_now = True)
+    user = models.ForeignKey("CustomUser", on_delete = models.CASCADE)
 
     def __str__(self):
-        return self.name
+        return f"{self.first_name} - {self.second_name}"
 
     class Meta:
         db_table = "header"
@@ -178,6 +179,7 @@ class WhyMe(models.Model):
     why_me_text = models.TextField()
     created_at = models.DateTimeField(auto_now_add = True)
     updated_at = models.DateTimeField(auto_now = True)
+    user = models.ForeignKey("CustomUser", on_delete = models.CASCADE)
 
     def __str__(self):
         return f"WhyMe for {self.company or 'Unknown Company'}"

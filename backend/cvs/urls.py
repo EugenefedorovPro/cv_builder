@@ -1,10 +1,9 @@
-from django.http import HttpResponse
-from django.urls import (path,
-                         )
+from django.urls import path
+from .views import HeaderView
 
 app_name = "cvs"
 
 urlpatterns = [
-    path("", HttpResponse("Placeholder for root django view")),
+    path("", HeaderView.as_view(), name = "header"),
 
     ]
