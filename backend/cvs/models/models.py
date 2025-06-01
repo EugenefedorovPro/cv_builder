@@ -12,14 +12,32 @@ class CustomUser(AbstractUser):
         return self.username
 
 
+class BlockNames(models.Model):
+    header_name = models.CharField(max_length = 100, default = "Header")
+    hard_skills_name = models.CharField(max_length = 100, default = "Hard Skills")
+    manifest_name = models.CharField(max_length = 100, default = "Manifest")
+    projects_name = models.CharField(max_length = 100, default = "Projects")
+    experience_name = models.CharField(max_length = 100, default = "Experience")
+    soft_skills_name = models.CharField(max_length = 100, default = "Soft Skills")
+    education_name = models.CharField(max_length = 100, default = "Education")
+    hobby_name = models.CharField(max_length = 100, default = "Hobby")
+    cases_name = models.CharField(max_length = 100, default = "Cases")
+    why_me_name = models.CharField(max_length = 100, default = "Why me?")
+    lang = models.ForeignKey("LanguageChoice", on_delete = models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add = True)
+    updated_at = models.DateTimeField(auto_now = True)
+
+
+
 class Photos(models.Model):
     photo_url = models.ImageField(blank = True, null = True, upload_to = "photos/")
+    description = models.CharField(max_length = 100, blank = True, null = True)
     created_at = models.DateTimeField(auto_now_add = True)
     updated_at = models.DateTimeField(auto_now = True)
     user = models.ForeignKey("CustomUser", on_delete = models.CASCADE)
 
     def __str__(self):
-        return f"Photo by {self.user.username} at {self.created_at}"
+        return f"Photo '{self.description}' by {self.user.username}"
 
     class Meta:
         db_table = "photos"
@@ -47,14 +65,26 @@ class Header(models.Model):
 
 
 class HardSkill(models.Model):
+    block_name = models.ForeignKey("BlockNames", on_delete = models.CASCADE)
+    category = models.CharField(max_length = 50)
     hard_skill_text = models.TextField()
     created_at = models.DateTimeField(auto_now_add = True)
     updated_at = models.DateTimeField(auto_now = True)
     resume = models.ManyToManyField("Resume", through = "HardSkillResume")
+    lang = models.ForeignKey("LanguageChoice", on_delete = models.CASCADE)
     user = models.ForeignKey("CustomUser", on_delete = models.CASCADE)
 
+    def clean(self):
+        if self.block_name.lang != self.lang:
+            raise ValidationError("Languages do not correspond in HardSkill and BlockName instances")
+
+    def save(self, *args, **kwargs):
+        self.full_clean()
+        super().save(*args, **kwargs)
+
+
     def __str__(self):
-        return f"Hard Skill: {self.hard_skill_text[:50]}..."
+        return f"Hard Skill: {self.user.username} - {self.language}: {self.hard_skill_text[:15]}..."
 
     class Meta:
         db_table = "hard_skill"
@@ -204,13 +234,12 @@ class Feedback(models.Model):
 
 
 class LanguageChoice(models.Model):
-    code = models.CharField(max_length = 100, unique = True)
-    name = models.CharField(max_length = 255)
+    lang = models.CharField(max_length = 255)
     created_at = models.DateTimeField(auto_now_add = True)
     updated_at = models.DateTimeField(auto_now = True)
 
     def __str__(self):
-        return self.name
+        return self.lang
 
     class Meta:
         db_table = "language_choice"

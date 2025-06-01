@@ -80,19 +80,17 @@ const Layout = () => {
                         </Col>
 
                         <Col
-                            className="hard-skills-col d-lg-flex flex-lg-column position-relative g-0"
+                            className="hard-skills-col d-lg-flex flex-lg-column position-relative"
                             lg={3}
                             md={12}
                             sm={12}
                             xs={12}
                         >
                             <div
-                                className="hard-skills-div text-center"
+                                className="hard-skills-div"
                             >
-                                {<HardSkillsCV
-                                    category="languages"
-                                    hard_skills="Python, JS, C, R"
-                                />}
+                                <HardSkillsCV/>
+
                             </div>
                         </Col>
 

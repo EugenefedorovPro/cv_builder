@@ -1,10 +1,28 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from .serializers import HeaderSerializer
-from cvs.models.models import Header
+from cvs.serializers import (HeaderSerializer,
+                             HardSkillSerializer,
+                             )
+from cvs.models.models import (Header,
+                               HardSkill,
+                               BlockNames,
+                               )
+
 
 class HeaderView(APIView):
     def get(self, request):
         header = Header.objects.all().first()
         serializer = HeaderSerializer(header)
         return Response(serializer.data)
+
+
+class HardSkillView(APIView):
+    def get(self, request):
+        hard_skills = HardSkill.objects.all()
+        serializer_hard_skills = HardSkillSerializer(hard_skills, many = True)
+        hard_skills_name = BlockNames.objects.all().first().hard_skills_name
+        block_name = {
+            "block_name": hard_skills_name
+            }
+
+        return Response((block_name, serializer_hard_skills.data))
