@@ -133,9 +133,10 @@ class PhotoSuper(PhotoFactory):
 
 
 class HeaderFactory(CvBlockInterface):
-    def __init__(self, user: User, photo: Photos, first_name: str, second_name: str, phone: str, email: str,
+    def __init__(self, user: User, lang: LanguageChoice ,  photo: Photos, first_name: str, second_name: str, phone: str, email: str,
                  linkedin: str, github: str, country: str, city: str, district: str):
         self.user = user
+        self.lang = lang
         self.photo = photo
         self.first_name = first_name
         self.second_name = second_name
@@ -159,15 +160,17 @@ class HeaderFactory(CvBlockInterface):
             city = self.city,
             district = self.district,
             photo = self.photo,
+            lang = self.lang,
             user = self.user,
 
             ),
 
 
 class HeaderUserSuper(HeaderFactory):
-    def __init__(self, user: User, photo: Photos):
+    def __init__(self, user: User, lang: LanguageChoice, photo: Photos):
         super().__init__(
             photo = photo,
+            lang = lang,
             user = user,
             first_name = "Eugene",
             second_name = "Proskulikov",
@@ -183,10 +186,11 @@ class HeaderUserSuper(HeaderFactory):
 
 
 class HeaderUserSimple(HeaderFactory):
-    def __init__(self, user: User, photo: Photos):
+    def __init__(self, user: User, lang: LanguageChoice, photo: Photos):
         super().__init__(
-            photo = photo,
             user = user,
+            lang = lang,
+            photo = photo,
             first_name = "user_simple_first_name",
             second_name = "user_simple_second_name",
             phone = "+0987654321",
@@ -299,7 +303,7 @@ class TestBuilderSuper:
         return self
 
     def create_header(self) -> Header:
-        self.header = HeaderUserSuper(user = self.user, photo = self.photo).create_block()
+        self.header = HeaderUserSuper(user = self.user, lang = self.lang, photo = self.photo).create_block()
         return self
 
     def create_hard_skills(self) -> list[HardSkill]:

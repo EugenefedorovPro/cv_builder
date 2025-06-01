@@ -9,7 +9,7 @@ from django.shortcuts import reverse
 class HeaderTest(TestCase):
     @classmethod
     def setUpTestData(cls):
-        cls.builder = TestBuilderSuper().create_user().create_photo().create_header()
+        cls.builder = TestBuilderSuper().create_user().create_lang().create_photo().create_header()
 
 
     def setUp(self):

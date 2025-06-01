@@ -52,10 +52,11 @@ class Header(models.Model):
     country = models.CharField(max_length = 100, blank = True, null = True)
     city = models.CharField(max_length = 100, blank = True, null = True)
     district = models.CharField(max_length = 100, blank = True, null = True)
-    photo = models.ForeignKey("Photos", on_delete = models.CASCADE, blank = True, null = True)
     created_at = models.DateTimeField(auto_now_add = True)
     updated_at = models.DateTimeField(auto_now = True)
+    photo = models.ForeignKey("Photos", on_delete = models.CASCADE, blank = True, null = True)
     user = models.ForeignKey("CustomUser", on_delete = models.CASCADE)
+    lang = models.ForeignKey("LanguageChoice", on_delete = models.CASCADE)
 
     def __str__(self):
         return f"{self.first_name} - {self.second_name}"
@@ -84,7 +85,7 @@ class HardSkill(models.Model):
 
 
     def __str__(self):
-        return f"Hard Skill: {self.user.username} - {self.language}: {self.hard_skill_text[:15]}..."
+        return f"Hard Skill: {self.user.username} - {self.lang}: {self.hard_skill_text[:15]}..."
 
     class Meta:
         db_table = "hard_skill"

@@ -1,16 +1,21 @@
 :root {
-    --navbar-color: #ddf4d7;
-    --hard-skills-color: #f4f4d7;
-    --one-color: #ead7f4;
-    --tow--color: #a497ab;
-    --three-color: #9bab97;
+    --primary-dark: #2C3E50; /* Dark Midnight Blue - for headings, main text */
+    --accent-color: #2E8B57; /* Sea Green - for prominent highlights, section titles */
+    --neutral-light: #F8F9FA; /* Off-White - for clean backgrounds */
+    --text-color: #495057; /* Dark Gray - for body text */
+    --soft-highlight: #D4EDDA; /* Pale Green - for subtle background blocks */
+    --deep-contrast: #1A5276; /* Darker Blue - for borders, strong lines */
 }
 
+.accent {
+    font-weight: bolder;
+    color: var(--accent-color);
+}
 
 .navbar-col {
-    background-color: var(--navbar-color);
+    background-color: var(--neutral-light);
 }
 
-.hard-skills-div {
-    background-color: var(--hard-skills-color);
+.color-hard-skills {
+    background-color: var(--text-color);
 }

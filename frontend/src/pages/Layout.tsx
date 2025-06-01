@@ -41,14 +41,14 @@ const Layout = () => {
                     <Row>
 
                         <Col
-                            className="inner-body-col bg-info"
+                            className="inner-body-col"
                             lg={9}
                             md={12}
                             sm={12}
                             xs={12}
                         >
                             <Stack
-                                gap={3}
+                                gap={0}
                                 className=""
                             >
                                 <div
@@ -80,14 +80,14 @@ const Layout = () => {
                         </Col>
 
                         <Col
-                            className="hard-skills-col d-lg-flex flex-lg-column position-relative"
+                            className="d-lg-flex flex-lg-column position-relative"
                             lg={3}
                             md={12}
                             sm={12}
                             xs={12}
                         >
                             <div
-                                className="hard-skills-div"
+                                className=""
                             >
                                 <HardSkillsCV/>
 

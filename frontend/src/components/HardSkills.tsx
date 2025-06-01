@@ -43,18 +43,15 @@ const HardSkillsCV = () => {
 
     return (
         <ListGroup>
-            <ListGroupItem className="fw-bold">{block_name.block_name}</ListGroupItem>
-            <ListGroupItem>
-                {
-                    block_data.map((item) => (
-                            <ListGroup>
-                                <ListGroupItem className=""><b>{item.category}</b>: {item.hard_skill_text}</ListGroupItem>
-                            </ListGroup>
-                        )
+            <ListGroupItem className="accent">{block_name.block_name}</ListGroupItem>
+            {
+                block_data.map((item) => (
+                        <ListGroupItem key={item.id} className="">
+                            <b>{item.category}</b>: {item.hard_skill_text}
+                        </ListGroupItem>
                     )
-                }
-            </ListGroupItem>
-
+                )
+            }
         </ListGroup>
     )
 }

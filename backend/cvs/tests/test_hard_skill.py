@@ -20,7 +20,6 @@ class HardSkillTest(TestCase):
         url = reverse("cvs:hard_skills")
         response = self.client.get(url)
         actual_response = json.loads(response.content.decode())
-        ipdb.set_trace()
         expected_response = [{
             'block_name': 'Hard Skills'
             },
