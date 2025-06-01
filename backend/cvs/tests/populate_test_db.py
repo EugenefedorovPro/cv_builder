@@ -6,6 +6,8 @@ from cvs.models.models import (Header,
                                Photos,
                                LanguageChoice,
                                BlockNames,
+                               Manifest,
+
                                )
 from django.contrib.auth import get_user_model
 from abc import (ABC,
@@ -133,7 +135,7 @@ class PhotoSuper(PhotoFactory):
 
 
 class HeaderFactory(CvBlockInterface):
-    def __init__(self, user: User, lang: LanguageChoice ,  photo: Photos, first_name: str, second_name: str, phone: str, email: str,
+    def __init__(self, user: User, lang: LanguageChoice, photo: Photos, first_name: str, second_name: str, phone: str, email: str,
                  linkedin: str, github: str, country: str, city: str, district: str):
         self.user = user
         self.lang = lang
@@ -270,6 +272,30 @@ class RusLang(LangFactory):
         super().__init__(lang)
 
 
+class ManifestFactory(CvBlockInterface):
+    def __init__(self, user: User, lang: LanguageChoice, manifest_text: str):
+        self.user = user
+        self.lang = lang
+        self.manifest_text = manifest_text
+
+    def create_block(self):
+        return Manifest.objects.create(
+            user = self.user,
+            lang = self.lang,
+            manifest_text = self.manifest_text
+
+            )
+
+
+class ManifestEng(ManifestFactory):
+    data = (
+        "Backend Software Engineer with a strong understanding of frontend development, "
+        "an analytical background, and hands-on experience in Neural Network development.")
+
+    def __init__(self, user: User, lang: LanguageChoice):
+        super().__init__(user, lang, self.data)
+
+
 class TestBuilderSuper:
     def __init__(self):
         self.user: User = None
@@ -280,6 +306,7 @@ class TestBuilderSuper:
         self.photo: Photos | None = None
         self.header: Header | None = None
         self.hard_skills: list[HardSkill] | None = []
+        self.manifest: Manifest | None = None
 
     def create_user(self) -> User:
         inst = UserSuper()
@@ -308,4 +335,8 @@ class TestBuilderSuper:
 
     def create_hard_skills(self) -> list[HardSkill]:
         self.hard_skills = HardSkillUserSuper(self.block_names, self.user, self.lang).create_block()
+        return self
+
+    def create_manifest(self):
+        ManifestEng(user = self.user, lang = self.lang).create_block()
         return self

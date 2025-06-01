@@ -1,11 +1,12 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from cvs.serializers import (HeaderSerializer,
-                             HardSkillSerializer,
+                             HardSkillSerializer, ManifestSerializer,
                              )
 from cvs.models.models import (Header,
                                HardSkill,
-                               BlockNames,
+                               BlockNames, Manifest,
+
                                )
 
 
@@ -26,3 +27,10 @@ class HardSkillView(APIView):
             }
 
         return Response((block_name, serializer_hard_skills.data))
+
+
+class ManifestView(APIView):
+    def get(self, request):
+        manifest: Manifest = Manifest.objects.all().first()
+        serializer = ManifestSerializer(manifest)
+        return Response(serializer.data)
