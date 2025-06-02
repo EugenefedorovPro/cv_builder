@@ -1,3 +1,4 @@
+import ipdb
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from cvs.serializers import (HeaderSerializer,
@@ -33,4 +34,7 @@ class ManifestView(APIView):
     def get(self, request):
         manifest: Manifest = Manifest.objects.all().first()
         serializer = ManifestSerializer(manifest)
-        return Response(serializer.data)
+        block_name = {
+            "block_name": BlockNames.objects.all().first().manifest_name
+            }
+        return Response((block_name, serializer.data))

@@ -16,7 +16,15 @@ from abc import (ABC,
 from PIL import Image
 from io import BytesIO
 from django.core.files.uploadedfile import SimpleUploadedFile
-from cvs.tests.data import BLOCK_NAME_ENG, PHOTO, USER_SUPER, USER_SIMPLE, HEADER_USER_SUPER, HEADER_USER_SIMPLE, HARD_SKILLS_SUPER
+from cvs.tests.data import (BLOCK_NAME_ENG,
+                            PHOTO,
+                            USER_SUPER,
+                            USER_SIMPLE,
+                            HEADER_USER_SUPER,
+                            HEADER_USER_SIMPLE,
+                            HARD_SKILLS_SUPER,
+                            MANIFEST_ENG,
+                            )
 
 User = get_user_model()
 
@@ -47,6 +55,7 @@ class UserFactory(CvBlockInterface):
                 is_staff = self.is_staff,
                 )
 
+
 class UserSuper(UserFactory):
     def __init__(self):
         super().__init__(
@@ -60,18 +69,20 @@ class UserSimple(UserFactory):
 
 
 class BlockNamesFactory(CvBlockInterface):
-    def __init__(self, data):
+    def __init__(self, lang: LanguageChoice, data: dict[str, str]):
+        self.lang = lang
         self.data = data
 
     def create_block(self):
-        return BlockNames.objects.create(**self.data)
+        return BlockNames.objects.create(**self.data, lang = self.lang)
 
 
 class BlockNamesEng(BlockNamesFactory):
+    data = BLOCK_NAME_ENG.copy()
+
     def __init__(self, lang: LanguageChoice):
         self.lang = lang
-        BLOCK_NAME_ENG.setdefault("lang_id", lang.pk)
-        super().__init__(BLOCK_NAME_ENG)
+        super().__init__(self.lang, self.data)
 
 
 class PhotoFactory(CvBlockInterface):
@@ -139,19 +150,23 @@ class HeaderFactory(CvBlockInterface):
 
 
 class HeaderUserSuper(HeaderFactory):
+    data = HEADER_USER_SUPER.copy()
+
     def __init__(self, user: User, lang: LanguageChoice, photo: Photos):
-        HEADER_USER_SUPER["user"] = user
-        HEADER_USER_SUPER["lang"] = lang
-        HEADER_USER_SUPER["photo"] = photo
-        super().__init__(**HEADER_USER_SUPER)
+        self.data["user"] = user
+        self.data["lang"] = lang
+        self.data["photo"] = photo
+        super().__init__(**self.data)
 
 
 class HeaderUserSimple(HeaderFactory):
+    data = HEADER_USER_SIMPLE.copy()
+
     def __init__(self, user: User, lang: LanguageChoice, photo: Photos):
-        HEADER_USER_SIMPLE["user"] = user
-        HEADER_USER_SIMPLE["lang"] = lang
-        HEADER_USER_SIMPLE["photo"] = photo
-        super().__init__(**HEADER_USER_SIMPLE)
+        self.data["user"] = user
+        self.data["lang"] = lang
+        self.data["photo"] = photo
+        super().__init__(**self.data)
 
 
 class HardSkillsFactory(CvBlockInterface):
@@ -222,19 +237,19 @@ class ManifestFactory(CvBlockInterface):
 
 class ManifestEng(ManifestFactory):
     def __init__(self, user: User, lang: LanguageChoice):
-        super().__init__(user, lang, ManifestEng)
+        super().__init__(user, lang, MANIFEST_ENG)
 
 
 class TestBuilderSuper:
     def __init__(self):
         self.user: User = None
-        self.username: str = ""
-        self.password: str = ""
+        self.username: str | None = None
+        self.password: str | None = None
         self.lang: LanguageChoice | None = None
         self.block_names: BlockNames | None = None
         self.photo: Photos | None = None
         self.header: Header | None = None
-        self.hard_skills: list[HardSkill] | None = []
+        self.hard_skills: list[HardSkill] | None = None
         self.manifest: Manifest | None = None
 
     def create_user(self) -> User:

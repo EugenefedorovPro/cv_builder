@@ -4,14 +4,12 @@ import ipdb
 from django.test import TestCase
 from .populate_test_db import TestBuilderSuper
 from django.shortcuts import reverse
+from cvs.tests.data import HARD_SKILLS_SUPER
 
 
 class HardSkillTest(TestCase):
-    @classmethod
-    def setUpTestData(cls):
-        cls.builder = TestBuilderSuper().create_user().create_lang().create_block_names().create_hard_skills()
-
     def setUp(self):
+        self.builder = TestBuilderSuper().create_user().create_lang().create_block_names().create_hard_skills()
         logged_in = self.client.login(username = self.builder.username, password = self.builder.password)
         self.assertTrue(logged_in)
 
@@ -25,46 +23,42 @@ class HardSkillTest(TestCase):
             },
             [{
                 'category': 'Backend',
-                'hard_skill_text': 'Python, Django, Django Rest Api',
+                'hard_skill_text': HARD_SKILLS_SUPER['Backend'],
                 'id': 1
                 },
                 {
                     'category': 'Frontend',
-                    'hard_skill_text': 'React, html, css, bootstrap, JS, JQuery',
+                    'hard_skill_text': HARD_SKILLS_SUPER['Frontend'],
                     'id': 2
                     },
                 {
                     'category': 'NN and DataScience',
-                    'hard_skill_text': 'Keras + TensorFlow  (GRU models), numpy, pandas, '
-                                       'unstructured texts and media field analysis with '
-                                       'LooqMe, Semantrum, R',
+                    'hard_skill_text': HARD_SKILLS_SUPER['NN and DataScience'],
                     'id': 3
                     },
                 {
                     'category': 'Databases',
-                    'hard_skill_text': 'sqlite, MySql, Postgres',
+                    'hard_skill_text': HARD_SKILLS_SUPER['Databases'],
                     'id': 4
                     },
                 {
                     'category': 'DevOps',
-                    'hard_skill_text': 'docker, git, nginx, gunicorn, daphne, Linux, CI/CD, '
-                                       'SSL, servers setup: VPS, RaspberryPI ',
+                    'hard_skill_text': HARD_SKILLS_SUPER['DevOps'],
                     'id': 5
                     },
                 {
                     'category': 'Backend Utilities',
-                    'hard_skill_text': 'Redis, Celery (worker, beat), WebSocket',
+                    'hard_skill_text': HARD_SKILLS_SUPER['Backend Utilities'],
                     'id': 6
                     },
                 {
                     'category': 'Network Engineering',
-                    'hard_skill_text': 'VPN (OpenVpn, Wireguard), eoip, Graphana + Prometeus, '
-                                       'firewalls, vlans, networks building',
+                    'hard_skill_text': HARD_SKILLS_SUPER['Network Engineering'],
                     'id': 7
                     },
                 {
                     'category': 'IDE',
-                    'hard_skill_text': 'vim, PyCharm',
+                    'hard_skill_text': HARD_SKILLS_SUPER['IDE'],
                     'id': 8
                     }]]
 

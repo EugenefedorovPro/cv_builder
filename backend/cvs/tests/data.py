@@ -72,9 +72,5 @@ HARD_SKILLS_SUPER = {
 
     }
 
-MANIFEST_ENG = """
-
-Backend Software Engineer with a strong understanding of frontend development, 
-an analytical background, and hands-on experience in Neural Network development.
-
-"""
+MANIFEST_ENG = """Backend Software Engineer with a strong understanding of frontend development,\
+ an analytical background, and hands-on experience in Neural Network development."""
