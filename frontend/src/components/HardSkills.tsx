@@ -22,9 +22,6 @@ const HardSkillsCV = () => {
     const url: string = "http://localhost:8002/hard_skills/";
     const {data, loading, error} = useFetchData<HardSkillType>(url);
 
-
-    console.log(data);
-
     if (loading) {
         return <div> Loading data for Hard Skills...</div>
     }

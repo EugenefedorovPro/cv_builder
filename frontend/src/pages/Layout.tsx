@@ -3,6 +3,7 @@ import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import NavbarCV from "../components/Navbar";
 import HeaderCV from "../components/HeaderCV";
+import ManifestCV from "../components/Manifest";
 import HardSkillsCV from "../components/HardSkills";
 import "./Layout.styles.css";
 
@@ -58,7 +59,7 @@ const Layout = () => {
                                 </div>
 
                                 <div className="hard-skills-placeholder text-center">
-                                    {/*<h3>Manifest</h3>*/}
+                                    {<ManifestCV/>}
                                 </div>
 
                                 <div className="cases-placeholder text-center">
