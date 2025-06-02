@@ -1,7 +1,9 @@
 from rest_framework import serializers
 from cvs.models.models import (Header,
                                Photos,
-                               HardSkill, Manifest,
+                               HardSkill,
+                               Manifest,
+                               Project,
                                )
 
 
@@ -43,3 +45,8 @@ class ManifestSerializer(serializers.ModelSerializer):
         model = Manifest
         fields = ["id", "manifest_text"]
 
+
+class ProjectSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Project
+        fields = ["id", "project_name", "project_text"]

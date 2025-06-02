@@ -107,17 +107,19 @@ class Manifest(models.Model):
 class Project(models.Model):
     project_name = models.CharField(max_length = 255)
     project_text = models.TextField(max_length = 300)
+    web_url = models.URLField(null = True, blank = True)
+    git_url = models.URLField(null = True, blank = True)
     created_at = models.DateTimeField(auto_now_add = True)
     updated_at = models.DateTimeField(auto_now = True)
     resume = models.ManyToManyField("Resume", through = "ProjectResume")
+    lang = models.ForeignKey("LanguageChoice", on_delete = models.CASCADE)
     user = models.ForeignKey("CustomUser", on_delete = models.CASCADE)
 
     def __str__(self):
-        return self.project_name
+        return f"{self.project_name} - pk: {self.pk}"
 
     class Meta:
         db_table = "project"
-
 
 class Experience(models.Model):
     company = models.CharField(max_length = 255)

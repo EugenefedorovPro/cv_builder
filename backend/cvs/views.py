@@ -2,13 +2,18 @@ import ipdb
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from cvs.serializers import (HeaderSerializer,
-                             HardSkillSerializer, ManifestSerializer,
+                             HardSkillSerializer,
+                             ManifestSerializer,
+                             ProjectSerializer,
                              )
 from cvs.models.models import (Header,
                                HardSkill,
-                               BlockNames, Manifest,
+                               BlockNames,
+                               Manifest,
+                               Project,
 
                                )
+from django.db.models import QuerySet
 
 
 class HeaderView(APIView):
@@ -36,5 +41,15 @@ class ManifestView(APIView):
         serializer = ManifestSerializer(manifest)
         block_name = {
             "block_name": BlockNames.objects.all().first().manifest_name
+            }
+        return Response((block_name, serializer.data))
+
+
+class ProjectView(APIView):
+    def get(self, request):
+        projects: QuerySet[Project] = Project.objects.all()
+        serializer = ProjectSerializer(projects, many = True)
+        block_name: dict[str, str] = {
+            "block_name": BlockNames.objects.all().first().projects_name
             }
         return Response((block_name, serializer.data))
