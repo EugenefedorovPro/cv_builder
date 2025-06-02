@@ -16,6 +16,7 @@ from abc import (ABC,
 from PIL import Image
 from io import BytesIO
 from django.core.files.uploadedfile import SimpleUploadedFile
+from cvs.tests.data import BLOCK_NAME_ENG, PHOTO, USER_SUPER, USER_SIMPLE, HEADER_USER_SUPER, HEADER_USER_SIMPLE, HARD_SKILLS_SUPER
 
 User = get_user_model()
 
@@ -27,11 +28,11 @@ class CvBlockInterface(ABC):
 
 
 class UserFactory(CvBlockInterface):
-    def __init__(self, username: str, password: str, is_superuser: bool, is_staff: bool = True):
-        self.username = username
-        self.password = password
-        self.is_superuser = is_superuser
-        self.is_staff = is_staff
+    def __init__(self, **data):
+        self.username = data["username"]
+        self.password = data["password"]
+        self.is_superuser = data["is_superuser"]
+        self.is_staff = True if not data.get("is_staff", None) else data["is_staff"]
 
     def create_block(self) -> User:
         if self.is_superuser:
@@ -46,25 +47,16 @@ class UserFactory(CvBlockInterface):
                 is_staff = self.is_staff,
                 )
 
-
 class UserSuper(UserFactory):
     def __init__(self):
         super().__init__(
-            username = "user_super",
-            password = "user_super_password_1234",
-            is_superuser = True,
-
+            **USER_SUPER,
             )
 
 
 class UserSimple(UserFactory):
     def __init__(self):
-        super().__init__(
-            username = "user_simple",
-            password = "user_simple_password_1234",
-            is_superuser = False,
-
-            )
+        super().__init__(**USER_SIMPLE)
 
 
 class BlockNamesFactory(CvBlockInterface):
@@ -76,35 +68,22 @@ class BlockNamesFactory(CvBlockInterface):
 
 
 class BlockNamesEng(BlockNamesFactory):
-    data: dict[str, str] = {
-        "header_name": "Header",
-        "hard_skills_name": "Hard Skills",
-        "manifest_name": "Manifest",
-        "projects_name": "Projects",
-        "experience_name": "Experience",
-        "soft_skills_name": "Soft Skills",
-        "education_name": "Education",
-        "hobby_name": "Hobby",
-        "cases_name": "Cases",
-        "why_me_name": "Why me?",
-        }
-
     def __init__(self, lang: LanguageChoice):
         self.lang = lang
-        self.data.setdefault("lang_id", lang.pk)
-        super().__init__(self.data)
+        BLOCK_NAME_ENG.setdefault("lang_id", lang.pk)
+        super().__init__(BLOCK_NAME_ENG)
 
 
 class PhotoFactory(CvBlockInterface):
-    def __init__(self, user: User, description: str, name: str, width: int, height: int, color: str, mode: str = "RGB", format: str = "JPEG"):
-        self.user = user
-        self.description = description
-        self.name = name
-        self.width = width
-        self.height = height
-        self.color = color
-        self.mode = mode
-        self.format = format
+    def __init__(self, **photo):
+        self.user = photo["user"]
+        self.description = photo["description"]
+        self.name = photo["name"]
+        self.width = photo["width"]
+        self.height = photo["height"]
+        self.color = photo["color"]
+        self.mode = photo["mode"]
+        self.format = photo["format"]
 
     def create_block(self):
         image = Image.new(self.mode, (self.width, self.height), color = self.color)
@@ -122,33 +101,24 @@ class PhotoFactory(CvBlockInterface):
 
 class PhotoSuper(PhotoFactory):
     def __init__(self, user: User):
-        super().__init__(
-            user = user,
-            description = "test_photo_super",
-            name = "test_image.jpg",
-            width = 150,
-            height = 200,
-            color = "Red",
-            mode = "RGB",
-            format = "JPEG",
-            )
+        PHOTO["user"] = user
+        super().__init__(**PHOTO)
 
 
 class HeaderFactory(CvBlockInterface):
-    def __init__(self, user: User, lang: LanguageChoice, photo: Photos, first_name: str, second_name: str, phone: str, email: str,
-                 linkedin: str, github: str, country: str, city: str, district: str):
-        self.user = user
-        self.lang = lang
-        self.photo = photo
-        self.first_name = first_name
-        self.second_name = second_name
-        self.phone = phone
-        self.email = email
-        self.linkedin = linkedin
-        self.github = github
-        self.country = country
-        self.city = city
-        self.district = district
+    def __init__(self, **data):
+        self.user = data["user"]
+        self.lang = data["lang"]
+        self.photo = data["photo"]
+        self.first_name = data["first_name"]
+        self.second_name = data["second_name"]
+        self.phone = data["phone"]
+        self.email = data["email"]
+        self.linkedin = data["linkedin"]
+        self.github = data["github"]
+        self.country = data["country"]
+        self.city = data["city"]
+        self.district = data["district"]
 
     def create_block(self):
         return Header.objects.create(
@@ -170,43 +140,22 @@ class HeaderFactory(CvBlockInterface):
 
 class HeaderUserSuper(HeaderFactory):
     def __init__(self, user: User, lang: LanguageChoice, photo: Photos):
-        super().__init__(
-            photo = photo,
-            lang = lang,
-            user = user,
-            first_name = "Eugene",
-            second_name = "Proskulikov",
-            phone = "+38-(096)-464-3910",
-            email = "eugene.proskulikov@gmail.com",
-            linkedin = "https://www.linkedin.com/in/eugene-proskulikov-168050a4/",
-            github = "https://github.com/EugenefedorovPro/",
-            country = "Ukraine",
-            city = "Kyiv",
-            district = "Left Bank"
-
-            )
+        HEADER_USER_SUPER["user"] = user
+        HEADER_USER_SUPER["lang"] = lang
+        HEADER_USER_SUPER["photo"] = photo
+        super().__init__(**HEADER_USER_SUPER)
 
 
 class HeaderUserSimple(HeaderFactory):
     def __init__(self, user: User, lang: LanguageChoice, photo: Photos):
-        super().__init__(
-            user = user,
-            lang = lang,
-            photo = photo,
-            first_name = "user_simple_first_name",
-            second_name = "user_simple_second_name",
-            phone = "+0987654321",
-            email = "simple_user@gmail.com",
-            linkedin = "https://www.linkedin.com/in/user_simple",
-            github = "usersimple.github.com",
-            country = "Simpleland",
-            city = "Simplecity",
-            district = "Simpledistrict",
-            )
+        HEADER_USER_SIMPLE["user"] = user
+        HEADER_USER_SIMPLE["lang"] = lang
+        HEADER_USER_SIMPLE["photo"] = photo
+        super().__init__(**HEADER_USER_SIMPLE)
 
 
 class HardSkillsFactory(CvBlockInterface):
-    def __init__(self, block_names: BlockNames, user: User, lang: LanguageChoice, data: dict[str, str]):
+    def __init__(self, block_names: BlockNames, user: User, lang: LanguageChoice, data):
         self.block_names = block_names
         self.user = user
         self.lang = lang
@@ -228,25 +177,9 @@ class HardSkillsFactory(CvBlockInterface):
 
 
 class HardSkillUserSuper(HardSkillsFactory):
-    data = {
-        'Backend': 'Python, Django, Django Rest Api',
-        'Frontend': 'React, html, css, bootstrap, JS, JQuery',
-        'NN and DataScience': 'Keras + TensorFlow  (GRU models), numpy, pandas, unstructured texts and media field analysis with LooqMe, Semantrum, R',
-        'Databases': 'sqlite, MySql, Postgres',
-        'DevOps': 'docker, git, nginx, gunicorn, daphne, Linux, CI/CD, SSL, servers setup: VPS, RaspberryPI ',
-        'Backend Utilities': 'Redis, Celery (worker, beat), WebSocket',
-        'Network Engineering': 'VPN (OpenVpn, Wireguard), eoip, Graphana + Prometeus, firewalls, vlans, networks building',
-        'IDE': 'vim, PyCharm',
-        }
 
     def __init__(self, block_names: BlockNames, user: User, lang: LanguageChoice):
-        super().__init__(
-            block_names = block_names,
-            user = user,
-            lang = lang,
-            data = self.data,
-
-            )
+        super().__init__(block_names, user, lang, HARD_SKILLS_SUPER)
 
 
 class LangFactory(CvBlockInterface):
@@ -288,12 +221,8 @@ class ManifestFactory(CvBlockInterface):
 
 
 class ManifestEng(ManifestFactory):
-    data = (
-        "Backend Software Engineer with a strong understanding of frontend development, "
-        "an analytical background, and hands-on experience in Neural Network development.")
-
     def __init__(self, user: User, lang: LanguageChoice):
-        super().__init__(user, lang, self.data)
+        super().__init__(user, lang, ManifestEng)
 
 
 class TestBuilderSuper:
