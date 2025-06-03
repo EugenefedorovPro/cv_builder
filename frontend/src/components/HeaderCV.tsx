@@ -90,7 +90,6 @@ const HeaderCV = () => {
 
                 </ListGroup>
 
-
             </Col>
         </Row>
 

@@ -124,12 +124,14 @@ class Project(models.Model):
 class Experience(models.Model):
     company = models.CharField(max_length = 255)
     start_date = models.DateField()
-    end_date = models.DateField()
-    job_title = models.CharField(max_length = 255)
+    end_date = models.DateField(null = True, blank = True)
+    position = models.CharField(max_length = 255)
     achievements = models.TextField(blank = True, null = True)
     created_at = models.DateTimeField(auto_now_add = True)
     updated_at = models.DateTimeField(auto_now = True)
     resume = models.ManyToManyField("Resume", through = "ExperienceResume")
+    order = models.PositiveIntegerField(default = 0)
+    lang = models.ForeignKey("LanguageChoice", on_delete = models.CASCADE)
     user = models.ForeignKey("CustomUser", on_delete = models.CASCADE)
 
     def clean(self):

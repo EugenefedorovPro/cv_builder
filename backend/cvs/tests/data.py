@@ -1,6 +1,31 @@
 from collections import namedtuple
+from datetime import datetime
 
-ProjectTuple = namedtuple("ProjectTuple", ("project_name", "project_text", "web_url", "git_url"))
+from cvs.types import HardSkilItemType
+
+ProjectTuple = namedtuple("ProjectTuple", (
+    "project_name",
+    "project_text",
+    "web_url",
+    "git_url",
+
+    ))
+
+ExperienceTuple = namedtuple("ExperienceTuple", (
+    "company",
+    "start_date",
+    "end_date",
+    "position",
+    "achievements",
+    "order",
+
+    ))
+
+HardSkillTuple = namedtuple("HardSkillTuple", (
+    "id",
+    "category",
+    "hard_skill_text",
+    ))
 
 USER_SUPER = {
     "username": "user_super",
@@ -64,17 +89,91 @@ HEADER_USER_SIMPLE = {
     "district": "Simpledistrict",
     }
 
-HARD_SKILLS_SUPER = {
-    'Backend': 'Python, Django, Django Rest Api',
-    'Frontend': 'React, html, css, bootstrap, JS, JQuery',
-    'NN and DataScience': 'Keras + TensorFlow  (GRU models), numpy, pandas, unstructured texts and media field analysis with LooqMe, Semantrum, R',
-    'Databases': 'sqlite, MySql, Postgres',
-    'DevOps': 'docker, git, nginx, gunicorn, daphne, Linux, CI/CD, SSL, servers setup: VPS, RaspberryPI ',
-    'Backend Utilities': 'Redis, Celery (worker, beat), WebSocket',
-    'Network Engineering': 'VPN (OpenVpn, Wireguard), eoip, Graphana + Prometeus, firewalls, vlans, networks building',
-    'IDE': 'vim, PyCharm, Jupyter, GoogleColab',
+# hard skills
 
-    }
+ANALYTICS_SKILLS = """Qualitative researchers: strategic sessions with fathers of business, in-depth interviews, focus-groups:
+NLP, descriptive statistics in Python.
+Authoring method of content-analysis.
+Delivery of quantitative researches (google forms + R)
+Supervision and briefing of research agencies.
+"""
+
+hard_skill_1 = HardSkillTuple(
+    id = 1,
+    category = "Backend",
+    hard_skill_text = "Python, Django, Django Rest Api",
+
+    )
+
+hard_skill_2 = HardSkillTuple(
+    id = 2,
+    category = "Frontend",
+    hard_skill_text = "React, html, css, bootstrap, JS, JQuery",
+
+    )
+
+hard_skill_3 = HardSkillTuple(
+    id = 3,
+    category = "NN and DataScience",
+    hard_skill_text = "Keras + TensorFlow (GRU models), numpy, pandas, unstructured texts and media field analysis with LooqMe, Semantrum, R",
+
+    )
+
+hard_skill_4 = HardSkillTuple(
+    id = 4,
+    category = "Databases",
+    hard_skill_text = "sqlite, MySql, Postgres",
+
+    )
+
+hard_skill_5 = HardSkillTuple(
+    id = 5,
+    category = "DevOps",
+    hard_skill_text = "docker, git, nginx, gunicorn, daphne, Linux, CI/CD, SSL, servers setup: VPS, RaspberryPI",
+
+    )
+
+hard_skill_6 = HardSkillTuple(
+    id = 6,
+    category = "Backend Utilities",
+    hard_skill_text = "Redis, Celery (worker, beat), WebSocket",
+    )
+
+hard_skill_7 = HardSkillTuple(
+    id = 7,
+    category = "Network Engineering",
+    hard_skill_text = "VPN (OpenVpn, Wireguard), eoip, Graphana + Prometeus, firewalls, vlans, networks building",
+
+    )
+
+hard_skill_8 = HardSkillTuple(
+    id = 8,
+    category = "IDE",
+    hard_skill_text = "vim, PyCharm, Jupyter, GoogleColab",
+
+    )
+
+hard_skill_9 = HardSkillTuple(
+    id = 9,
+    category = "Analytics",
+    hard_skill_text = ANALYTICS_SKILLS,
+
+    )
+
+HARD_SKILLS_ENG = [
+    hard_skill_1,
+    hard_skill_2,
+    hard_skill_3,
+    hard_skill_4,
+    hard_skill_5,
+    hard_skill_6,
+    hard_skill_7,
+    hard_skill_8,
+    hard_skill_9,
+
+    ]
+
+# manifest
 
 MANIFEST_ENG = """Backend Software Engineer with a strong understanding of frontend development,\
  an analytical background, and hands-on experience in Neural Network development."""
@@ -180,3 +279,47 @@ PROJECTS_ENG: dict[int, ProjectTuple] = {
     6: project_6,
     7: project_7,
     }
+
+# Experience
+experience_1 = ExperienceTuple(
+    company = "Armed Forces of Ukraine",
+    start_date = datetime(2022, 3, 22),
+    end_date = None,
+    position = "Sergeant in military communications",
+    achievements = "Developed and maintained: software apps - monitoring system, platform for making polls",
+    order = 0,
+    )
+
+ACHIEVEMENTS_2 = ("Launch of a new business in sport B1 Boxing Promotion: financial plan, "
+                  "architecture of the brand, creative launch campaign, launch of SM")
+
+experience_2 = ExperienceTuple(
+    company = "QuattrGroup",
+    start_date = datetime(2020, 5, 1),
+    end_date = datetime(2022, 3, 15),
+    position = "Director Marketing, New Business Director, Member of Investment Board",
+    achievements = ACHIEVEMENTS_2,
+    order = 2,
+    )
+
+ACHIEVEMENTS_3 = """Research-driven communication strategies. 
+Commercial sector - GEOS building company, Arzinger Law company, UMG (part of  SKM Group), 
+Honda, Electrolux, OLX, Motorola Solutions, Київстар, Ocean Plaza, Amway, PepsiCo, Metro, etc.
+NGOs: Dozorro, Crown Agents (state procurement). 
+Public sector - Office of the Prosecutor General of Ukraine, Kiev city state council 
+(marketing strategy to promote Kyiv as a tourist destination, communication strategy of Kyiv, campaign to promote General Plan of Kyiv), 
+State Border Guard Service of Ukraine, Antimonopoly Committee of Ukraine 
+(communication support of the State Aid Reform, SESAR project), 
+state concept of crisis communications in partnership with Ministry of Information Policy and National Security and Defense Council of Ukraine, 
+cybersecurity campaign for National Police 
+"""
+
+experience_3 = ExperienceTuple(
+    company = "RAM Group",
+    start_date = datetime(2017, 9, 23),
+    end_date = datetime(2020, 4, 12),
+    position = "Strategic Director, Big Data Business Consultant, Analysts",
+    achievements = ACHIEVEMENTS_3,
+    order = 3,
+
+    )

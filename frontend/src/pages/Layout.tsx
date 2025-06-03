@@ -22,7 +22,7 @@ const Layout = () => {
             >
 
                 <Col
-                    lg={{span: 2, order: 1}}
+                    lg={{span: 1, order: 1}}
                     md={{span: 12, order: 1}}
                     sm={{span: 12, order: 1}}
                     xs={{span: 12, order: 1}}
@@ -33,7 +33,7 @@ const Layout = () => {
                 </Col>
                 <Col
                     className=""
-                    lg={{span: 8, order: 2}}
+                    lg={{span: 9, order: 2}}
                     md={{span: 12, order: 1}}
                     sm={{span: 12, order: 1}}
                     xs={{span: 12, order: 1}}

@@ -7,18 +7,9 @@ from django.shortcuts import reverse
 from cvs.tests.data import (PROJECTS_ENG,
                             ProjectTuple,
                             )
-from typing import TypedDict, Union
-
-
-class ProjectItemType(TypedDict):
-    id: int
-    project_name: str
-    project_text: str
-    web_url: str
-    git_url: str
-
-class BlockNameType(TypedDict):
-    block_name: str
+from cvs.types import (ProjectItemType,
+                       CvProjectType,
+                       )
 
 
 class ProjectTest(TestCase):
@@ -42,7 +33,7 @@ class ProjectTest(TestCase):
                 "web_url": PROJECTS_ENG[idx + 1].web_url,
                 "git_url": PROJECTS_ENG[idx + 1].git_url,
                 })
-        expected: tuple[BlockNameType, list[ProjectItemType]] = [
+        expected: CvProjectType = [
             {
                 'block_name': 'Projects'
                 },

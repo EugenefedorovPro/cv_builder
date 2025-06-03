@@ -24,10 +24,11 @@ from cvs.tests.data import (BLOCK_NAME_ENG,
                             USER_SIMPLE,
                             HEADER_USER_SUPER,
                             HEADER_USER_SIMPLE,
-                            HARD_SKILLS_SUPER,
+                            HARD_SKILLS_ENG,
                             MANIFEST_ENG,
                             PROJECTS_ENG,
-                            ProjectTuple,
+                            ProjectTuple, HardSkillTuple,
+
 
                             )
 
@@ -175,7 +176,7 @@ class HeaderUserSimple(HeaderFactory):
 
 
 class HardSkillsFactory(CvBlockInterface):
-    def __init__(self, block_names: BlockNames, user: User, lang: LanguageChoice, data):
+    def __init__(self, block_names: BlockNames, user: User, lang: LanguageChoice, data: list[HardSkillTuple]):
         self.block_names = block_names
         self.user = user
         self.lang = lang
@@ -183,12 +184,13 @@ class HardSkillsFactory(CvBlockInterface):
 
     def create_block(self) -> list[HardSkill]:
         hard_skills: list[HardSkill] = []
-        for category, text in self.data.items():
+        for hard_skill in self.data:
             hard_skills.append(
                 HardSkill(
+                    id = hard_skill.id,
                     block_name = self.block_names,
-                    category = category,
-                    hard_skill_text = text,
+                    category = hard_skill.category,
+                    hard_skill_text = hard_skill.hard_skill_text,
                     user = self.user,
                     lang = self.lang,
                     )
@@ -196,10 +198,10 @@ class HardSkillsFactory(CvBlockInterface):
         return HardSkill.objects.bulk_create(hard_skills)
 
 
-class HardSkillUserSuper(HardSkillsFactory):
+class HardSkillEng(HardSkillsFactory):
 
     def __init__(self, block_names: BlockNames, user: User, lang: LanguageChoice):
-        super().__init__(block_names, user, lang, HARD_SKILLS_SUPER)
+        super().__init__(block_names, user, lang, HARD_SKILLS_ENG)
 
 
 class LangFactory(CvBlockInterface):
@@ -312,7 +314,7 @@ class TestBuilderSuper:
         return self
 
     def create_hard_skills(self) -> list[HardSkill]:
-        self.hard_skills = HardSkillUserSuper(self.block_names, self.user, self.lang).create_block()
+        self.hard_skills = HardSkillEng(self.block_names, self.user, self.lang).create_block()
         return self
 
     def create_manifest(self):
