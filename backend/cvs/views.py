@@ -48,8 +48,8 @@ class ManifestView(APIView):
 class ProjectView(APIView):
     def get(self, request):
         projects: QuerySet[Project] = Project.objects.all()
-        serializer = ProjectSerializer(projects, many = True)
+        serializer_project = ProjectSerializer(projects, many = True)
         block_name: dict[str, str] = {
             "block_name": BlockNames.objects.all().first().projects_name
             }
-        return Response((block_name, serializer.data))
+        return Response((block_name, serializer_project.data))

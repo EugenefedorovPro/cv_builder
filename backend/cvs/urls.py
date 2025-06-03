@@ -10,6 +10,6 @@ urlpatterns = [
     path("header/", HeaderView.as_view(), name = "header"),
     path("hard_skills/", HardSkillView.as_view(), name = "hard_skills"),
     path("manifest/", ManifestView.as_view(), name = "manifest"),
-    path("projects/", ManifestView.as_view(), name = "projects"),
+    path("projects/", ProjectView.as_view(), name = "projects"),
 
     ]

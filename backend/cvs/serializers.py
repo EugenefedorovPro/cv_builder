@@ -49,4 +49,4 @@ class ManifestSerializer(serializers.ModelSerializer):
 class ProjectSerializer(serializers.ModelSerializer):
     class Meta:
         model = Project
-        fields = ["id", "project_name", "project_text"]
+        fields = ["id", "project_name", "project_text", "web_url", "git_url"]

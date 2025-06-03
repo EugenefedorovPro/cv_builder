@@ -7,9 +7,11 @@ from cvs.models.models import (Header,
                                LanguageChoice,
                                BlockNames,
                                Manifest,
+                               Project,
 
                                )
 from django.contrib.auth import get_user_model
+from django.db.models import QuerySet
 from abc import (ABC,
                  abstractmethod,
                  )
@@ -24,6 +26,9 @@ from cvs.tests.data import (BLOCK_NAME_ENG,
                             HEADER_USER_SIMPLE,
                             HARD_SKILLS_SUPER,
                             MANIFEST_ENG,
+                            PROJECTS_ENG,
+                            ProjectTuple,
+
                             )
 
 User = get_user_model()
@@ -240,17 +245,46 @@ class ManifestEng(ManifestFactory):
         super().__init__(user, lang, MANIFEST_ENG)
 
 
+class ProjectsFactory(CvBlockInterface):
+    def __init__(self, user: User, lang: LanguageChoice, data: dict[int, ProjectTuple]):
+        self.user = user
+        self.lang = lang
+        self.data = data
+
+    def create_block(self):
+        projects: list[Project] = []
+        for id_num, project in self.data.items():
+            projects.append(
+                Project(
+                    id = id_num,
+                    user = self.user,
+                    lang = self.lang,
+                    project_name = project.project_name,
+                    project_text = project.project_text,
+                    web_url = project.web_url,
+                    git_url = project.git_url,
+                    )
+                )
+        return Project.objects.bulk_create(projects)
+
+
+class ProjectsEng(ProjectsFactory):
+    def __init__(self, user: User, lang: LanguageChoice):
+        super().__init__(user, lang, PROJECTS_ENG)
+
+
 class TestBuilderSuper:
     def __init__(self):
         self.user: User = None
-        self.username: str | None = None
-        self.password: str | None = None
+        self.username: str = ""
+        self.password: str = ""
         self.lang: LanguageChoice | None = None
         self.block_names: BlockNames | None = None
         self.photo: Photos | None = None
         self.header: Header | None = None
-        self.hard_skills: list[HardSkill] | None = None
+        self.hard_skills: list[HardSkill] = []
         self.manifest: Manifest | None = None
+        self.projects: list[Project] = []
 
     def create_user(self) -> User:
         inst = UserSuper()
@@ -282,5 +316,9 @@ class TestBuilderSuper:
         return self
 
     def create_manifest(self):
-        ManifestEng(user = self.user, lang = self.lang).create_block()
+        self.manifest = ManifestEng(user = self.user, lang = self.lang).create_block()
+        return self
+
+    def create_projects(self):
+        self.projects = ProjectsEng(self.user, self.lang).create_block()
         return self
