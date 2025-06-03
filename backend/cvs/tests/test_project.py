@@ -42,7 +42,6 @@ class ProjectTest(TestCase):
                 "web_url": PROJECTS_ENG[idx + 1].web_url,
                 "git_url": PROJECTS_ENG[idx + 1].git_url,
                 })
-
         expected: tuple[BlockNameType, list[ProjectItemType]] = [
             {
                 'block_name': 'Projects'

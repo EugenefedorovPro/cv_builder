@@ -5,6 +5,7 @@ import NavbarCV from "../components/Navbar";
 import HeaderCV from "../components/HeaderCV";
 import ManifestCV from "../components/Manifest";
 import HardSkillsCV from "../components/HardSkills";
+import ProjectsCV from "../components/Projects";
 import "./Layout.styles.css";
 
 
@@ -13,7 +14,7 @@ const Layout = () => {
     return (<>
         <Container
             fluid
-            className="p-0"
+            className=""
 
         >
             <Row
@@ -21,82 +22,70 @@ const Layout = () => {
             >
 
                 <Col
-                    lg={2}
-                    md={12}
-                    sm={12}
-                    xs={12}
-                    className="navbar-col d-lg-flex flex-lg-column"
+                    lg={{span: 2, order: 1}}
+                    md={{span: 12, order: 1}}
+                    sm={{span: 12, order: 1}}
+                    xs={{span: 12, order: 1}}
+
+                    className="flex-lg-column"
                 >
                     {<NavbarCV/>}
                 </Col>
-
                 <Col
-                    className="outer-body-col flex-lg-column"
-                    lg={10}
-                    md={12}
-                    sm={12}
-                    xs={12}
-
+                    className=""
+                    lg={{span: 8, order: 2}}
+                    md={{span: 12, order: 1}}
+                    sm={{span: 12, order: 1}}
+                    xs={{span: 12, order: 1}}
                 >
-
-                    <Row>
-
-                        <Col
-                            className="inner-body-col"
-                            lg={9}
-                            md={12}
-                            sm={12}
-                            xs={12}
-                        >
+                    <Row className="flex-column">
+                        <Col>
+                            {<HeaderCV/>}
+                        </Col>
+                        <Col className="d-block d-lg-none">
+                            {<HardSkillsCV/>}
+                        </Col>
+                        <Col>
                             <Stack
-                                gap={0}
                                 className=""
                             >
-                                <div
-                                    className="header-div"
-                                >
-                                    {<HeaderCV/>}
-                                </div>
 
-                                <div className="hard-skills-placeholder text-center">
+                                <div className="">
                                     {<ManifestCV/>}
                                 </div>
 
-                                <div className="cases-placeholder text-center">
+                                <div className="">
+                                    {<ProjectsCV/>}
+                                </div>
+
+                                <div className="">
                                     {/*<h3>Experience</h3>*/}
                                 </div>
 
-                                <div className="why-me-placeholder text-center">
+                                <div className="">
                                     {/*<h3>Soft skills</h3>*/}
                                 </div>
 
-                                <div className="feedback-placeholder text-center">
+                                <div className="">
                                     {/*<h3>Hobbies</h3>*/}
                                 </div>
 
-
                             </Stack>
 
-
-                        </Col>
-
-                        <Col
-                            className="d-lg-flex flex-lg-column position-relative"
-                            lg={3}
-                            md={12}
-                            sm={12}
-                            xs={12}
-                        >
-                            <div
-                                className=""
-                            >
-                                <HardSkillsCV/>
-
-                            </div>
                         </Col>
 
                     </Row>
 
+                </Col>
+
+                <Col
+                    className="d-none d-lg-block flex-lg-column"
+                    lg={{span: 2, order: 4}}
+                    md={{span: 12, order: 1}}
+                    sm={{span: 12, order: 1}}
+                    xs={{span: 12, order: 1}}
+                >
+                    <HardSkillsCV/>
 
                 </Col>
 

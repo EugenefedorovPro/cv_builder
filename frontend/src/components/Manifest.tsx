@@ -33,7 +33,7 @@ const ManifestCV = () => {
 
     return (
         <ListGroup>
-            <ListGroupItem className="fw-bolder accent">{block_name.block_name}</ListGroupItem>
+            <ListGroupItem className="accent">{block_name.block_name}</ListGroupItem>
             <ListGroupItem>{data_manifest.manifest_text}</ListGroupItem>
         </ListGroup>
     )

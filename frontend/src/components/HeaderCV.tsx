@@ -37,64 +37,62 @@ const HeaderCV = () => {
 
     }
     return (
-        <Container fluid className="g-0">
-            <Row className="">
-                <Col xs={2} className="d-none d-md-block">
-                    <Image
-                        thumbnail
-                        width={150}
-                        height={200}
-                        alt="150x200"
-                        src={`http://localhost:8002${data?.photo?.photo_url}/`}
-                    />
-                </Col>
-                <Col sm={12} md={10} lg={10} className="">
-                    <ListGroup horizontal className="flex-wrap gap-1">
-                        <ListGroup.Item><h5><b>{data.first_name} {data.second_name}</b></h5></ListGroup.Item>
+        <Row className="">
+            <Col className="d-none d-md-block">
+                <Image
+                    thumbnail
+                    width={150}
+                    height={200}
+                    alt="150x200"
+                    src={`http://localhost:8002${data?.photo?.photo_url}/`}
+                />
+            </Col>
+            <Col sm={12} md={10} lg={10} className="">
+                <ListGroup horizontal className="flex-wrap">
+                    <ListGroup.Item><h5><b>{data.first_name} {data.second_name}</b></h5></ListGroup.Item>
 
+                    <ListGroup.Item>
+                        <a href={`tel:${data.phone}`} target="_blank" rel="noopener noteferrer">{data.phone}</a>
+                    </ListGroup.Item>
+
+                    <ListGroup.Item>
+                        <a href={`mailto:${data.email}`} target="_blank" rel="noopener noteferrer">{data.email}</a>
+                    </ListGroup.Item>
+
+                    {data.github &&
                         <ListGroup.Item>
-                            <a href={`tel:${data.phone}`} target="_blank" rel="noopener noteferrer">{data.phone}</a>
+                            <a href={data.github} target="_blank" rel="noopener noreferrer">github</a>
+                        </ListGroup.Item>
+                    }
+                    {data.linkedin &&
+                        <ListGroup.Item>
+                            <a href={data.linkedin} target="_blank" rel="noopener noreferrer">LinkedIn</a>
+                        </ListGroup.Item>
+                    }
+
+                    {(data.country || data.city || data.district) && (
+                        <ListGroup.Item className="d-flex flex-wrap gap-3">
+
+                            {data.country &&
+                                <div><b>Country</b>: {data.country}</div>
+                            }
+
+                            {data.city &&
+                                <div><b>City</b>: {data.city}</div>
+                            }
+
+                            {data.district &&
+                                <div><b>District</b>: {data.district}</div>
+                            }
                         </ListGroup.Item>
 
-                        <ListGroup.Item>
-                            <a href={`mailto:${data.email}`} target="_blank" rel="noopener noteferrer">{data.email}</a>
-                        </ListGroup.Item>
+                    )}
 
-                        {data.github &&
-                            <ListGroup.Item>
-                                <a href={data.github} target="_blank" rel="noopener noreferrer">github</a>
-                            </ListGroup.Item>
-                        }
-                        {data.linkedin &&
-                            <ListGroup.Item>
-                                <a href={data.linkedin} target="_blank" rel="noopener noreferrer">LinkedIn</a>
-                            </ListGroup.Item>
-                        }
-
-                        {(data.country || data.city || data.district) && (
-                            <ListGroup.Item className="d-flex flex-wrap gap-3">
-
-                                {data.country &&
-                                    <div><b>Country</b>: {data.country}</div>
-                                }
-
-                                {data.city &&
-                                    <div><b>City</b>: {data.city}</div>
-                                }
-
-                                {data.district &&
-                                    <div><b>District</b>: {data.district}</div>
-                                }
-                            </ListGroup.Item>
-
-                        )}
-
-                    </ListGroup>
+                </ListGroup>
 
 
-                </Col>
-            </Row>
-        </Container>
+            </Col>
+        </Row>
 
     )
 }
