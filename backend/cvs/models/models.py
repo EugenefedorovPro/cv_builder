@@ -11,6 +11,9 @@ class CustomUser(AbstractUser):
     def __str__(self):
         return self.username
 
+# TODO: Trainings and Certificates
+# TODO: Interests instead of hobbies
+# TODO: NatutalLanguage
 
 class BlockNames(models.Model):
     header_name = models.CharField(max_length = 100, default = "Header")
@@ -138,6 +141,10 @@ class Experience(models.Model):
         if self.start_date and self.end_date and self.start_date > self.end_date:
             raise ValidationError("Start date cannot be after end date.")
 
+    def save(self, *args, **kwargs):
+        self.full_clean()
+        super().save(*args, **kwargs)
+
     def __str__(self):
         return f"{self.job_title} at {self.company}"
 
@@ -162,6 +169,7 @@ class SoftSkill(models.Model):
 
 
 class Education(models.Model):
+    block_name = models.ForeignKey("BlockNames", on_delete = models.CASCADE)
     institution = models.CharField(max_length = 255)
     start_date = models.DateField()
     end_date = models.DateField()
@@ -169,11 +177,16 @@ class Education(models.Model):
     created_at = models.DateTimeField(auto_now_add = True)
     updated_at = models.DateTimeField(auto_now = True)
     resume = models.ManyToManyField("Resume", through = "EducationResume")
+    lang = models.ForeignKey("LanguageChoice", on_delete = models.CASCADE)
     user = models.ForeignKey("CustomUser", on_delete = models.CASCADE)
 
     def clean(self):
         if self.start_date and self.end_date and self.start_date > self.end_date:
             raise ValidationError("Start date cannot be after end date.")
+
+    def save(self, *args, **kwargs):
+        self.full_clean()
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return f"{self.degree_title} at {self.institution}"

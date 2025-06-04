@@ -1,8 +1,6 @@
 from collections import namedtuple
 from datetime import datetime
 
-from cvs.types import HardSkilItemType
-
 ProjectTuple = namedtuple("ProjectTuple", (
     "project_name",
     "project_text",
@@ -30,6 +28,14 @@ HardSkillTuple = namedtuple("HardSkillTuple", (
 SoftSkillTuple = namedtuple("SoftSkillTuple", (
     "id",
     "soft_skill_text",
+    ))
+
+EducationTuple = namedtuple("EducationTuple", (
+    "id",
+    "institution",
+    "start_date",
+    "end_date",
+    "degree_title",
     ))
 
 USER_SUPER = {
@@ -354,5 +360,30 @@ SOFT_SKILLS_ENG = [
     soft_skill_1,
     soft_skill_2,
     soft_skill_3,
+
+    ]
+
+# education
+education_1 = EducationTuple(
+    id = 1,
+    institution = "Kyiv State Linguistic University",
+    start_date = datetime(1996, 11, 1),
+    end_date = datetime(2001, 6, 1),
+    degree_title = "Specialist in practical psychology, english philology with the right to teach the word literature",
+
+    )
+
+education_2 = EducationTuple(
+    id = 2,
+    institution = "Hryhoriy Skovoroda Institute of Philosophy of the Academy of Sciences of Ukraine",
+    start_date = datetime(2005, 11, 1),
+    end_date = datetime(2008, 7, 1),
+    degree_title = "Successfully completed postgraduate studies",
+
+    )
+
+EDUCATION_ENG = [
+    education_1,
+    education_2
 
     ]

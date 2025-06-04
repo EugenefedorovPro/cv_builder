@@ -1,4 +1,5 @@
 from typing import TypedDict
+from datetime import datetime
 
 
 class BlockNameType(TypedDict):
@@ -31,3 +32,14 @@ class SoftSkillItemType:
 
 
 CvSoftSkillsType = tuple[BlockNameType, SoftSkillItemType]
+
+
+class EducationItemType:
+    id: int
+    institution: str
+    start_date: datetime
+    end_date: datetime
+    degree_title: str
+
+
+CvEducationType = tuple[BlockNameType, EducationItemType]

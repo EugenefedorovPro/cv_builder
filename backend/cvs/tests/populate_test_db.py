@@ -9,6 +9,7 @@ from cvs.models.models import (Header,
                                Manifest,
                                Project,
                                SoftSkill,
+                               Education,
 
                                )
 from django.contrib.auth import get_user_model
@@ -32,6 +33,8 @@ from cvs.tests.data import (BLOCK_NAME_ENG,
                             HardSkillTuple,
                             SOFT_SKILLS_ENG,
                             SoftSkillTuple,
+                            EducationTuple,
+                            EDUCATION_ENG,
 
 
                             )
@@ -307,6 +310,37 @@ class SoftSkillsEng(SoftSkillsFactory):
         super().__init__(block_names, user, lang, SOFT_SKILLS_ENG)
 
 
+class EducationFactory(CvBlockInterface):
+    def __init__(self, block_names: BlockNames, user: User, lang: LanguageChoice, data: list[EducationTuple]):
+        self.block_names = block_names
+        self.user = user
+        self.lang = lang
+        self.data = data
+
+    def create_block(self):
+        education_items: list[Education] = []
+        for item in self.data:
+            education_items.append(
+                Education(
+                    id = item.id,
+                    block_name = self.block_names,
+                    institution = item.institution,
+                    start_date = item.start_date,
+                    end_date = item.end_date,
+                    degree_title = item.degree_title,
+                    user = self.user,
+                    lang = self.lang,
+
+                    )
+                )
+        return Education.objects.bulk_create(education_items)
+
+
+class EducationEng(EducationFactory):
+    def __init__(self, block_names: BlockNames, user: User, lang: LanguageChoice):
+        super().__init__(block_names, user, lang, EDUCATION_ENG)
+
+
 class TestBuilderSuper:
     def __init__(self):
         self.user: User = None
@@ -320,6 +354,7 @@ class TestBuilderSuper:
         self.manifest: Manifest | None = None
         self.projects: list[Project] = []
         self.soft_skills: list[SoftSkill] = []
+        self.education: list[Education] = []
 
     def create_user(self) -> User:
         inst = UserSuper()
@@ -360,4 +395,8 @@ class TestBuilderSuper:
 
     def create_soft_skills(self):
         self.soft_skills = SoftSkillsEng(self.block_names, self.user, self.lang).create_block()
+        return self
+
+    def create_education(self):
+        self.education = EducationEng(self.block_names, self.user, self.lang).create_block()
         return self
