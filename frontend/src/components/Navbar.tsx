@@ -27,6 +27,10 @@ const NavbarCV = () => {
                             <Nav.Link href="#feedback">Feedback</Nav.Link>
                         </Nav.Item>
 
+                        <Nav.Item>
+                            <Nav.Link href="#feedback">Save</Nav.Link>
+                        </Nav.Item>
+
                         <NavDropdown title="ENG">
                             <NavDropdown.Item eventKey="1">ENG</NavDropdown.Item>
                             <NavDropdown.Item eventKey="2">UKR</NavDropdown.Item>
