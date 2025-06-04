@@ -146,10 +146,12 @@ class Experience(models.Model):
 
 
 class SoftSkill(models.Model):
+    block_name = models.ForeignKey("BlockNames", on_delete = models.CASCADE)
     soft_skill_text = models.CharField(max_length = 300)
     created_at = models.DateTimeField(auto_now_add = True)
     updated_at = models.DateTimeField(auto_now = True)
     resume = models.ManyToManyField("Resume", through = "SoftSkillResume")
+    lang = models.ForeignKey("LanguageChoice", on_delete = models.CASCADE)
     user = models.ForeignKey("CustomUser", on_delete = models.CASCADE)
 
     def __str__(self):

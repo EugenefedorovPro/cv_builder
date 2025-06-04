@@ -27,6 +27,11 @@ HardSkillTuple = namedtuple("HardSkillTuple", (
     "hard_skill_text",
     ))
 
+SoftSkillTuple = namedtuple("SoftSkillTuple", (
+    "id",
+    "soft_skill_text",
+    ))
+
 USER_SUPER = {
     "username": "user_super",
     "password": "user_super_password_1234",
@@ -323,3 +328,31 @@ experience_3 = ExperienceTuple(
     order = 3,
 
     )
+
+# Soft Skill
+soft_skill_1 = SoftSkillTuple(
+    id = 1,
+    soft_skill_text = "Team-leader: I know how to motivate, develop clear and comprehensive brief, "
+                      "provide feedback, persuade to fulfill the task in compliance with brief, "
+                      "teach and support. Experienced in managing analytic, creative, content and SMM teams.",
+    )
+
+soft_skill_2 = SoftSkillTuple(
+    id = 2,
+    soft_skill_text = "I can work as an autonomous unit, "
+                      "making up products on my own, "
+                      "but when I work in a team, results turn out better",
+    )
+
+soft_skill_3 = SoftSkillTuple(
+    id = 3,
+    soft_skill_text = "I lean, therefore I am: Constant self-education in coding, analytics, and strategic thinking",
+
+    )
+
+SOFT_SKILLS_ENG = [
+    soft_skill_1,
+    soft_skill_2,
+    soft_skill_3,
+
+    ]

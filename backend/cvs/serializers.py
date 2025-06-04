@@ -4,6 +4,7 @@ from cvs.models.models import (Header,
                                HardSkill,
                                Manifest,
                                Project,
+                               SoftSkill,
                                )
 
 
@@ -50,3 +51,9 @@ class ProjectSerializer(serializers.ModelSerializer):
     class Meta:
         model = Project
         fields = ["id", "project_name", "project_text", "web_url", "git_url"]
+
+
+class SoftSkillSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SoftSkill
+        fields = ["id", "soft_skill_text"]

@@ -8,6 +8,7 @@ from cvs.models.models import (Header,
                                BlockNames,
                                Manifest,
                                Project,
+                               SoftSkill,
 
                                )
 from django.contrib.auth import get_user_model
@@ -27,7 +28,10 @@ from cvs.tests.data import (BLOCK_NAME_ENG,
                             HARD_SKILLS_ENG,
                             MANIFEST_ENG,
                             PROJECTS_ENG,
-                            ProjectTuple, HardSkillTuple,
+                            ProjectTuple,
+                            HardSkillTuple,
+                            SOFT_SKILLS_ENG,
+                            SoftSkillTuple,
 
 
                             )
@@ -275,6 +279,34 @@ class ProjectsEng(ProjectsFactory):
         super().__init__(user, lang, PROJECTS_ENG)
 
 
+class SoftSkillsFactory(CvBlockInterface):
+    def __init__(self, block_names: BlockNames, user: User, lang: LanguageChoice, data: list[SoftSkillTuple]):
+        self.block_names = block_names
+        self.user = user
+        self.lang = lang
+        self.data = data
+
+    def create_block(self):
+        soft_skills: list[SoftSkill] = []
+        for item in self.data:
+            soft_skills.append(
+                SoftSkill(
+                    id = item.id,
+                    user = self.user,
+                    lang = self.lang,
+                    block_name = self.block_names,
+                    soft_skill_text = item.soft_skill_text,
+
+                    )
+                )
+        return SoftSkill.objects.bulk_create(soft_skills)
+
+
+class SoftSkillsEng(SoftSkillsFactory):
+    def __init__(self, block_names: BlockNames, user: User, lang: LanguageChoice):
+        super().__init__(block_names, user, lang, SOFT_SKILLS_ENG)
+
+
 class TestBuilderSuper:
     def __init__(self):
         self.user: User = None
@@ -287,6 +319,7 @@ class TestBuilderSuper:
         self.hard_skills: list[HardSkill] = []
         self.manifest: Manifest | None = None
         self.projects: list[Project] = []
+        self.soft_skills: list[SoftSkill] = []
 
     def create_user(self) -> User:
         inst = UserSuper()
@@ -323,4 +356,8 @@ class TestBuilderSuper:
 
     def create_projects(self):
         self.projects = ProjectsEng(self.user, self.lang).create_block()
+        return self
+
+    def create_soft_skills(self):
+        self.soft_skills = SoftSkillsEng(self.block_names, self.user, self.lang).create_block()
         return self

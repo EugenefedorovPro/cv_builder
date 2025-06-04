@@ -5,12 +5,14 @@ from cvs.serializers import (HeaderSerializer,
                              HardSkillSerializer,
                              ManifestSerializer,
                              ProjectSerializer,
+                             SoftSkillSerializer,
                              )
 from cvs.models.models import (Header,
                                HardSkill,
                                BlockNames,
                                Manifest,
                                Project,
+                               SoftSkill,
 
                                )
 from django.db.models import QuerySet
@@ -53,3 +55,13 @@ class ProjectView(APIView):
             "block_name": BlockNames.objects.all().first().projects_name
             }
         return Response((block_name, serializer_project.data))
+
+
+class SoftSkillView(APIView):
+    def get(self, request):
+        soft_skills: QuerySet[SoftSkill] = SoftSkill.objects.all()
+        serializer_soft_skill = SoftSkillSerializer(soft_skills, many = True)
+        block_name: dict[str, str] = {
+            "block_name": BlockNames.objects.all().first().soft_skills_name
+            }
+        return Response((block_name, serializer_soft_skill.data))
