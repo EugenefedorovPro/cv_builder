@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from cvs.models.models import (Header,
+                               NaturalLanguage,
                                Photos,
                                HardSkill,
                                Manifest,
@@ -78,3 +79,9 @@ class InterestSerializer(serializers.ModelSerializer):
     class Meta:
         model = Interest
         fields = ["id", "interest_text"]
+
+
+class NaturalLangSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = NaturalLanguage
+        fields = ["id", "natural_lang", "level"]

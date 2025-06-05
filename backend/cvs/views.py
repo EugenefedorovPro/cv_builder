@@ -9,6 +9,7 @@ from cvs.serializers import (HeaderSerializer,
                              EducationSerializer,
                              ExperienceSerializer,
                              InterestSerializer,
+                             NaturalLangSerializer,
                              )
 from cvs.models.models import (Header,
                                HardSkill,
@@ -19,6 +20,7 @@ from cvs.models.models import (Header,
                                Education,
                                Experience,
                                Interest,
+                               NaturalLanguage,
 
 
                                )
@@ -102,3 +104,13 @@ class InterestView(APIView):
             "block_name": BlockNames.objects.all().first().interest_name,
             }
         return Response((block_name, serializer_interest.data))
+
+
+class NaturalLangView(APIView):
+    def get(self, request):
+        natural_lang_items: QuerySet[NaturalLanguage] = NaturalLanguage.objects.all()
+        serializer_natural_lang = NaturalLangSerializer(natural_lang_items, many = True)
+        block_name: dict[str, str] = {
+            "block_name": BlockNames.objects.all().first().natural_lang_name,
+            }
+        return Response((block_name, serializer_natural_lang.data))

@@ -1,6 +1,7 @@
 from collections import namedtuple
 from datetime import datetime
 
+
 ProjectTuple = namedtuple("ProjectTuple", (
     "project_name",
     "project_text",
@@ -42,6 +43,13 @@ EducationTuple = namedtuple("EducationTuple", (
 InterestTuple = namedtuple("InterestTuple", (
     "id",
     "interest_text",
+    ))
+
+NaturalLangTuple = namedtuple("NaturalLangTuple", (
+    "id",
+    "natural_lang",
+    "level",
+
     ))
 
 USER_SUPER = {
@@ -419,5 +427,42 @@ interest_2 = InterestTuple(
 INTERESTS_ENG = [
     interest_1,
     interest_2,
+
+    ]
+
+# natural language
+
+natural_lang_1 = NaturalLangTuple(
+    id = 1,
+    natural_lang = "English",
+    level = "ready to deliver interview",
+
+    )
+
+natural_lang_2 = NaturalLangTuple(
+    id = 2,
+    natural_lang = "Ukrainian",
+    level = "fluent",
+
+    )
+
+natural_lang_3 = NaturalLangTuple(
+    id = 3,
+    natural_lang = "Russian",
+    level = "fluent",
+
+    )
+
+natural_lang_4 = NaturalLangTuple(
+    id = 4,
+    natural_lang = "German",
+    level = "basic",
+
+    )
+NATURAL_LANGS_ENG = [
+    natural_lang_1,
+    natural_lang_2,
+    natural_lang_3,
+    natural_lang_4,
 
     ]

@@ -1,5 +1,5 @@
 from cv_builder.settings import STATIC_ROOT
-from cvs.tests.populate_test_db import EngCvBuilder
+from cvs.management.commands.eng_cv_builder import EngCvBuilder
 from cvs.models.models import (LanguageChoice,
                                BlockNames,
                                Header, Photos,

@@ -11,6 +11,7 @@ class CustomUser(AbstractUser):
     def __str__(self):
         return self.username
 
+
 # TODO: Trainings and Certificates
 # TODO: Interests instead of hobbies
 # TODO: NatutalLanguage
@@ -23,13 +24,13 @@ class BlockNames(models.Model):
     experience_name = models.CharField(max_length = 100, default = "Experience")
     soft_skills_name = models.CharField(max_length = 100, default = "Soft Skills")
     education_name = models.CharField(max_length = 100, default = "Education")
+    natural_lang_name = models.CharField(max_length = 100, default = "Natural languages")
     interest_name = models.CharField(max_length = 100, default = "Interests")
     cases_name = models.CharField(max_length = 100, default = "Cases")
     why_me_name = models.CharField(max_length = 100, default = "Why me?")
     lang = models.ForeignKey("LanguageChoice", on_delete = models.CASCADE)
     created_at = models.DateTimeField(auto_now_add = True)
     updated_at = models.DateTimeField(auto_now = True)
-
 
 
 class Photos(models.Model):
@@ -44,6 +45,7 @@ class Photos(models.Model):
 
     class Meta:
         db_table = "photos"
+
 
 class Header(models.Model):
     phone = models.CharField(max_length = 50)
@@ -125,6 +127,7 @@ class Project(models.Model):
     class Meta:
         db_table = "project"
 
+
 class Experience(models.Model):
     block_name = models.ForeignKey("BlockNames", on_delete = models.CASCADE)
     company = models.CharField(max_length = 255)
@@ -195,6 +198,16 @@ class Education(models.Model):
 
     class Meta:
         db_table = "education"
+
+
+class NaturalLanguage(models.Model):
+    block_name = models.ForeignKey("BlockNames", on_delete = models.CASCADE)
+    natural_lang = models.CharField(max_length = 30, default = 'Ukrainian')
+    level = models.CharField(max_length = 30, default = 'fluent')
+    created_at = models.DateTimeField(auto_now_add = True)
+    updated_at = models.DateTimeField(auto_now = True)
+    lang = models.ForeignKey("LanguageChoice", on_delete = models.CASCADE)
+    user = models.ForeignKey("CustomUser", on_delete = models.CASCADE)
 
 
 class Interest(models.Model):

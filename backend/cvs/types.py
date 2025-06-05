@@ -62,3 +62,11 @@ class InterestItemType:
 
 
 CvInterestType = tuple[BlockNameType, InterestItemType]
+
+class NaturalLangItemType:
+    id: int
+    natural_lang: str
+    level: str
+
+
+CvNaturalLangType = tuple[BlockNameType, NaturalLangItemType]

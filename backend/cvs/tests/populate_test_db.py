@@ -1,8 +1,3 @@
-import ipdb
-from pathlib import Path
-from django.core.files import File
-from django.utils.choices import BlankChoiceIterator
-
 from cvs.models.models import (Header,
                                HardSkill,
                                Photos,
@@ -14,6 +9,7 @@ from cvs.models.models import (Header,
                                Education,
                                Experience,
                                Interest,
+                               NaturalLanguage,
 
                                )
 from django.contrib.auth import get_user_model
@@ -43,6 +39,8 @@ from cvs.tests.data import (BLOCK_NAME_ENG,
                             ExperienceTuple,
                             InterestTuple,
                             INTERESTS_ENG,
+                            NaturalLangTuple,
+                            NATURAL_LANGS_ENG,
 
 
                             )
@@ -410,6 +408,35 @@ class InterestEng(InterestFactory):
         super().__init__(block_names, user, lang, INTERESTS_ENG)
 
 
+class NaturalLangFactory(CvBlockInterface):
+    def __init__(self, block_names: BlockNames, user: User, lang: LanguageChoice, data: list[NaturalLangTuple]):
+        self.block_names = block_names
+        self.user = user
+        self.lang = lang
+        self.data = data
+
+    def create_block(self):
+        natural_lang_items: list[NaturalLanguage] = []
+        for item in self.data:
+            natural_lang_items.append(
+                NaturalLanguage(
+                    id = item.id,
+                    block_name = self.block_names,
+                    natural_lang = item.natural_lang,
+                    level = item.level,
+                    user = self.user,
+                    lang = self.lang,
+
+                    )
+                )
+        return NaturalLanguage.objects.bulk_create(natural_lang_items)
+
+
+class NaturalLangEng(NaturalLangFactory):
+    def __init__(self, block_names: BlockNames, user: User, lang: LanguageChoice):
+        super().__init__(block_names, user, lang, NATURAL_LANGS_ENG)
+
+
 class TestBuilderSuper:
     def __init__(self):
         self.user: User = None
@@ -426,6 +453,7 @@ class TestBuilderSuper:
         self.soft_skills: list[SoftSkill] = []
         self.education: list[Education] = []
         self.interest: list[Interest] = []
+        self.natural_lang: list[NaturalLanguage] = []
 
     def create_user(self) -> User:
         inst = UserSuper()
@@ -480,24 +508,6 @@ class TestBuilderSuper:
         self.interest = InterestEng(self.block_names, self.user, self.lang).create_block()
         return self
 
-
-class EngCvBuilder(TestBuilderSuper):
-    def create_user(self):
-        self.user = User.objects.create_superuser(
-            pk = 1,
-            username = "admin",
-            password = "sql_1980",
-            )
-        return self
-
-    def create_photo(self):
-        file_name = "quattr.jpg"
-        url = Path(__file__).parent.parent / f"management/commands/{file_name}"
-        with open(url, "rb") as f:
-            self.photo = Photos.objects.create(
-                pk = 1,
-                user = self.user,
-                description = "quattr_photo_eugene_pro",
-                )
-            self.photo.photo_url.save(file_name, File(f))
+    def create_natural_lang(self):
+        self.natural_lang = NaturalLangEng(self.block_names, self.user, self.lang).create_block()
         return self
