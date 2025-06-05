@@ -10,6 +10,7 @@ ProjectTuple = namedtuple("ProjectTuple", (
     ))
 
 ExperienceTuple = namedtuple("ExperienceTuple", (
+    "id",
     "company",
     "start_date",
     "end_date",
@@ -293,6 +294,7 @@ PROJECTS_ENG: dict[int, ProjectTuple] = {
 
 # Experience
 experience_1 = ExperienceTuple(
+    id = 1,
     company = "Armed Forces of Ukraine",
     start_date = datetime(2022, 3, 22),
     end_date = None,
@@ -305,6 +307,7 @@ ACHIEVEMENTS_2 = ("Launch of a new business in sport B1 Boxing Promotion: financ
                   "architecture of the brand, creative launch campaign, launch of SM")
 
 experience_2 = ExperienceTuple(
+    id = 2,
     company = "QuattrGroup",
     start_date = datetime(2020, 5, 1),
     end_date = datetime(2022, 3, 15),
@@ -326,6 +329,7 @@ cybersecurity campaign for National Police
 """
 
 experience_3 = ExperienceTuple(
+    id = 3,
     company = "RAM Group",
     start_date = datetime(2017, 9, 23),
     end_date = datetime(2020, 4, 12),
@@ -334,6 +338,13 @@ experience_3 = ExperienceTuple(
     order = 3,
 
     )
+
+EXPERIENCE_ENG = [
+    experience_1,
+    experience_2,
+    experience_3,
+
+    ]
 
 # Soft Skill
 soft_skill_1 = SoftSkillTuple(

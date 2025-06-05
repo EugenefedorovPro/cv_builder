@@ -3,7 +3,9 @@ from .views import (HeaderView,
                     HardSkillView,
                     ManifestView,
                     ProjectView,
-                    SoftSkillView, EducationView,
+                    SoftSkillView,
+                    EducationView,
+                    ExperienceView,
                     )
 
 app_name = "cvs"
@@ -13,6 +15,7 @@ urlpatterns = [
     path("hard_skills/", HardSkillView.as_view(), name = "hard_skills"),
     path("manifest/", ManifestView.as_view(), name = "manifest"),
     path("projects/", ProjectView.as_view(), name = "projects"),
+    path("experience/", ExperienceView.as_view(), name = "experience"),
     path("soft_skills/", SoftSkillView.as_view(), name = "soft_skills"),
     path("education/", EducationView.as_view(), name = "education"),
 

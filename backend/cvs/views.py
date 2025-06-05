@@ -5,14 +5,18 @@ from cvs.serializers import (HeaderSerializer,
                              HardSkillSerializer,
                              ManifestSerializer,
                              ProjectSerializer,
-                             SoftSkillSerializer, EducationSerializer,
+                             SoftSkillSerializer,
+                             EducationSerializer,
+                             ExperienceSerializer,
                              )
 from cvs.models.models import (Header,
                                HardSkill,
                                BlockNames,
                                Manifest,
                                Project,
-                               SoftSkill, Education,
+                               SoftSkill,
+                               Education,
+                               Experience,
 
 
                                )
@@ -58,6 +62,16 @@ class ProjectView(APIView):
         return Response((block_name, serializer_project.data))
 
 
+class ExperienceView(APIView):
+    def get(self, request):
+        experience_items: QuerySet[Experience] = Experience.objects.all()
+        serializer_project = ExperienceSerializer(experience_items, many = True)
+        block_name: dict[str, str] = {
+            "block_name": BlockNames.objects.all().first().experience_name
+            }
+        return Response((block_name, serializer_project.data))
+
+
 class SoftSkillView(APIView):
     def get(self, request):
         soft_skills: QuerySet[SoftSkill] = SoftSkill.objects.all()
@@ -66,6 +80,7 @@ class SoftSkillView(APIView):
             "block_name": BlockNames.objects.all().first().soft_skills_name
             }
         return Response((block_name, serializer_soft_skill.data))
+
 
 class EducationView(APIView):
     def get(self, request):

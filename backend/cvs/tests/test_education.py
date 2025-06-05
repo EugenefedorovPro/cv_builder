@@ -9,9 +9,8 @@ from cvs.tests.data import (EDUCATION_ENG,
                             )
 from cvs.types import (EducationItemType,
                        CvEducationType,
+                       DATE_FORMATTER,
                        )
-
-DATE_FORMATTER = "%Y-%m-%d"
 
 
 class EducationTest(TestCase):

@@ -10,6 +10,7 @@ from cvs.models.models import (Header,
                                Project,
                                SoftSkill,
                                Education,
+                               Experience,
 
                                )
 from django.contrib.auth import get_user_model
@@ -35,6 +36,8 @@ from cvs.tests.data import (BLOCK_NAME_ENG,
                             SoftSkillTuple,
                             EducationTuple,
                             EDUCATION_ENG,
+                            EXPERIENCE_ENG,
+                            ExperienceTuple,
 
 
                             )
@@ -255,7 +258,8 @@ class ManifestEng(ManifestFactory):
 
 
 class ProjectsFactory(CvBlockInterface):
-    def __init__(self, user: User, lang: LanguageChoice, data: dict[int, ProjectTuple]):
+    def __init__(self, block_names: BlockNames, user: User, lang: LanguageChoice, data: dict[int, ProjectTuple]):
+        self.block_names = block_names
         self.user = user
         self.lang = lang
         self.data = data
@@ -266,6 +270,7 @@ class ProjectsFactory(CvBlockInterface):
             projects.append(
                 Project(
                     id = id_num,
+                    block_name = self.block_names,
                     user = self.user,
                     lang = self.lang,
                     project_name = project.project_name,
@@ -278,8 +283,39 @@ class ProjectsFactory(CvBlockInterface):
 
 
 class ProjectsEng(ProjectsFactory):
-    def __init__(self, user: User, lang: LanguageChoice):
-        super().__init__(user, lang, PROJECTS_ENG)
+    def __init__(self, block_names: BlockNames, user: User, lang: LanguageChoice):
+        super().__init__(block_names, user, lang, PROJECTS_ENG)
+
+
+class ExperienceFactory(CvBlockInterface):
+    def __init__(self, block_names: BlockNames, user: User, lang: LanguageChoice, data: list[ExperienceTuple]):
+        self.block_names = block_names
+        self.user = user
+        self.lang = lang
+        self.data = data
+
+    def create_block(self):
+        experience_items: list[Experience] = []
+        for item in self.data:
+            experience_items.append(
+                Experience(
+                    id = item.id,
+                    block_name = self.block_names,
+                    user = self.user,
+                    lang = self.lang,
+                    company = item.company,
+                    position = item.position,
+                    start_date = item.start_date,
+                    end_date = item.end_date,
+                    achievements = item.achievements,
+                    )
+                )
+        return Experience.objects.bulk_create(experience_items)
+
+
+class ExperienceEng(ExperienceFactory):
+    def __init__(self, block_names: BlockNames, user: User, lang: LanguageChoice):
+        super().__init__(block_names, user, lang, EXPERIENCE_ENG)
 
 
 class SoftSkillsFactory(CvBlockInterface):
@@ -353,6 +389,7 @@ class TestBuilderSuper:
         self.hard_skills: list[HardSkill] = []
         self.manifest: Manifest | None = None
         self.projects: list[Project] = []
+        self.experience: list[Experience] = []
         self.soft_skills: list[SoftSkill] = []
         self.education: list[Education] = []
 
@@ -390,7 +427,11 @@ class TestBuilderSuper:
         return self
 
     def create_projects(self):
-        self.projects = ProjectsEng(self.user, self.lang).create_block()
+        self.projects = ProjectsEng(self.block_names, self.user, self.lang).create_block()
+        return self
+
+    def create_experience(self):
+        self.experience = ExperienceEng(self.block_names, self.user, self.lang).create_block()
         return self
 
     def create_soft_skills(self):

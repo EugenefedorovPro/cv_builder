@@ -108,6 +108,7 @@ class Manifest(models.Model):
 
 
 class Project(models.Model):
+    block_name = models.ForeignKey("BlockNames", on_delete = models.CASCADE)
     project_name = models.CharField(max_length = 255)
     project_text = models.TextField(max_length = 300)
     web_url = models.URLField(null = True, blank = True)
@@ -125,6 +126,7 @@ class Project(models.Model):
         db_table = "project"
 
 class Experience(models.Model):
+    block_name = models.ForeignKey("BlockNames", on_delete = models.CASCADE)
     company = models.CharField(max_length = 255)
     start_date = models.DateField()
     end_date = models.DateField(null = True, blank = True)

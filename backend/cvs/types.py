@@ -1,6 +1,8 @@
 from typing import TypedDict
 from datetime import datetime
 
+DATE_FORMATTER = "%Y-%m-%d"
+
 
 class BlockNameType(TypedDict):
     block_name: str
@@ -16,6 +18,16 @@ class ProjectItemType(TypedDict):
 
 CvProjectType = tuple[BlockNameType, list[ProjectItemType]]
 
+
+class ExperienceItemType(TypedDict):
+    id: int
+    company: str
+    start_date: datetime
+    end_date: datetime | None
+    achievements: str
+    position: str
+
+CvExperienceType = tuple[BlockNameType, list[ExperienceItemType]]
 
 class HardSkilItemType(TypedDict):
     id: int
