@@ -21,21 +21,24 @@ export interface HeaderInterface {
 }
 
 const HeaderCV = () => {
+    const name = "Header"
     const url: string = "http://localhost:8002/header/";
     const {data, loading, error} = useFetchData<HeaderInterface>(url);
 
     if (loading) {
-        return <div>Data is loading...</div>
+        return <div> Loading data for {name}...</div>
     }
 
     if (error) {
-        return <div>Error while fetching data: {error}</div>
+        return <div>`Error on fetching {name}: ${error}`</div>
+
     }
 
     if (!data) {
-        return <div>No data available</div>
+        return <div>No data on {name}</div>
 
     }
+
     return (
         <Row className="">
             <Col className="d-none d-md-block">

@@ -17,20 +17,21 @@ interface ExperienceItemInterface {
 }
 
 const ExperienceCV = () => {
+    const name = "Experience"
     const url: string = "http://localhost:8002/experience/";
     const {data, loading, error} = useFetchData<[BlockNameObject, ExperienceItemInterface[]]>(url);
 
     if (loading) {
-        return <div> Loading data for Hard Skills...</div>
+        return <div> Loading data for {name}...</div>
     }
 
     if (error) {
-        return <div>`Error on fetching Hard Skills: ${error}`</div>
+        return <div>`Error on fetching {name}: ${error}`</div>
 
     }
 
     if (!data) {
-        return <div>No data on Experience</div>
+        return <div>No data on {name}</div>
 
     }
 

@@ -8,6 +8,7 @@ from cvs.serializers import (HeaderSerializer,
                              SoftSkillSerializer,
                              EducationSerializer,
                              ExperienceSerializer,
+                             InterestSerializer,
                              )
 from cvs.models.models import (Header,
                                HardSkill,
@@ -17,6 +18,7 @@ from cvs.models.models import (Header,
                                SoftSkill,
                                Education,
                                Experience,
+                               Interest,
 
 
                                )
@@ -90,3 +92,13 @@ class EducationView(APIView):
             "block_name": BlockNames.objects.all().first().education_name,
             }
         return Response((block_name, serializer_education.data))
+
+
+class InterestView(APIView):
+    def get(self, request):
+        interest_items: QuerySet[Interest] = Interest.objects.all()
+        serializer_interest = InterestSerializer(interest_items, many = True)
+        block_name: dict[str, str] = {
+            "block_name": BlockNames.objects.all().first().interest_name,
+            }
+        return Response((block_name, serializer_interest.data))

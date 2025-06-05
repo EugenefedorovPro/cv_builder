@@ -55,3 +55,10 @@ class EducationItemType:
 
 
 CvEducationType = tuple[BlockNameType, EducationItemType]
+
+class InterestItemType:
+    id: int
+    interest_text: str
+
+
+CvInterestType = tuple[BlockNameType, InterestItemType]

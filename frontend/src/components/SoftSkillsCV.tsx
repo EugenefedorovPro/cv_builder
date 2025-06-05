@@ -12,20 +12,21 @@ interface SoftSkillItemInterface {
 }
 
 const SoftSkillsCV = () => {
+    const name = "Soft Skills"
     const url: string = "http://localhost:8002/soft_skills";
     const {data, loading, error} = useFetchData<[BlockNameObject, SoftSkillItemInterface[]]>(url);
 
     if (loading) {
-        return <div> Loading data for Hard Skills...</div>
+        return <div> Loading data for {name}...</div>
     }
 
     if (error) {
-        return <div>`Error on fetching Hard Skills: ${error}`</div>
+        return <div>`Error on fetching {name}: ${error}`</div>
 
     }
 
     if (!data) {
-        return <div>No data on Soft Skills</div>
+        return <div>No data on {name}</div>
 
     }
 

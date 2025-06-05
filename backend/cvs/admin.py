@@ -11,8 +11,8 @@ from cvs.models.models import (Case,
                                HardSkill,
                                HardSkillResume,
                                Header,
-                               Hobby,
-                               HobbyResume,
+                               Interest,
+                               InterestResume,
                                LanguageChoice,
                                Manifest,
                                OccupationChoice,
@@ -26,9 +26,6 @@ from cvs.models.models import (Case,
                                )
 
 
-# @admin.register(Header)
-# class HeaderAdmin(admin.ModelAdmin):
-#     exclude = ("user",)
 
 
 admin.site.register(CustomUser)
@@ -40,7 +37,7 @@ admin.site.register(Project)
 admin.site.register(Experience)
 admin.site.register(SoftSkill)
 admin.site.register(Education)
-admin.site.register(Hobby)
+admin.site.register(Interest)
 admin.site.register(Case)
 admin.site.register(WhyMe)
 admin.site.register(Feedback)
@@ -52,5 +49,5 @@ admin.site.register(SoftSkillResume)
 admin.site.register(CaseResume)
 admin.site.register(ProjectResume)
 admin.site.register(ExperienceResume)
-admin.site.register(HobbyResume)
+admin.site.register(InterestResume)
 admin.site.register(EducationResume)

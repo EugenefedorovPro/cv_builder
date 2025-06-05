@@ -23,7 +23,7 @@ class BlockNames(models.Model):
     experience_name = models.CharField(max_length = 100, default = "Experience")
     soft_skills_name = models.CharField(max_length = 100, default = "Soft Skills")
     education_name = models.CharField(max_length = 100, default = "Education")
-    hobby_name = models.CharField(max_length = 100, default = "Hobby")
+    interest_name = models.CharField(max_length = 100, default = "Interests")
     cases_name = models.CharField(max_length = 100, default = "Cases")
     why_me_name = models.CharField(max_length = 100, default = "Why me?")
     lang = models.ForeignKey("LanguageChoice", on_delete = models.CASCADE)
@@ -197,18 +197,20 @@ class Education(models.Model):
         db_table = "education"
 
 
-class Hobby(models.Model):
-    hobby_text = models.CharField(max_length = 300)
+class Interest(models.Model):
+    block_name = models.ForeignKey("BlockNames", on_delete = models.CASCADE)
+    interest_text = models.CharField(max_length = 300)
     created_at = models.DateTimeField(auto_now_add = True)
     updated_at = models.DateTimeField(auto_now = True)
-    resume = models.ManyToManyField("Resume", through = "HobbyResume")
+    resume = models.ManyToManyField("Resume", through = "InterestResume")
+    lang = models.ForeignKey("LanguageChoice", on_delete = models.CASCADE)
     user = models.ForeignKey("CustomUser", on_delete = models.CASCADE)
 
     def __str__(self):
-        return f"Hobby: {self.hobby_text[:50]}..."
+        return f"Interest: {self.interest_text[:50]}..."
 
     class Meta:
-        db_table = "hobby"
+        db_table = "Interest"
 
 
 class Case(models.Model):
@@ -351,15 +353,15 @@ class ExperienceResume(models.Model):
         db_table = "experience_resume"
 
 
-class HobbyResume(models.Model):
-    hobby_id = models.ForeignKey("Hobby", on_delete = models.CASCADE)
+class InterestResume(models.Model):
+    interest_id = models.ForeignKey("Interest", on_delete = models.CASCADE)
     resume_id = models.ForeignKey("Resume", on_delete = models.CASCADE)
     order = models.PositiveIntegerField(default = 0)
     created_at = models.DateTimeField(auto_now_add = True)
     updated_at = models.DateTimeField(auto_now = True)
 
     class Meta:
-        db_table = "hobby_resume"
+        db_table = "interest_resume"
 
 
 class EducationResume(models.Model):

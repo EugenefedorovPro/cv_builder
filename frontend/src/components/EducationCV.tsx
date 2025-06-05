@@ -16,20 +16,21 @@ interface EducationItemInterface {
 }
 
 const EducationCV = () => {
+    const name = "Education"
     const url: string = "http://localhost:8002/education/";
     const {data, loading, error} = useFetchData<[BlockNameObject, EducationItemInterface[]]>(url);
 
     if (loading) {
-        return <div> Loading data for Hard Skills...</div>
+        return <div> Loading data for {name}...</div>
     }
 
     if (error) {
-        return <div>`Error on fetching Hard Skills: ${error}`</div>
+        return <div>`Error on fetching {name}: ${error}`</div>
 
     }
 
     if (!data) {
-        return <div>No data on Education</div>
+        return <div>No data on {name}</div>
 
     }
 

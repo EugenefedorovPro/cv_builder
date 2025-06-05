@@ -9,6 +9,7 @@ import ProjectsCV from "../components/Projects";
 import SoftSkillsCV from "../components/SoftSkillsCV";
 import EducationCV from "../components/EducationCV";
 import ExperienceCV from "../components/ExperienceCV";
+import InterestCV from "../components/InterestsCV";
 import "./Layout.styles.css";
 
 
@@ -73,6 +74,9 @@ const Layout = () => {
                                     {<EducationCV/>}
                                 </div>
 
+                                <div className="">
+                                    {<InterestCV/>}
+                                </div>
                             </Stack>
 
                         </Col>

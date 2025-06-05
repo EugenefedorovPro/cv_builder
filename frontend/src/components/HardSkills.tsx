@@ -19,20 +19,21 @@ type HardSkillType = [
 ]
 
 const HardSkillsCV = () => {
+    const name = "Hard Skills"
     const url: string = "http://localhost:8002/hard_skills/";
     const {data, loading, error} = useFetchData<HardSkillType>(url);
 
     if (loading) {
-        return <div> Loading data for Hard Skills...</div>
+        return <div> Loading data for {name}...</div>
     }
 
     if (error) {
-        return <div>`Error on fetching Hard Skills: ${error}`</div>
+        return <div>`Error on fetching {name}: ${error}`</div>
 
     }
 
     if (!data) {
-        return <div>No data on Hard Skills</div>
+        return <div>No data on {name}</div>
 
     }
 

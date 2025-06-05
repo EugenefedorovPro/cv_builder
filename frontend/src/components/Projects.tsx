@@ -17,21 +17,22 @@ type BlockNameType = {
 }
 
 const ProjectsCV = () => {
+    const name = "Projects"
     const url: string = "http://localhost:8002/projects/"
     const {data, loading, error} = useFetchData<[BlockNameType, ProjectItemInterface[]]>(url);
 
 
     if (loading) {
-        return <div> Loading data for Hard Skills...</div>
+        return <div> Loading data for {name}...</div>
     }
 
     if (error) {
-        return <div>`Error on fetching Hard Skills: ${error}`</div>
+        return <div>`Error on fetching {name}: ${error}`</div>
 
     }
 
     if (!data) {
-        return <div>No data on Hard Skills</div>
+        return <div>No data on {name}</div>
 
     }
 

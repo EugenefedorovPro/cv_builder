@@ -1,4 +1,6 @@
 import ipdb
+from pathlib import Path
+from django.core.files import File
 from django.utils.choices import BlankChoiceIterator
 
 from cvs.models.models import (Header,
@@ -11,6 +13,7 @@ from cvs.models.models import (Header,
                                SoftSkill,
                                Education,
                                Experience,
+                               Interest,
 
                                )
 from django.contrib.auth import get_user_model
@@ -38,6 +41,8 @@ from cvs.tests.data import (BLOCK_NAME_ENG,
                             EDUCATION_ENG,
                             EXPERIENCE_ENG,
                             ExperienceTuple,
+                            InterestTuple,
+                            INTERESTS_ENG,
 
 
                             )
@@ -377,6 +382,34 @@ class EducationEng(EducationFactory):
         super().__init__(block_names, user, lang, EDUCATION_ENG)
 
 
+class InterestFactory(CvBlockInterface):
+    def __init__(self, block_names: BlockNames, user: User, lang: LanguageChoice, data: list[InterestTuple]):
+        self.block_names = block_names
+        self.user = user
+        self.lang = lang
+        self.data = data
+
+    def create_block(self):
+        interest_items: list[Interest] = []
+        for item in self.data:
+            interest_items.append(
+                Interest(
+                    id = item.id,
+                    block_name = self.block_names,
+                    interest_text = item.interest_text,
+                    user = self.user,
+                    lang = self.lang,
+
+                    )
+                )
+        return Interest.objects.bulk_create(interest_items)
+
+
+class InterestEng(InterestFactory):
+    def __init__(self, block_names: BlockNames, user: User, lang: LanguageChoice):
+        super().__init__(block_names, user, lang, INTERESTS_ENG)
+
+
 class TestBuilderSuper:
     def __init__(self):
         self.user: User = None
@@ -392,6 +425,7 @@ class TestBuilderSuper:
         self.experience: list[Experience] = []
         self.soft_skills: list[SoftSkill] = []
         self.education: list[Education] = []
+        self.interest: list[Interest] = []
 
     def create_user(self) -> User:
         inst = UserSuper()
@@ -440,4 +474,30 @@ class TestBuilderSuper:
 
     def create_education(self):
         self.education = EducationEng(self.block_names, self.user, self.lang).create_block()
+        return self
+
+    def create_interest(self):
+        self.interest = InterestEng(self.block_names, self.user, self.lang).create_block()
+        return self
+
+
+class EngCvBuilder(TestBuilderSuper):
+    def create_user(self):
+        self.user = User.objects.create_superuser(
+            pk = 1,
+            username = "admin",
+            password = "sql_1980",
+            )
+        return self
+
+    def create_photo(self):
+        file_name = "quattr.jpg"
+        url = Path(__file__).parent.parent / f"management/commands/{file_name}"
+        with open(url, "rb") as f:
+            self.photo = Photos.objects.create(
+                pk = 1,
+                user = self.user,
+                description = "quattr_photo_eugene_pro",
+                )
+            self.photo.photo_url.save(file_name, File(f))
         return self

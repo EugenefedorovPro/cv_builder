@@ -39,6 +39,11 @@ EducationTuple = namedtuple("EducationTuple", (
     "degree_title",
     ))
 
+InterestTuple = namedtuple("InterestTuple", (
+    "id",
+    "interest_text",
+    ))
+
 USER_SUPER = {
     "username": "user_super",
     "password": "user_super_password_1234",
@@ -60,7 +65,7 @@ BLOCK_NAME_ENG: dict[str, str] = {
     "experience_name": "Experience",
     "soft_skills_name": "Soft Skills",
     "education_name": "Education",
-    "hobby_name": "Hobby",
+    "interest_name": "Interest",
     "cases_name": "Cases",
     "why_me_name": "Why me?",
     }
@@ -396,5 +401,23 @@ education_2 = EducationTuple(
 EDUCATION_ENG = [
     education_1,
     education_2
+
+    ]
+
+# interests
+
+interest_1 = InterestTuple(
+    id = 1,
+    interest_text = "Philosophy of Mind and AI"
+    )
+
+interest_2 = InterestTuple(
+    id = 2,
+    interest_text = "Avant-garde Art"
+    )
+
+INTERESTS_ENG = [
+    interest_1,
+    interest_2,
 
     ]

@@ -12,20 +12,21 @@ interface ManifestItemInterface {
 }
 
 const ManifestCV = () => {
+    const name = "Manifest"
     const url: string = "http://localhost:8002/manifest/";
     const {data, loading, error} = useFetchData<[BlockNameObject, ManifestItemInterface]>(url);
 
     if (loading) {
-        return <div> Loading data for Hard Skills...</div>
+        return <div> Loading data for {name}...</div>
     }
 
     if (error) {
-        return <div>`Error on fetching Hard Skills: ${error}`</div>
+        return <div>`Error on fetching {name}: ${error}`</div>
 
     }
 
     if (!data) {
-        return <div>No data on Manifest</div>
+        return <div>No data on {name}</div>
 
     }
 
