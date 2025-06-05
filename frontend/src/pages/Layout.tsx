@@ -7,6 +7,7 @@ import ManifestCV from "../components/Manifest";
 import HardSkillsCV from "../components/HardSkills";
 import ProjectsCV from "../components/Projects";
 import SoftSkillsCV from "../components/SoftSkillsCV";
+import EducationCV from "../components/EducationCV";
 import "./Layout.styles.css";
 
 
@@ -68,7 +69,7 @@ const Layout = () => {
                                 </div>
 
                                 <div className="">
-                                    {/*<h3>Hobbies</h3>*/}
+                                    {<EducationCV/>}
                                 </div>
 
                             </Stack>

@@ -378,7 +378,7 @@ education_2 = EducationTuple(
     institution = "Hryhoriy Skovoroda Institute of Philosophy of the Academy of Sciences of Ukraine",
     start_date = datetime(2005, 11, 1),
     end_date = datetime(2008, 7, 1),
-    degree_title = "Successfully completed postgraduate studies",
+    degree_title = "Successfully completed postgraduate studies in philosophy of ethics, aethetics and personality",
 
     )
 
