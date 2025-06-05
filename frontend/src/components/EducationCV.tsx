@@ -15,7 +15,7 @@ interface EducationItemInterface {
 
 }
 
-const ManifestCV = () => {
+const EducationCV = () => {
     const url: string = "http://localhost:8002/education/";
     const {data, loading, error} = useFetchData<[BlockNameObject, EducationItemInterface[]]>(url);
 
@@ -29,7 +29,7 @@ const ManifestCV = () => {
     }
 
     if (!data) {
-        return <div>No data on Hard Skills</div>
+        return <div>No data on Education</div>
 
     }
 
@@ -58,4 +58,4 @@ const ManifestCV = () => {
 }
 
 
-export default ManifestCV;
+export default EducationCV;

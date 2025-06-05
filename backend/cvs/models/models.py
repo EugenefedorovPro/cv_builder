@@ -148,7 +148,7 @@ class Experience(models.Model):
         super().save(*args, **kwargs)
 
     def __str__(self):
-        return f"{self.job_title} at {self.company}"
+        return f"{self.company} - {self.lang.lang}"
 
     class Meta:
         db_table = "experience"

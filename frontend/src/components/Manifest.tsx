@@ -25,7 +25,7 @@ const ManifestCV = () => {
     }
 
     if (!data) {
-        return <div>No data on Hard Skills</div>
+        return <div>No data on Manifest</div>
 
     }
 

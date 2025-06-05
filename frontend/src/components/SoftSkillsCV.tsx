@@ -25,7 +25,7 @@ const SoftSkillsCV = () => {
     }
 
     if (!data) {
-        return <div>No data on Hard Skills</div>
+        return <div>No data on Soft Skills</div>
 
     }
 
