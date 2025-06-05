@@ -14,7 +14,7 @@ class CustomUser(AbstractUser):
 
 # TODO: Trainings and Certificates
 # TODO: Interests instead of hobbies
-# TODO: NatutalLanguage
+# TODO: manage order - remoce Resume (many - to many filds) - add occupation to every many folded model???
 
 class BlockNames(models.Model):
     header_name = models.CharField(max_length = 100, default = "Header")

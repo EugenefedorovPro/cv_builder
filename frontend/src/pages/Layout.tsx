@@ -10,6 +10,7 @@ import SoftSkillsCV from "../components/SoftSkillsCV";
 import EducationCV from "../components/EducationCV";
 import ExperienceCV from "../components/ExperienceCV";
 import InterestCV from "../components/InterestsCV";
+import NaturalLangCV from "../components/NaturalLangCV";
 import "./Layout.styles.css";
 
 
@@ -72,6 +73,10 @@ const Layout = () => {
 
                                 <div className="">
                                     {<EducationCV/>}
+                                </div>
+
+                                <div className="">
+                                    {<NaturalLangCV/>}
                                 </div>
 
                                 <div className="">

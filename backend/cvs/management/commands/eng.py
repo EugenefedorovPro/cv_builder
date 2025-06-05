@@ -8,7 +8,8 @@ from cvs.models.models import (LanguageChoice,
                                Project,
                                SoftSkill,
                                Education,
-                               Interest,
+                               Interest, NaturalLanguage,
+
                                )
 
 from django.contrib.auth import get_user_model
@@ -30,6 +31,7 @@ class EngCvSettle:
         SoftSkill.objects.all().delete()
         Education.objects.all().delete()
         Interest.objects.all().delete()
+        NaturalLanguage.objects.all().delete()
 
     @staticmethod
     def _populate_db():
@@ -46,6 +48,7 @@ class EngCvSettle:
          .create_soft_skills()
          .create_education()
          .create_interest()
+         .create_natural_lang()
          )
 
     def settle_cv(self) -> None:
