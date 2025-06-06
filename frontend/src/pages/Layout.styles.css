@@ -1,21 +1,72 @@
 :root {
-    --primary-dark: #2C3E50; /* Dark Midnight Blue - for headings, main text */
-    --accent-color: #2E8B57; /* Sea Green - for prominent highlights, section titles */
-    --neutral-light: #F8F9FA; /* Off-White - for clean backgrounds */
-    --text-color: #495057; /* Dark Gray - for body text */
-    --soft-highlight: #D4EDDA; /* Pale Green - for subtle background blocks */
-    --deep-contrast: #1A5276; /* Darker Blue - for borders, strong lines */
+    --navbar-dark-background: #1f2e1f; /* Dark forest green */
+    --navbar-text: #d7f2dc; /* Soft mint */
+
+    --overall-background: #f2f0ec; /* Pearl (a touch warmer than plain white) */
+    --overall-text: #333840; /* Slate gray */
+
+    --accent-soft: #5a4b3c; /* Warm Taupe - Subtle, earthy neutral */
+    --accent-hard: #d8a48f; /* Terracotta - Warm, earthy vibrance */
 }
 
-.accent {
-    font-weight: bolder;
-    color: var(--accent-color);
-}
 
 .navbar-col {
-    background-color: var(--neutral-light);
+    background-color: var(--navbar-dark-background);
 }
 
-.color-hard-skills {
-    background-color: var(--text-color);
+.navbar-col .nav-link,
+.navbar-col .dropdown-item,
+.navbar-col .navbar-brand {
+    color: var(--navbar-text);
+}
+
+.overall-background {
+    background-color: var(--overall-background);
+}
+
+.list-group-item {
+    background-color: var(--overall-background);
+    color: var(--overall-text);
+    border-style: none;
+}
+
+.block-name {
+    font-weight: bolder;
+    font-size: 1.2rem;
+    color: var(--accent-soft);
+}
+
+.title {
+    font-weight: bold;
+    font-size: 1.1rem;
+
+}
+
+.hard-skills-col {
+    border-left-style: solid;
+    border-left-width: thin;
+    border-left-color: var(--accent-hard);
+}
+
+
+@media (max-width: 992px) {
+    .header-col {
+        border-bottom-style: solid;
+        border-bottom-width: thin;
+        border-bottom-color: var(--accent-hard);
+    }
+
+}
+
+.projects-items, .experience-items, .soft-skills-items,
+.education-items, .natural-lang-items, .interests-items {
+    margin-left: 1rem;
+}
+
+@media (max-width: 992px) {
+    .hard-skills-items {
+        margin-left: 1rem;
+
+    }
+
 }

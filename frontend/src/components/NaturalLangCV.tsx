@@ -37,11 +37,11 @@ const NaturalLangCV = () => {
     return (
         <>
             <ListGroup>
-                <ListGroupItem className="accent">{block_name.block_name}</ListGroupItem>
+                <ListGroupItem className="block-name">{block_name.block_name}</ListGroupItem>
             </ListGroup>
 
             <ListGroup>
-                <ListGroupItem>
+                <ListGroupItem className="natural-lang-items">
                     {
                         data_natural_lang.map((item, index) => (
                             <span key={item.id}>

@@ -39,13 +39,13 @@ const EducationCV = () => {
     return (
         <>
             <ListGroup>
-                <ListGroupItem className="accent">{block_name.block_name}</ListGroupItem>
+                <ListGroupItem className="block-name">{block_name.block_name}</ListGroupItem>
             </ListGroup>
 
             <ListGroup>
                 {
                     data_education.map((item) => (
-                        <ListGroupItem>
+                        <ListGroupItem className="education-items">
                             <strong>{item.institution}</strong><br/>
                             {item.start_date} - {item.end_date}<br/>
                             {item.degree_title}

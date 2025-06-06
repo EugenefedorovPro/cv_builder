@@ -12,9 +12,8 @@ class CustomUser(AbstractUser):
         return self.username
 
 
-# TODO: Trainings and Certificates
-# TODO: Interests instead of hobbies
 # TODO: manage order - remoce Resume (many - to many filds) - add occupation to every many folded model???
+# TODO: link to this cv
 
 class BlockNames(models.Model):
     header_name = models.CharField(max_length = 100, default = "Header")

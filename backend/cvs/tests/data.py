@@ -185,6 +185,19 @@ hard_skill_9 = HardSkillTuple(
 
     )
 
+TRAININGS = """
+copywriting, strategic planning, state crisis communications, and management of the creative process: 
+PR-school at Kyiv Polytechnic Institute, State Enterprise ‘Energoatom’, Galnaftogaz, Amway, 
+State Border Guard Service of Ukraine, agencies of the Ministry of Internal Affairs (crisis communications).
+"""
+
+hard_skill_10 = HardSkillTuple(
+    id = 10,
+    category = "Authoring training programs",
+    hard_skill_text = TRAININGS,
+
+    )
+
 HARD_SKILLS_ENG = [
     hard_skill_1,
     hard_skill_2,
@@ -195,6 +208,7 @@ HARD_SKILLS_ENG = [
     hard_skill_7,
     hard_skill_8,
     hard_skill_9,
+    hard_skill_10,
 
     ]
 
@@ -305,6 +319,11 @@ PROJECTS_ENG: dict[int, ProjectTuple] = {
     7: project_7,
     }
 
+ACHIEVEMENTS_1 = """
+Developed and maintained: software apps - monitoring system, platform for making polls; 
+complex system of remote and secure access to the server via VPN;
+"""
+
 # Experience
 experience_1 = ExperienceTuple(
     id = 1,
@@ -312,12 +331,15 @@ experience_1 = ExperienceTuple(
     start_date = datetime(2022, 3, 22),
     end_date = None,
     position = "Sergeant in military communications",
-    achievements = "Developed and maintained: software apps - monitoring system, platform for making polls",
+    achievements = ACHIEVEMENTS_1,
     order = 0,
     )
 
-ACHIEVEMENTS_2 = ("Launch of a new business in sport B1 Boxing Promotion: financial plan, "
-                  "architecture of the brand, creative launch campaign, launch of SM")
+ACHIEVEMENTS_2 = """
+Conceptual development of company and owner's web-sites.
+Launch of a new business in sport - B1 Boxing Promotion: financial plan,
+architecture of the brand, creative launch campaign, launch of SM.
+"""
 
 experience_2 = ExperienceTuple(
     id = 2,
@@ -329,16 +351,11 @@ experience_2 = ExperienceTuple(
     order = 2,
     )
 
-ACHIEVEMENTS_3 = """Research-driven communication strategies. 
-Commercial sector - GEOS building company, Arzinger Law company, UMG (part of  SKM Group), 
-Honda, Electrolux, OLX, Motorola Solutions, Київстар, Ocean Plaza, Amway, PepsiCo, Metro, etc.
-NGOs: Dozorro, Crown Agents (state procurement). 
-Public sector - Office of the Prosecutor General of Ukraine, Kiev city state council 
-(marketing strategy to promote Kyiv as a tourist destination, communication strategy of Kyiv, campaign to promote General Plan of Kyiv), 
-State Border Guard Service of Ukraine, Antimonopoly Committee of Ukraine 
-(communication support of the State Aid Reform, SESAR project), 
-state concept of crisis communications in partnership with Ministry of Information Policy and National Security and Defense Council of Ukraine, 
-cybersecurity campaign for National Police 
+ACHIEVEMENTS_3 = """Research-driven communication strategies for many companies in public, commercial and state sectors:
+Honda, Electrolux, OLX, Київстар, PepsiCo; Dozorro; cybersecurity campaign for National Police, 
+communication support of the State Aid Reform, SESAR project for Antimonopoly Committee of Ukraine, 
+Kiev city state council, state concept of crisis communications in partnership with 
+Ministry of Information Policy and National Security and Defense Council of Ukraine. 
 """
 
 experience_3 = ExperienceTuple(
@@ -376,7 +393,7 @@ soft_skill_2 = SoftSkillTuple(
 
 soft_skill_3 = SoftSkillTuple(
     id = 3,
-    soft_skill_text = "I lean, therefore I am: Constant self-education in coding, analytics, and strategic thinking",
+    soft_skill_text = "I learn, therefore I am: Constant self-education in coding, analytics, and strategic thinking",
 
     )
 

@@ -33,16 +33,17 @@ const SoftSkillsCV = () => {
     const [block_name, block_data] = data;
 
     return (
-        <ListGroup>
-            <ListGroupItem className="accent">{block_name.block_name}</ListGroupItem>
-            <ul>
-
+        <>
+            <ListGroup>
+                <ListGroupItem className="block-name">{block_name.block_name}</ListGroupItem>
+            </ListGroup>
+            <ListGroup className="soft-skills-items">
                 {block_data.map((item) => (
-                    <li><ListGroupItem key={item.id}>{item.soft_skill_text}</ListGroupItem></li>
+                    <ListGroupItem key={item.id}>{item.soft_skill_text}</ListGroupItem>
                 ))}
-            </ul>
+            </ListGroup>
+        </>
 
-        </ListGroup>
     )
 }
 

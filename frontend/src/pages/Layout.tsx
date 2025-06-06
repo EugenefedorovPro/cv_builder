@@ -19,7 +19,7 @@ const Layout = () => {
     return (<>
         <Container
             fluid
-            className=""
+            className="overall-background"
 
         >
             <Row
@@ -32,7 +32,7 @@ const Layout = () => {
                     sm={{span: 12, order: 1}}
                     xs={{span: 12, order: 1}}
 
-                    className="flex-lg-column"
+                    className="navbar-col flex-lg-column"
                 >
                     {<NavbarCV/>}
                 </Col>
@@ -44,21 +44,16 @@ const Layout = () => {
                     xs={{span: 12, order: 1}}
                 >
                     <Row className="flex-column">
-                        <Col>
+                        <Col className="header-col">
                             {<HeaderCV/>}
                         </Col>
-                        <Col className="d-block d-lg-none">
+                        <Col className="p-0 d-block d-lg-none">
                             {<HardSkillsCV/>}
                         </Col>
-                        <Col>
+                        <Col className="p-0">
                             <Stack
                                 className=""
                             >
-
-                                <div className="">
-                                    {<ManifestCV/>}
-                                </div>
-
                                 <div className="">
                                     {<ProjectsCV/>}
                                 </div>
@@ -91,7 +86,7 @@ const Layout = () => {
                 </Col>
 
                 <Col
-                    className="d-none d-lg-block flex-lg-column"
+                    className="hard-skills-col d-none d-lg-block flex-lg-column"
                     lg={{span: 2, order: 4}}
                     md={{span: 12, order: 1}}
                     sm={{span: 12, order: 1}}

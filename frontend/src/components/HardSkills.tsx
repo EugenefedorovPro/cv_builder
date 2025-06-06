@@ -41,11 +41,11 @@ const HardSkillsCV = () => {
 
     return (
         <ListGroup>
-            <ListGroupItem className="accent">{block_name.block_name}</ListGroupItem>
+            <ListGroupItem className="block-name">{block_name.block_name}</ListGroupItem>
             {
                 block_data.map((item) => (
-                        <ListGroupItem key={item.id} className="">
-                            <b>{item.category}</b>: {item.hard_skill_text}
+                        <ListGroupItem key={item.id} className="hard-skills-items">
+                            <span className="title">{item.category}</span>: {item.hard_skill_text}
                         </ListGroupItem>
                     )
                 )

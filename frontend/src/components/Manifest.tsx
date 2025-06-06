@@ -34,8 +34,7 @@ const ManifestCV = () => {
 
     return (
         <ListGroup>
-            <ListGroupItem className="accent">{block_name.block_name}</ListGroupItem>
-            <ListGroupItem>{data_manifest.manifest_text}</ListGroupItem>
+            <ListGroupItem><span className="manifest">{data_manifest.manifest_text}</span></ListGroupItem>
         </ListGroup>
     )
 

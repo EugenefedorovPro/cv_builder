@@ -40,17 +40,17 @@ const ExperienceCV = () => {
     return (
         <>
             <ListGroup>
-                <ListGroupItem className="accent">{block_name.block_name}</ListGroupItem>
+                <ListGroupItem className="block-name">{block_name.block_name}</ListGroupItem>
             </ListGroup>
 
             <ListGroup>
                 {
                     data_experience.map((item) => (
-                        <ListGroupItem>
-                            <b>Company</b> {item.company}<br/>
-                            <b>Period</b> {item.start_date} - {item.end_date}<br/>
-                            <b>Position</b> {item.position}<br/>
-                            <b>Achievements</b><br/>
+                        <ListGroupItem className="experience-items">
+                            <span className="title">Company</span> {item.company}<br/>
+                            <span className="title">Period</span> {item.start_date} - {item.end_date ? item.end_date : "current"}<br/>
+                            <span className="title">Position</span> {item.position}<br/>
+                            <span className="title">Achievements</span><br/>
                             <span>{item.achievements}</span>
                         </ListGroupItem>
                     ))

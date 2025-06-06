@@ -36,11 +36,11 @@ const InterestCV = () => {
     return (
         <>
             <ListGroup>
-                <ListGroupItem className="accent">{block_name.block_name}</ListGroupItem>
+                <ListGroupItem className="block-name">{block_name.block_name}</ListGroupItem>
             </ListGroup>
 
             <ListGroup>
-                <ListGroupItem>
+                <ListGroupItem className="interests-items">
                     {
                         data_interest.map((item, index) => (
                             <span key={item.id}>

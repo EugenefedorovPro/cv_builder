@@ -16,7 +16,7 @@ type BlockNameType = {
     block_name: string,
 }
 
-const ProjectsCV = () => {
+const Projects = () => {
     const name = "Projects"
     const url: string = "http://localhost:8002/projects/"
     const {data, loading, error} = useFetchData<[BlockNameType, ProjectItemInterface[]]>(url);
@@ -41,12 +41,12 @@ const ProjectsCV = () => {
 
     return (
         <ListGroup>
-            <ListGroupItem className="accent">
+            <ListGroupItem className="block-name">
                 {block_name.block_name}
             </ListGroupItem>
             {projects_data.map((project) => (
-                <ListGroupItem key={project.id}>
-                    <h5>{project.project_name}</h5>
+                <ListGroupItem key={project.id} className="projects-items">
+                    <div className="title">{project.project_name}</div>
                     <div>{project.project_text}</div>
 
                     <div>
@@ -66,4 +66,4 @@ const ProjectsCV = () => {
 
 }
 
-export default ProjectsCV
+export default Projects

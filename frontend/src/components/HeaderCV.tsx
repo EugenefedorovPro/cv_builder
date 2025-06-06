@@ -1,6 +1,7 @@
 import React from "react";
-import {Image, ListGroup, Container, Col, Row, Figure} from "react-bootstrap";
+import {Image, ListGroup, ListGroupItem, Container, Col, Row, Figure} from "react-bootstrap";
 import {useFetchData, UseDataFetchInterface} from "../api/UseFetchData";
+import ManifestCV from "./Manifest";
 
 interface PhotoInterface {
     photo_url: string,
@@ -48,51 +49,56 @@ const HeaderCV = () => {
                     height={200}
                     alt="150x200"
                     src={`http://localhost:8002${data?.photo?.photo_url}/`}
+                    className="overall-background rounded-0"
                 />
             </Col>
             <Col sm={12} md={10} lg={10} className="">
+
+                <ListGroup>
+                    <ListGroupItem><h5><b>{data.first_name.toUpperCase()} {data.second_name.toUpperCase()}</b></h5>
+                    </ListGroupItem>
+                </ListGroup>
+
                 <ListGroup horizontal className="flex-wrap">
-                    <ListGroup.Item><h5><b>{data.first_name} {data.second_name}</b></h5></ListGroup.Item>
 
-                    <ListGroup.Item>
+                    <ListGroupItem>
                         <a href={`tel:${data.phone}`} target="_blank" rel="noopener noteferrer">{data.phone}</a>
-                    </ListGroup.Item>
+                    </ListGroupItem>
 
-                    <ListGroup.Item>
+                    <ListGroupItem>
                         <a href={`mailto:${data.email}`} target="_blank" rel="noopener noteferrer">{data.email}</a>
-                    </ListGroup.Item>
+                    </ListGroupItem>
 
                     {data.github &&
-                        <ListGroup.Item>
+                        <ListGroupItem>
                             <a href={data.github} target="_blank" rel="noopener noreferrer">github</a>
-                        </ListGroup.Item>
+                        </ListGroupItem>
                     }
                     {data.linkedin &&
-                        <ListGroup.Item>
+                        <ListGroupItem>
                             <a href={data.linkedin} target="_blank" rel="noopener noreferrer">LinkedIn</a>
-                        </ListGroup.Item>
+                        </ListGroupItem>
                     }
 
                     {(data.country || data.city || data.district) && (
-                        <ListGroup.Item className="d-flex flex-wrap gap-3">
+                        <ListGroupItem className="d-flex flex-wrap gap-3">
 
                             {data.country &&
-                                <div><b>Country</b>: {data.country}</div>
+                                <div><span className="title">Country</span>: {data.country}</div>
                             }
 
                             {data.city &&
-                                <div><b>City</b>: {data.city}</div>
+                                <div><span className="title">City</span>: {data.city}</div>
                             }
 
                             {data.district &&
-                                <div><b>District</b>: {data.district}</div>
+                                <div><span className="title">District</span>: {data.district}</div>
                             }
-                        </ListGroup.Item>
+                        </ListGroupItem>
 
                     )}
-
                 </ListGroup>
-
+                {<ManifestCV/>}
             </Col>
         </Row>
 
