@@ -45,7 +45,7 @@ const NaturalLangCV = () => {
                     {
                         data_natural_lang.map((item, index) => (
                             <span key={item.id}>
-                                <b>{item.natural_lang}</b> - {item.level}
+                                <span className="title">{item.natural_lang}</span> - {item.level}
                                 {index < data_natural_lang.length - 1 ? ", " : ""}
                             </span>
                         ))

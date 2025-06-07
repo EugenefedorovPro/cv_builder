@@ -3,7 +3,6 @@ import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import NavbarCV from "../components/Navbar";
 import HeaderCV from "../components/HeaderCV";
-import ManifestCV from "../components/Manifest";
 import HardSkillsCV from "../components/HardSkills";
 import ProjectsCV from "../components/Projects";
 import SoftSkillsCV from "../components/SoftSkillsCV";

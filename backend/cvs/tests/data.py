@@ -1,56 +1,14 @@
 from collections import namedtuple
 from datetime import datetime
+from cvs.types import (ProjectTuple,
+                       ExperienceTuple,
+                       HardSkillTuple,
+                       SoftSkillTuple,
+                       EducationTuple,
+                       InterestTuple,
+                       NaturalLangTuple,
+                       )
 
-
-ProjectTuple = namedtuple("ProjectTuple", (
-    "project_name",
-    "project_text",
-    "web_url",
-    "git_url",
-
-    ))
-
-ExperienceTuple = namedtuple("ExperienceTuple", (
-    "id",
-    "company",
-    "start_date",
-    "end_date",
-    "position",
-    "achievements",
-    "order",
-
-    ))
-
-HardSkillTuple = namedtuple("HardSkillTuple", (
-    "id",
-    "category",
-    "hard_skill_text",
-    ))
-
-SoftSkillTuple = namedtuple("SoftSkillTuple", (
-    "id",
-    "soft_skill_text",
-    ))
-
-EducationTuple = namedtuple("EducationTuple", (
-    "id",
-    "institution",
-    "start_date",
-    "end_date",
-    "degree_title",
-    ))
-
-InterestTuple = namedtuple("InterestTuple", (
-    "id",
-    "interest_text",
-    ))
-
-NaturalLangTuple = namedtuple("NaturalLangTuple", (
-    "id",
-    "natural_lang",
-    "level",
-
-    ))
 
 USER_SUPER = {
     "username": "user_super",
@@ -73,7 +31,7 @@ BLOCK_NAME_ENG: dict[str, str] = {
     "experience_name": "Experience",
     "soft_skills_name": "Soft Skills",
     "education_name": "Education",
-    "interest_name": "Interest",
+    "interest_name": "Interests",
     "cases_name": "Cases",
     "why_me_name": "Why me?",
     }
@@ -476,6 +434,7 @@ natural_lang_4 = NaturalLangTuple(
     level = "basic",
 
     )
+
 NATURAL_LANGS_ENG = [
     natural_lang_1,
     natural_lang_2,

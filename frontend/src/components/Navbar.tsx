@@ -5,7 +5,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 const NavbarCV = () => {
 
     return (
-        <Navbar expand="sm">
+        <Navbar expand="sm" className="sticky-lg-top">
 
             <Container className="m-0 flex-lg-column align-items-start">
                 <Navbar.Brand className="" href="#home">CV</Navbar.Brand>
