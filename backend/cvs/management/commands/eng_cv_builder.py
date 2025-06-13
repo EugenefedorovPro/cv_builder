@@ -23,6 +23,8 @@ class EngCvBuilder(TestBuilderSuper):
             self.photo = Photos.objects.create(
                 pk = 1,
                 user = self.user,
+                lang = self.lang,
+                occupation = self.occupation,
                 description = "quattr_photo_eugene_pro",
                 )
             self.photo.photo_url.save(file_name, File(f))
