@@ -7,6 +7,10 @@ from cvs.types import (ProjectTuple,
                        EducationTuple,
                        InterestTuple,
                        NaturalLangTuple,
+                       OccupationChoiceTuple,
+                       HeaderTuple,
+                       PhotoTuple,
+                       BlockNameTuple,
                        )
 
 
@@ -23,54 +27,81 @@ USER_SIMPLE = {
 
     }
 
-BLOCK_NAME_ENG: dict[str, str] = {
-    "header_name": "Header",
-    "hard_skills_name": "Hard Skills",
-    "manifest_name": "Manifest",
-    "projects_name": "Projects",
-    "experience_name": "Experience",
-    "soft_skills_name": "Soft Skills",
-    "education_name": "Education",
-    "interest_name": "Interests",
-    "cases_name": "Cases",
-    "why_me_name": "Why me?",
-    }
+OCCUPATION_ENG = OccupationChoiceTuple(
+    id = 1,
+    occupation = "Backend",
 
-PHOTO = {
-    "description": "test_photo_super",
-    "name": "test_image.jpg",
-    "width": 150,
-    "height": 200,
-    "color": "Red",
-    "mode": "RGB",
-    "format": "JPEG",
+    )
 
-    }
+block_name_eng = BlockNameTuple(
+    id = 1,
+    photo_name = "Photo",
+    header_name = "Header",
+    hard_skills_name = "Hard Skills",
+    manifest_name = "Manifest",
+    projects_name = "Projects",
+    experience_name = "Experience",
+    soft_skills_name = "Soft Skills",
+    education_name = "Education",
+    natural_lang_name = "Natural Languages",
+    interest_name = "Interests",
+    cases_name = "Cases",
+    why_me_name = "Why me?",
+    feedback_name = "Feedback",
 
-HEADER_USER_SUPER = {
-    "first_name": "Eugene",
-    "second_name": "Proskulikov",
-    "phone": "+38-(096)-464-3910",
-    "email": "eugene.proskulikov@gmail.com",
-    "linkedin": "https://www.linkedin.com/in/eugene-proskulikov-168050a4/",
-    "github": "https://github.com/EugenefedorovPro/",
-    "country": "Ukraine",
-    "city": "Kyiv",
-    "district": "Left Bank",
+    )
 
-    }
 
-HEADER_USER_SIMPLE = {
-    "first_name": "user_simple_first_name",
-    "second_name": "user_simple_second_name",
-    "phone": "+0987654321",
-    "email": "simple_user@gmail.com",
-    "linkedin": "https://www.linkedin.com/in/user_simple",
-    "github": "usersimple.github.com",
-    "country": "Simpleland",
-    "city": "Simplecity",
-    "district": "Simpledistrict",
-    }
+
+BLOCK_NAMES: list[BlockNameTuple] = [
+    block_name_eng,
+
+    ]
+
+PHOTO_ENG = PhotoTuple(
+    id = 1,
+    description = "test_photo_super",
+    name = "test_image.jpg",
+    width = 150,
+    height = 200,
+    color = "Red",
+    mode = "RGB",
+    format = "JPEG",
+    )
+
+
+header_user_super = HeaderTuple(
+    id = 1,
+    first_name = "Eugene",
+    second_name = "Proskulikov",
+    phone = "+38-(096)-464-3910",
+    email = "eugene.proskulikov@gmail.com",
+    linkedin = "https://www.linkedin.com/in/eugene-proskulikov-168050a4/",
+    github = "https://github.com/EugenefedorovPro/",
+    country = "Ukraine",
+    city = "Kyiv",
+    district = "Left Bank",
+
+    )
+
+header_user_simple = HeaderTuple(
+    id = 2,
+    first_name = "user_simple_first_name",
+    second_name = "user_simple_second_name",
+    phone = "+0987654321",
+    email = "simple_user@gmail.com",
+    linkedin = "https://www.linkedin.com/in/user_simple",
+    github = "usersimple.github.com",
+    country = "Simpleland",
+    city = "Simplecity",
+    district = "Simpledistrict",
+
+    )
+
+HEADERS_ENG: list[HeaderTuple] = [
+    header_user_super,
+
+    ]
 
 # hard skills
 

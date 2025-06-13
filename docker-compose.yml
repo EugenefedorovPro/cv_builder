@@ -21,6 +21,7 @@ services:
     env_file:
       - .env
     entrypoint: [ "/app/entrypoint_gunicorn.sh" ]
+    restart: always
     ports:
       - 8002:8002
     volumes:

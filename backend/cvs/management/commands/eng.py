@@ -1,14 +1,16 @@
-from cv_builder.settings import STATIC_ROOT
 from cvs.management.commands.eng_cv_builder import EngCvBuilder
 from cvs.models.models import (LanguageChoice,
+                               OccupationChoice,
                                BlockNames,
-                               Header, Photos,
+                               Header,
+                               Photos,
                                HardSkill,
                                Manifest,
                                Project,
                                SoftSkill,
                                Education,
-                               Interest, NaturalLanguage,
+                               Interest,
+                               NaturalLanguage,
 
                                )
 
@@ -16,13 +18,15 @@ from django.contrib.auth import get_user_model
 
 User = get_user_model()
 
+
 class EngCvSettle:
 
     @staticmethod
-    def _remove_data_from_db():
+    def remove_data_from_db():
         User.objects.all().delete()
-        Photos.objects.all().delete()
         LanguageChoice.objects.all().delete()
+        OccupationChoice.objects.all().delete()
+        Photos.objects.all().delete()
         BlockNames.objects.all().delete()
         Header.objects.all().delete()
         HardSkill.objects.all().delete()
@@ -34,10 +38,11 @@ class EngCvSettle:
         NaturalLanguage.objects.all().delete()
 
     @staticmethod
-    def _populate_db():
+    def populate_db():
         (EngCvBuilder()
          .create_user()
          .create_lang()
+         .create_occupation()
          .create_photo()
          .create_block_names()
          .create_header()
@@ -52,7 +57,5 @@ class EngCvSettle:
          )
 
     def settle_cv(self) -> None:
-        self._remove_data_from_db()
-        self._populate_db()
-
-
+        self.remove_data_from_db()
+        self.populate_db()

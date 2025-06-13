@@ -10,11 +10,12 @@ from cvs.tests.data import (PROJECTS_ENG,
 from cvs.types import (ProjectItemType,
                        CvProjectType,
                        )
+from cvs.models.models import BlockNames
 
 
 class ProjectTest(TestCase):
     def setUp(self):
-        self.builder = TestBuilderSuper().create_user().create_lang().create_block_names().create_projects()
+        self.builder = TestBuilderSuper().create_user().create_lang().create_occupation().create_block_names().create_projects()
         logged_in = self.client.login(username = self.builder.username, password = self.builder.password)
         self.assertTrue(logged_in)
 
@@ -35,7 +36,8 @@ class ProjectTest(TestCase):
                 })
         expected: CvProjectType = [
             {
-                'block_name': 'Projects'
+                'block_name': BlockNames.objects.all().first().projects_name,
+
                 },
             expected_projects,
             ]

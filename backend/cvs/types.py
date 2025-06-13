@@ -2,7 +2,38 @@ from typing import TypedDict
 from datetime import datetime
 from collections import namedtuple
 
+from cvs.models.models import OccupationChoice
+
 DATE_FORMATTER = "%Y-%m-%d"
+
+PhotoTuple = namedtuple("PhotoTuple", (
+    "id",
+    "description",
+    "name",
+    "width",
+    "height",
+    "color",
+    "mode",
+    "format",
+    ))
+
+HeaderTuple = namedtuple("HeaderTuple", (
+    "id",
+    "first_name",
+    "second_name",
+    "phone",
+    "email",
+    "linkedin",
+    "github",
+    "country",
+    "city",
+    "district",
+    ))
+
+OccupationChoiceTuple = namedtuple("OccupationChoiceTuple", (
+    "id",
+    "occupation",
+    ))
 
 ProjectTuple = namedtuple("ProjectTuple", (
     "project_name",
@@ -54,8 +85,64 @@ NaturalLangTuple = namedtuple("NaturalLangTuple", (
 
     ))
 
+BlockNameTuple = namedtuple("BlockNameTuple", (
+    "id",
+    "photo_name",
+    "header_name",
+    "hard_skills_name",
+    "manifest_name",
+    "projects_name",
+    "experience_name",
+    "soft_skills_name",
+    "education_name",
+    "natural_lang_name",
+    "interest_name",
+    "cases_name",
+    "why_me_name",
+    "feedback_name",
+
+    ))
+
 class BlockNameType(TypedDict):
-    block_name: str
+    id: int
+    photo_name: str
+    header_name: str
+    hard_skills_name: str
+    manifest_name: str
+    projects_name: str
+    experience_name: str
+    soft_skills_name: str
+    education_name: str
+    natural_lang_name: str
+    interest_name: str
+    cases_name: str
+    why_me_name: str
+    feedback_name: str
+
+class PhotoType(TypedDict):
+    id: str
+    description: str
+    name: str
+    width: int
+    height: int
+    color: str
+    mode: str
+    format: str
+
+
+class HeaderType(TypedDict):
+    first_name: str
+    second_name: str
+    phone: str
+    email: str
+    linkedin: str
+    github: str
+    country: str | None
+    city: str | None
+    district: str | None
+
+
+CvHeaderType = tuple[BlockNameType, list[HeaderType]]
 
 
 class ProjectItemType(TypedDict):
@@ -77,7 +164,9 @@ class ExperienceItemType(TypedDict):
     achievements: str
     position: str
 
+
 CvExperienceType = tuple[BlockNameType, list[ExperienceItemType]]
+
 
 class HardSkilItemType(TypedDict):
     id: int
@@ -106,12 +195,14 @@ class EducationItemType:
 
 CvEducationType = tuple[BlockNameType, EducationItemType]
 
+
 class InterestItemType:
     id: int
     interest_text: str
 
 
 CvInterestType = tuple[BlockNameType, InterestItemType]
+
 
 class NaturalLangItemType:
     id: int

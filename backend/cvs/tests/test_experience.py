@@ -1,18 +1,19 @@
 import json
 
-import ipdb
 from django.test import TestCase
 from .populate_test_db import TestBuilderSuper
 from django.shortcuts import reverse
 from cvs.tests.data import EXPERIENCE_ENG
 from cvs.types import (ExperienceItemType,
-                       CvExperienceType, DATE_FORMATTER,
+                       CvExperienceType,
+                       DATE_FORMATTER,
                        )
+from cvs.models.models import BlockNames
 
 
 class ExperienceTest(TestCase):
     def setUp(self):
-        self.builder = TestBuilderSuper().create_user().create_lang().create_block_names().create_experience()
+        self.builder = TestBuilderSuper().create_user().create_lang().create_occupation().create_block_names().create_experience()
         logged_in = self.client.login(username = self.builder.username, password = self.builder.password)
         self.assertTrue(logged_in)
 
@@ -35,7 +36,8 @@ class ExperienceTest(TestCase):
                 })
         expected: CvExperienceType = [
             {
-                'block_name': 'Experience'
+                'block_name': BlockNames.objects.all().first().experience_name,
+
                 },
             expected_projects,
             ]

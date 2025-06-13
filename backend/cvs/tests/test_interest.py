@@ -11,11 +11,12 @@ from cvs.types import (InterestItemType,
                        CvInterestType,
                        DATE_FORMATTER,
                        )
+from cvs.models.models import BlockNames
 
 
 class InterestTest(TestCase):
     def setUp(self):
-        self.builder = TestBuilderSuper().create_user().create_lang().create_block_names().create_interest()
+        self.builder = TestBuilderSuper().create_user().create_lang().create_occupation().create_block_names().create_interest()
         logged_in = self.client.login(username = self.builder.username, password = self.builder.password)
         self.assertTrue(logged_in)
 
@@ -36,7 +37,8 @@ class InterestTest(TestCase):
 
         expected = [
             {
-                'block_name': 'Interest'
+                'block_name': BlockNames.objects.all().first().interest_name,
+
                 },
             interest_items,
             ]

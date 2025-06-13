@@ -8,11 +8,12 @@ from cvs.tests.data import SOFT_SKILLS_ENG
 from cvs.types import (CvSoftSkillsType,
                        SoftSkillItemType,
                        )
+from cvs.models.models import BlockNames
 
 
 class SoftSkillTest(TestCase):
     def setUp(self):
-        self.builder = TestBuilderSuper().create_user().create_lang().create_block_names().create_soft_skills()
+        self.builder = TestBuilderSuper().create_user().create_lang().create_occupation().create_block_names().create_soft_skills()
         logged_in = self.client.login(username = self.builder.username, password = self.builder.password)
         self.assertTrue(logged_in)
 
@@ -33,7 +34,8 @@ class SoftSkillTest(TestCase):
 
         expected_response = [
             {
-                'block_name': 'Soft Skills'
+                'block_name': BlockNames.objects.all().first().soft_skills_name,
+
                 },
             soft_skill_items,
             ]

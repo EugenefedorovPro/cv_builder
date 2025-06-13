@@ -7,11 +7,12 @@ from django.shortcuts import reverse
 from cvs.tests.data import NATURAL_LANGS_ENG
 
 from cvs.types import NaturalLangItemType
+from cvs.models.models import BlockNames
 
 
 class NaturalLangTest(TestCase):
     def setUp(self):
-        self.builder = TestBuilderSuper().create_user().create_lang().create_block_names().create_natural_lang()
+        self.builder = TestBuilderSuper().create_user().create_lang().create_occupation().create_block_names().create_natural_lang()
         logged_in = self.client.login(username = self.builder.username, password = self.builder.password)
         self.assertTrue(logged_in)
 
@@ -34,7 +35,8 @@ class NaturalLangTest(TestCase):
 
         expected = [
             {
-                'block_name': 'Natural languages'
+                'block_name': BlockNames.objects.all().first().natural_lang_name,
+
                 },
             natural_lang_items,
             ]

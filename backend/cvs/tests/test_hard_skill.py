@@ -1,18 +1,17 @@
 import json
 
-import ipdb
 from django.test import TestCase
 from .populate_test_db import TestBuilderSuper
 from django.shortcuts import reverse
 from cvs.tests.data import HARD_SKILLS_ENG
-from cvs.types import (CvHardSkillsType,
-                       HardSkilItemType,
-                       )
+from cvs.types import HardSkilItemType
+
+from cvs.models.models import BlockNames
 
 
 class HardSkillTest(TestCase):
     def setUp(self):
-        self.builder = TestBuilderSuper().create_user().create_lang().create_block_names().create_hard_skills()
+        self.builder = TestBuilderSuper().create_user().create_lang().create_occupation().create_block_names().create_hard_skills()
         logged_in = self.client.login(username = self.builder.username, password = self.builder.password)
         self.assertTrue(logged_in)
 
@@ -34,7 +33,8 @@ class HardSkillTest(TestCase):
 
         expected_response = [
             {
-                'block_name': 'Hard Skills'
+                'block_name': BlockNames.objects.all().first().hard_skills_name,
+
                 },
             hard_skill_items,
             ]

@@ -1,21 +1,19 @@
 import json
 
-import ipdb
 from django.test import TestCase
 from .populate_test_db import TestBuilderSuper
 from django.shortcuts import reverse
-from cvs.tests.data import (EDUCATION_ENG,
-                            EducationTuple,
-                            )
+from cvs.tests.data import EDUCATION_ENG
 from cvs.types import (EducationItemType,
-                       CvEducationType,
                        DATE_FORMATTER,
                        )
+
+from cvs.models.models import BlockNames
 
 
 class EducationTest(TestCase):
     def setUp(self):
-        self.builder = TestBuilderSuper().create_user().create_lang().create_block_names().create_education()
+        self.builder = TestBuilderSuper().create_user().create_lang().create_occupation().create_block_names().create_education()
         logged_in = self.client.login(username = self.builder.username, password = self.builder.password)
         self.assertTrue(logged_in)
 
@@ -39,7 +37,8 @@ class EducationTest(TestCase):
 
         expected = [
             {
-                'block_name': 'Education'
+                'block_name': BlockNames.objects.all().first().education_name,
+
                 },
             education_items,
             ]
