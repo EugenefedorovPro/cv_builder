@@ -1,6 +1,7 @@
 import React from "react";
 import axios from "axios";
 import {useState, useEffect} from "react";
+import {useLang} from "../contexts/LangContext";
 
 
 export interface UseDataFetchInterface<T> {
@@ -14,10 +15,14 @@ export const useFetchData = <T>(url: string): UseDataFetchInterface<T> => {
     const [error, setError] = useState<any | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
 
+    const {lang} = useLang();
+
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get<T>(url);
+                const response = await axios.get<T>(url,
+                    {params: {lang}}
+                );
                 setData(response.data);
                 console.log(response.data);
 

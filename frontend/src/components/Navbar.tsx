@@ -1,8 +1,24 @@
-import React from 'react';
+import {useState} from 'react';
 import {Nav, Navbar, NavDropdown, Container, Form, Button} from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import {useLang, Lang, LangArray, LangValues} from "../contexts/LangContext";
+
 
 const NavbarCV = () => {
+
+    const {lang, setLang} = useLang();
+
+    const handleSelect = (eventKey: string | null) => {
+        const languages: LangArray = {
+            "1": "eng",
+            "2": "ukr",
+            "3": "rus"
+        };
+
+        if (eventKey) {
+            setLang(languages[eventKey as LangValues]);
+        }
+    }
 
     return (
         <Navbar expand="sm" className="sticky-lg-top">
@@ -31,7 +47,7 @@ const NavbarCV = () => {
                             <Nav.Link href="#feedback">Save</Nav.Link>
                         </Nav.Item>
 
-                        <NavDropdown title="ENG">
+                        <NavDropdown title={lang} onSelect={handleSelect}>
                             <NavDropdown.Item eventKey="1">ENG</NavDropdown.Item>
                             <NavDropdown.Item eventKey="2">UKR</NavDropdown.Item>
                             <NavDropdown.Item eventKey="3">RUS</NavDropdown.Item>

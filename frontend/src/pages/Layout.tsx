@@ -11,96 +11,101 @@ import ExperienceCV from "../components/ExperienceCV";
 import InterestCV from "../components/InterestsCV";
 import NaturalLangCV from "../components/NaturalLangCV";
 import "./Layout.styles.css";
+import {LangProvider} from "../contexts/LangContext";
 
 
 const Layout = () => {
 
     return (<>
-        <Container
-            fluid
-            className="overall-background"
+            <LangProvider>
+                <Container
+                    fluid
+                    className="overall-background"
 
-        >
-            <Row
-                className=""
-            >
-
-                <Col
-                    lg={{span: 1, order: 1}}
-                    md={{span: 12, order: 1}}
-                    sm={{span: 12, order: 1}}
-                    xs={{span: 12, order: 1}}
-
-                    className="navbar-col flex-lg-column"
                 >
-                    {<NavbarCV/>}
-                </Col>
-                <Col
-                    className=""
-                    lg={{span: 9, order: 2}}
-                    md={{span: 12, order: 1}}
-                    sm={{span: 12, order: 1}}
-                    xs={{span: 12, order: 1}}
-                >
-                    <Row className="flex-column">
-                        <Col className="header-col">
-                            {<HeaderCV/>}
+                    <Row
+                        className=""
+                    >
+
+                        <Col
+                            lg={{span: 1, order: 1}}
+                            md={{span: 12, order: 1}}
+                            sm={{span: 12, order: 1}}
+                            xs={{span: 12, order: 1}}
+
+                            className="navbar-col flex-lg-column"
+                        >
+                            {<NavbarCV/>}
                         </Col>
-                        <Col className="p-0 d-block d-lg-none">
-                            {<HardSkillsCV/>}
+                        <Col
+                            className=""
+                            lg={{span: 9, order: 2}}
+                            md={{span: 12, order: 1}}
+                            sm={{span: 12, order: 1}}
+                            xs={{span: 12, order: 1}}
+                        >
+                            <Row className="flex-column">
+                                <Col className="header-col">
+                                    {<HeaderCV/>}
+                                </Col>
+                                <Col className="p-0 d-block d-lg-none">
+                                    {<HardSkillsCV/>}
+                                </Col>
+                                <Col className="p-0">
+                                    <Stack
+                                        className=""
+                                    >
+                                        <div className="">
+                                            {<ProjectsCV/>}
+                                        </div>
+
+                                        <div className="">
+                                            {<ExperienceCV/>}
+                                        </div>
+
+                                        <div className="">
+                                            {<SoftSkillsCV/>}
+                                        </div>
+
+                                        <div className="">
+                                            {<EducationCV/>}
+                                        </div>
+
+                                        <div className="">
+                                            {<NaturalLangCV/>}
+                                        </div>
+
+                                        <div className="">
+                                            {<InterestCV/>}
+                                        </div>
+                                    </Stack>
+
+                                </Col>
+
+                            </Row>
+
                         </Col>
-                        <Col className="p-0">
-                            <Stack
-                                className=""
-                            >
-                                <div className="">
-                                    {<ProjectsCV/>}
-                                </div>
 
-                                <div className="">
-                                    {<ExperienceCV/>}
-                                </div>
-
-                                <div className="">
-                                    {<SoftSkillsCV/>}
-                                </div>
-
-                                <div className="">
-                                    {<EducationCV/>}
-                                </div>
-
-                                <div className="">
-                                    {<NaturalLangCV/>}
-                                </div>
-
-                                <div className="">
-                                    {<InterestCV/>}
-                                </div>
-                            </Stack>
+                        <Col
+                            className="hard-skills-col d-none d-lg-block flex-lg-column"
+                            lg={{span: 2, order: 4}}
+                            md={{span: 12, order: 1}}
+                            sm={{span: 12, order: 1}}
+                            xs={{span: 12, order: 1}}
+                        >
+                            <HardSkillsCV/>
 
                         </Col>
+
 
                     </Row>
 
-                </Col>
+                </Container>
 
-                <Col
-                    className="hard-skills-col d-none d-lg-block flex-lg-column"
-                    lg={{span: 2, order: 4}}
-                    md={{span: 12, order: 1}}
-                    sm={{span: 12, order: 1}}
-                    xs={{span: 12, order: 1}}
-                >
-                    <HardSkillsCV/>
+            </LangProvider>
 
-                </Col>
-
-
-            </Row>
-
-        </Container>
-
-    </>)
+        </>
+    )
 };
 
 export default Layout;

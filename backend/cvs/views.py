@@ -30,14 +30,16 @@ from django.db.models import QuerySet
 
 class HeaderView(APIView):
     def get(self, request):
-        header = Header.objects.all().first()
+        lang = request.GET.get("lang")
+        header = Header.objects.filter(lang__lang = lang).first()
         serializer = HeaderSerializer(header)
         return Response(serializer.data)
 
 
 class HardSkillView(APIView):
     def get(self, request):
-        hard_skills = HardSkill.objects.all()
+        lang = request.GET.get("lang")
+        hard_skills = HardSkill.objects.filter(lang__lang = lang)
         serializer_hard_skills = HardSkillSerializer(hard_skills, many = True)
         block_names_ins: BlockNames = BlockNames.objects.all().first()
         block_name = {
@@ -49,9 +51,10 @@ class HardSkillView(APIView):
 
 class ManifestView(APIView):
     def get(self, request):
+        lang = request.GET.get("lang")
         manifest: Manifest = Manifest.objects.all().first()
         serializer = ManifestSerializer(manifest)
-        block_names_ins: BlockNames =  BlockNames.objects.all().first()
+        block_names_ins: BlockNames = BlockNames.objects.all().filter(lang__lang = lang).first()
         block_name = {
             "block_name": block_names_ins.manifest_name if block_names_ins else None
             }
@@ -60,7 +63,8 @@ class ManifestView(APIView):
 
 class ProjectView(APIView):
     def get(self, request):
-        projects: QuerySet[Project] = Project.objects.all()
+        lang: str = request.GET.get("lang")
+        projects: QuerySet[Project] = Project.objects.filter(lang__lang = lang)
         serializer_project = ProjectSerializer(projects, many = True)
         block_names_ins: BlockNames = BlockNames.objects.all().first()
         block_name = {
@@ -71,7 +75,8 @@ class ProjectView(APIView):
 
 class ExperienceView(APIView):
     def get(self, request):
-        experience_items: QuerySet[Experience] = Experience.objects.all()
+        lang: str = request.GET.get("lang")
+        experience_items: QuerySet[Experience] = Experience.objects.filter(lang__lang = lang)
         serializer_project = ExperienceSerializer(experience_items, many = True)
         block_names_ins: BlockNames = BlockNames.objects.all().first()
         block_name = {
@@ -82,7 +87,8 @@ class ExperienceView(APIView):
 
 class SoftSkillView(APIView):
     def get(self, request):
-        soft_skills: QuerySet[SoftSkill] = SoftSkill.objects.all()
+        lang: str = request.GET.get("lang")
+        soft_skills: QuerySet[SoftSkill] = SoftSkill.objects.filter(lang__lang = lang)
         serializer_soft_skill = SoftSkillSerializer(soft_skills, many = True)
         block_names_ins: BlockNames = BlockNames.objects.all().first()
         block_name = {
@@ -93,7 +99,8 @@ class SoftSkillView(APIView):
 
 class EducationView(APIView):
     def get(self, request):
-        education_items: QuerySet[Education] = Education.objects.all()
+        lang: str = request.GET.get("lang")
+        education_items: QuerySet[Education] = Education.objects.filter(lang__lang = lang)
         serializer_education = EducationSerializer(education_items, many = True)
         block_names_ins: BlockNames = BlockNames.objects.all().first()
         block_name = {
@@ -104,7 +111,8 @@ class EducationView(APIView):
 
 class InterestView(APIView):
     def get(self, request):
-        interest_items: QuerySet[Interest] = Interest.objects.all()
+        lang: str = request.GET.get("lang")
+        interest_items: QuerySet[Interest] = Interest.objects.filter(lang__lang = lang)
         serializer_interest = InterestSerializer(interest_items, many = True)
         block_names_ins: BlockNames = BlockNames.objects.all().first()
         block_name = {
@@ -115,7 +123,8 @@ class InterestView(APIView):
 
 class NaturalLangView(APIView):
     def get(self, request):
-        natural_lang_items: QuerySet[NaturalLanguage] = NaturalLanguage.objects.all()
+        lang: str = request.GET.get("lang")
+        natural_lang_items: QuerySet[NaturalLanguage] = NaturalLanguage.objects.filter(lang__lang = lang)
         serializer_natural_lang = NaturalLangSerializer(natural_lang_items, many = True)
         block_names_ins: BlockNames = BlockNames.objects.all().first()
         block_name = {
