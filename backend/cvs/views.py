@@ -1,3 +1,6 @@
+from html.parser import HTMLParser
+
+from io import BytesIO
 import ipdb
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -25,7 +28,9 @@ from cvs.models.models import (Header,
 
                                )
 from django.db.models import QuerySet
-
+from docxtpl import DocxTemplate
+from pathlib import Path
+from django.http import HttpResponse
 
 
 class HeaderView(APIView):
@@ -131,3 +136,27 @@ class NaturalLangView(APIView):
             "block_name": block_names_ins.natural_lang_name if block_names_ins else None
             }
         return Response((block_name, serializer_natural_lang.data))
+
+
+class GenerateDocx(APIView):
+    def get(self, request):
+        template_path = Path(__file__).parent / "doc_templates" / "cv.docx"
+        doc = DocxTemplate(template_path)
+        manifest = Manifest.objects.first()
+        manifest_text = manifest.manifest_text if manifest else ""
+
+        context = {
+            "manifest": manifest_text
+            }
+        doc.render(context)
+
+        buffer = BytesIO()
+        doc.save(buffer)
+        buffer.seek(0)
+
+        response = HttpResponse(
+            buffer.read(),
+            content_type = "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+            )
+        response['Content-Disposition'] = 'attachment; filename="cv.docx"'
+        return response

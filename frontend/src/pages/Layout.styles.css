@@ -16,7 +16,8 @@
 
 .navbar-col .nav-link,
 .navbar-col .dropdown-item,
-.navbar-col .navbar-brand {
+.navbar-col .navbar-brand,
+.navbar-col .navbar-text {
     color: var(--navbar-text);
 }
 

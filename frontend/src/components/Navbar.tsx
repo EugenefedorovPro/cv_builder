@@ -2,6 +2,7 @@ import {useState} from 'react';
 import {Nav, Navbar, NavDropdown, Container, Form, Button} from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {useLang, Lang, LangArray, LangValues} from "../contexts/LangContext";
+import {UseFetchDocx} from "../api/UseFetchDocx";
 
 
 const NavbarCV = () => {
@@ -18,6 +19,16 @@ const NavbarCV = () => {
         if (eventKey) {
             setLang(languages[eventKey as LangValues]);
         }
+    }
+
+    const url: string = "http://localhost:8002/generate_docx/";
+    const filename: string = "cv.docx";
+    const {loading, error, download} = UseFetchDocx(url, filename);
+
+    const handleSaveClick = () => {
+        download();
+        console.log(loading);
+        console.log(error);
     }
 
     return (
@@ -44,7 +55,11 @@ const NavbarCV = () => {
                         </Nav.Item>
 
                         <Nav.Item>
-                            <Nav.Link href="#feedback">Save</Nav.Link>
+                            <Nav.Link as="span" onClick={handleSaveClick} style={{cursor: "pointer"}}>
+                                Save as Word
+                                {loading === "loading..." && <div>Downloading...</div>}
+                                {error && <div>Error: {error.message}</div>}
+                            </Nav.Link>
                         </Nav.Item>
 
                         <NavDropdown title={lang} onSelect={handleSelect}>

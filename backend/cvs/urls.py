@@ -8,6 +8,8 @@ from .views import (HeaderView,
                     ExperienceView,
                     InterestView,
                     NaturalLangView,
+                    GenerateDocx,
+
                     )
 
 app_name = "cvs"
@@ -22,5 +24,6 @@ urlpatterns = [
     path("education/", EducationView.as_view(), name = "education"),
     path("interest/", InterestView.as_view(), name = "interest"),
     path("natural_lang/", NaturalLangView.as_view(), name = "natural_lang"),
+    path("generate_docx/", GenerateDocx.as_view(), name = "generate_docx"),
 
     ]

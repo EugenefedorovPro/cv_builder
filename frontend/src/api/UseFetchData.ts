@@ -24,7 +24,6 @@ export const useFetchData = <T>(url: string): UseDataFetchInterface<T> => {
                     {params: {lang}}
                 );
                 setData(response.data);
-                console.log(response.data);
 
             } catch (err: any) {
                 console.error(`Error fetching data from ${url}`, err)
