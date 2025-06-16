@@ -19,7 +19,7 @@ class SoftSkillTest(TestCase):
 
     def test_soft_skills(self):
         url = reverse("cvs:soft_skills")
-        response = self.client.get(url)
+        response = self.client.get(url + "?lang=eng")
         actual_response = json.loads(response.content.decode())
 
         soft_skill_items: list[SoftSkillItemType] = []

@@ -17,7 +17,7 @@ class HardSkillTest(TestCase):
 
     def test_hard_skills(self):
         url = reverse("cvs:hard_skills")
-        response = self.client.get(url)
+        response = self.client.get(url + "?lang=eng")
         actual_response = json.loads(response.content.decode())
 
         hard_skill_items: list[HardSkilItemType] = []

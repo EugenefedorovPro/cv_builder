@@ -16,7 +16,7 @@ class ManifestTest(TestCase):
 
     def test_manifest(self):
         url = reverse("cvs:manifest")
-        response = self.client.get(url)
+        response = self.client.get(url + "?lang=eng")
         actual = json.loads(response.content.decode())
         expected = [
             {

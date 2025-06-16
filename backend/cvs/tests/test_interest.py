@@ -23,7 +23,7 @@ class InterestTest(TestCase):
 
     def test_interest(self):
         url = reverse("cvs:interest")
-        response = self.client.get(url)
+        response = self.client.get(url + "?lang=eng")
         actual = json.loads(response.content.decode())
 
         interest_items: list[InterestItemType] = []

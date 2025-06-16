@@ -1,16 +1,16 @@
 from django.urls import path
-from .views import (HeaderView,
-                    HardSkillView,
-                    ManifestView,
-                    ProjectView,
-                    SoftSkillView,
-                    EducationView,
-                    ExperienceView,
-                    InterestView,
-                    NaturalLangView,
-                    GenerateDocx,
+from cvs.views.component_views import (HeaderView,
+                                       HardSkillView,
+                                       ManifestView,
+                                       ProjectView,
+                                       SoftSkillView,
+                                       EducationView,
+                                       ExperienceView,
+                                       InterestView,
+                                       NaturalLangView,
 
-                    )
+                                       )
+from cvs.views.generate_docx import GenerateDocx
 
 app_name = "cvs"
 

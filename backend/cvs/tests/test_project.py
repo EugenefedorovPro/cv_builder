@@ -22,7 +22,7 @@ class ProjectTest(TestCase):
 
     def test_project(self):
         url = reverse("cvs:projects")
-        response = self.client.get(url)
+        response = self.client.get(url + "?lang=eng")
         actual = json.loads(response.content.decode())
 
         expected_projects: list[ProjectItemType] = []

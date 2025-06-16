@@ -1,5 +1,6 @@
 import json
 
+import ipdb
 from django.test import TestCase
 from .populate_test_db import TestBuilderSuper
 from django.shortcuts import reverse
@@ -20,7 +21,7 @@ class EducationTest(TestCase):
 
     def test_education(self):
         url = reverse("cvs:education")
-        response = self.client.get(url)
+        response = self.client.get(url + "?lang=eng")
         actual = json.loads(response.content.decode())
 
         education_items: list[EducationItemType] = []

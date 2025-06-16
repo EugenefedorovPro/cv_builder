@@ -29,7 +29,7 @@ class HeaderTest(TestCase):
 
     def test_get(self):
         url = reverse("cvs:header")
-        response = self.client.get(url)
+        response = self.client.get(url + "?lang=eng")
         actual_header = json.loads(response.content.decode())
         actual_photo = actual_header.pop("photo")
 

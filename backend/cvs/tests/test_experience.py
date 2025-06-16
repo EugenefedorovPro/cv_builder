@@ -20,7 +20,7 @@ class ExperienceTest(TestCase):
 
     def test_experience(self):
         url = reverse("cvs:experience")
-        response = self.client.get(url)
+        response = self.client.get(url + "?lang=eng")
         actual = json.loads(response.content.decode())
 
         expected_projects: list[ExperienceItemType] = []

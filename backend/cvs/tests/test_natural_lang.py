@@ -19,7 +19,7 @@ class NaturalLangTest(TestCase):
 
     def test_natural_lang(self):
         url = reverse("cvs:natural_lang")
-        response = self.client.get(url)
+        response = self.client.get(url + "?lang=eng")
         actual = json.loads(response.content.decode())
 
         natural_lang_items: list[NaturalLangItemType] = []
