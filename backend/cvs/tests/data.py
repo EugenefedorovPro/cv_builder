@@ -11,6 +11,7 @@ from cvs.types import (ProjectTuple,
                        HeaderTuple,
                        PhotoTuple,
                        BlockNameTuple,
+                       ManifestTuple,
                        )
 
 
@@ -51,8 +52,6 @@ block_name_eng = BlockNameTuple(
 
     )
 
-
-
 BLOCK_NAMES: list[BlockNameTuple] = [
     block_name_eng,
 
@@ -68,7 +67,6 @@ PHOTO_ENG = PhotoTuple(
     mode = "RGB",
     format = "JPEG",
     )
-
 
 header_user_super = HeaderTuple(
     id = 1,
@@ -203,8 +201,13 @@ HARD_SKILLS_ENG = [
 
 # manifest
 
-MANIFEST_ENG = """Backend Software Engineer with a strong understanding of frontend development,\
- an analytical background, and hands-on experience in Neural Network development."""
+MANIFEST_ENG = ManifestTuple(
+    id = 1,
+    manifest_text =
+    "Backend Software Engineer with a strong understanding of frontend development" \
+    "an analytical background, and hands-on experience in Neural Network development."
+
+    )
 
 ## PROJECT
 

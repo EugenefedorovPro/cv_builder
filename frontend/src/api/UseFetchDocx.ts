@@ -1,5 +1,6 @@
 import {useEffect, useState} from "react";
 import axios from "axios";
+import {useLang} from "../contexts/LangContext";
 
 interface UseFetchDocxInterface {
     loading: string;
@@ -11,13 +12,18 @@ export const UseFetchDocx = (url: string, filename: string): UseFetchDocxInterfa
     const [loading, setLoading] = useState<string>("idle");
     const [error, setError] = useState<any | null>(null);
 
+    const {lang} = useLang();
+
     const download = async () => {
         setLoading("loading...");
         setError(null)
 
         try {
             const response = await axios.get(url,
-                {responseType: "blob"},
+                {
+                    params: {lang},
+                    responseType: "blob",
+                },
             );
             const blob = new Blob([response.data], {
                 type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",

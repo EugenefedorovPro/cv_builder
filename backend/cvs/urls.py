@@ -10,7 +10,7 @@ from cvs.views.component_views import (HeaderView,
                                        NaturalLangView,
 
                                        )
-from cvs.views.generate_docx import GenerateDocx
+from cvs.views.generate_docx_view import GenerateDocx
 
 app_name = "cvs"
 

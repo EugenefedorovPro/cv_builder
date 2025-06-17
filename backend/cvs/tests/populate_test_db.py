@@ -47,6 +47,7 @@ from cvs.tests.data import (BLOCK_NAMES,
                             HeaderTuple,
                             PhotoTuple,
                             BlockNameTuple,
+                            ManifestTuple,
 
 
                             )
@@ -284,17 +285,18 @@ class RusLang(LangFactory):
 
 
 class ManifestFactory(CvBlockInterface):
-    def __init__(self, user: User, lang: LanguageChoice, occupation: OccupationChoice, manifest_text: str):
+    def __init__(self, user: User, lang: LanguageChoice, occupation: OccupationChoice, manifest: ManifestTuple):
         self.user = user
         self.lang = lang
         self.occupation = occupation
-        self.manifest_text = manifest_text
+        self.manifest = manifest
 
     def create_block(self):
         return Manifest.objects.create(
+            id = self.manifest.id,
+            manifest_text = self.manifest.manifest_text,
             user = self.user,
             lang = self.lang,
-            manifest_text = self.manifest_text,
             occupation = self.occupation,
 
             )

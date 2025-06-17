@@ -1,3 +1,4 @@
+import os
 from rest_framework.views import APIView
 from html.parser import HTMLParser
 from PIL import Image
@@ -30,10 +31,11 @@ from cvs.models.models import (Header,
                                Experience,
                                Interest,
                                NaturalLanguage,
+                               Photos,
 
                                )
 from django.db.models import QuerySet
-
+from django.conf import settings
 
 
 class GenerateDocx(APIView):
@@ -42,11 +44,13 @@ class GenerateDocx(APIView):
         template_path = Path(__file__).parent.parent / "doc_templates" / "cv.docx"
         doc = DocxTemplate(template_path)
 
-        photo_path = Path(__file__).parent.parent / "management" / "commands" / "quattr.jpg"
-        img = Image.open(photo_path)
+        photo_url = str(Photos.objects.filter(lang__lang = lang).first().photo_url)
+        photo_path = os.path.join(settings.MEDIA_ROOT, photo_url)
+        img = Image.open(str(photo_path))
+        # ipdb.set_trace()
+
         clean_path = Path("/tmp/clean_quattr.jpg")
         img.convert("RGB").save(clean_path, format = "JPEG")
-
         photo = InlineImage(doc, str(clean_path), width = Mm(25))
 
         manifest = Manifest.objects.first()

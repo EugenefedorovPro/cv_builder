@@ -23,8 +23,8 @@ class ManifestTest(TestCase):
                 'block_name': BlockNames.objects.all().first().manifest_name
                 },
             {
-                'id': 1,
-                'manifest_text': MANIFEST_ENG,
+                'id': MANIFEST_ENG.id,
+                'manifest_text': MANIFEST_ENG.manifest_text,
                 }
             ]
 

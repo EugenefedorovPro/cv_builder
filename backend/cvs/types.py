@@ -35,6 +35,12 @@ OccupationChoiceTuple = namedtuple("OccupationChoiceTuple", (
     "occupation",
     ))
 
+ManifestTuple = namedtuple("ManifestTuple", (
+    "id",
+    "manifest_text",
+
+    ))
+
 ProjectTuple = namedtuple("ProjectTuple", (
     "project_name",
     "project_text",
@@ -103,6 +109,7 @@ BlockNameTuple = namedtuple("BlockNameTuple", (
 
     ))
 
+
 class BlockNameType(TypedDict):
     id: int
     photo_name: str
@@ -118,6 +125,7 @@ class BlockNameType(TypedDict):
     cases_name: str
     why_me_name: str
     feedback_name: str
+
 
 class PhotoType(TypedDict):
     id: str
@@ -144,6 +152,11 @@ class HeaderType(TypedDict):
 
 CvHeaderType = tuple[BlockNameType, list[HeaderType]]
 
+class ManifestType(TypedDict):
+    id: int
+    manifest_text: str
+
+CvManifestType = tuple[BlockNameType, list[ManifestType]]
 
 class ProjectItemType(TypedDict):
     id: int

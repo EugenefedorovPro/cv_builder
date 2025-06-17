@@ -10,7 +10,7 @@ from unittest import skip
 User = get_user_model()
 
 
-@skip("")
+# @skip("")
 class GenerateDocxTest(TestCase):
     def setUp(self):
         self.builder = (TestBuilderSuper()
@@ -18,6 +18,8 @@ class GenerateDocxTest(TestCase):
                         .create_lang()
                         .create_occupation()
                         .create_block_names()
+                        .create_photo()
+                        .create_header()
                         .create_manifest()
                         )
         logged_in = self.client.login(
@@ -30,6 +32,9 @@ class GenerateDocxTest(TestCase):
     def test_get(self):
         url = reverse("cvs:generate_docx")
         response = self.client.get(url + "?lang=eng")
-        ipdb.set_trace()
+
+        with open("test_cv.docx", "wb") as f:
+            f.write(response.content)
+
         expected = '<HttpResponse status_code=200, "application/vnd.openxmlformats-officedocument.wordprocessingml.document">'
         self.assertEqual(expected, str(response))
