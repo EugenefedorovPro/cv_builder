@@ -49,6 +49,9 @@ block_name_eng = BlockNameTuple(
     cases_name = "Cases",
     why_me_name = "Why me?",
     feedback_name = "Feedback",
+    country_title = "Country",
+    city_title = "City",
+    district_title = "District",
 
     )
 

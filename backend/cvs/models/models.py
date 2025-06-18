@@ -51,6 +51,9 @@ class BlockNames(models.Model):
     cases_name = models.CharField(max_length = 100, default = "Cases")
     why_me_name = models.CharField(max_length = 100, default = "Why me?")
     feedback_name = models.CharField(max_length = 100, default = "Feedback")
+    country_title = models.CharField(max_length = 50, default = "Country")
+    city_title = models.CharField(max_length = 50, default = "City")
+    district_title = models.CharField(max_length = 50, default = "District")
     created_at = models.DateTimeField(auto_now_add = True)
     updated_at = models.DateTimeField(auto_now = True)
     lang = models.ForeignKey("LanguageChoice", on_delete = models.CASCADE)
@@ -93,6 +96,7 @@ class Header(models.Model):
     lang = models.ForeignKey("LanguageChoice", on_delete = models.CASCADE)
     user = models.ForeignKey("CustomUser", on_delete = models.CASCADE)
     occupation = models.ForeignKey("OccupationChoice", on_delete = models.CASCADE)
+
 
     def __str__(self):
         return f"{self.first_name} - {self.second_name}"
