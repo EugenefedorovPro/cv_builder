@@ -49,9 +49,9 @@ block_name_eng = BlockNameTuple(
     cases_name = "Cases",
     why_me_name = "Why me?",
     feedback_name = "Feedback",
-    country_title = "Country",
-    city_title = "City",
-    district_title = "District",
+    country_title = "Country: ",
+    city_title = "City: ",
+    district_title = "District: ",
 
     )
 
@@ -106,12 +106,10 @@ HEADERS_ENG: list[HeaderTuple] = [
 
 # hard skills
 
-ANALYTICS_SKILLS = """Qualitative researchers: strategic sessions with fathers of business, in-depth interviews, focus-groups:
-NLP, descriptive statistics in Python.
-Authoring method of content-analysis.
-Delivery of quantitative researches (google forms + R)
-Supervision and briefing of research agencies.
-"""
+ANALYTICS_SKILLS = (
+    "Qualitative researchers: strategic sessions with fathers of business, in-depth interviews, focus-groups: "
+    "NLP, descriptive statistics in Python. Authoring method of content-analysis. "
+    "Delivery of quantitative researches (google forms + R) Supervision and briefing of research agencies.")
 
 hard_skill_1 = HardSkillTuple(
     id = 1,
@@ -130,7 +128,8 @@ hard_skill_2 = HardSkillTuple(
 hard_skill_3 = HardSkillTuple(
     id = 3,
     category = "NN and DataScience",
-    hard_skill_text = "Keras + TensorFlow (GRU models), numpy, pandas, unstructured texts and media field analysis with LooqMe, Semantrum, R",
+    hard_skill_text = "Keras + TensorFlow (GRU models), numpy, pandas, unstructured "
+                      "texts and media field analysis with LooqMe, Semantrum, R",
 
     )
 
@@ -175,11 +174,11 @@ hard_skill_9 = HardSkillTuple(
 
     )
 
-TRAININGS = """
-copywriting, strategic planning, state crisis communications, and management of the creative process: 
-PR-school at Kyiv Polytechnic Institute, State Enterprise ‘Energoatom’, Galnaftogaz, Amway, 
-State Border Guard Service of Ukraine, agencies of the Ministry of Internal Affairs (crisis communications).
-"""
+TRAININGS = ("copywriting, strategic planning, state crisis communications, "
+             "and management of the creative process: PR-school at Kyiv Polytechnic Institute, "
+             "State Enterprise ‘Energoatom’, Galnaftogaz, Amway, "
+             "State Border Guard Service of Ukraine, "
+             "agencies of the Ministry of Internal Affairs (crisis communications).")
 
 hard_skill_10 = HardSkillTuple(
     id = 10,

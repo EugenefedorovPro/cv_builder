@@ -167,14 +167,41 @@ class GenerateDocx(APIView):
 
             )
 
+        hard_skills_name = RichText()
+        hard_skills_name.add(
+            block_names.hard_skills_name,
+            font = font,
+            size = 24,
+            bold = True,
+
+            )
+
         block_names_tuple = BlockNameTuple(
             country_title = country_title,
             city_title = city_title,
             district_title = district_title,
+            hard_skills_name = hard_skills_name,
 
             )
 
         return block_names_tuple
+
+    def _fetch_hard_skills(self, lang: str) -> list[dict[str, RichText | str]]:
+        hard_skills_qs: QuerySet[HardSkill] = HardSkill.objects.filter(lang__lang = lang)
+        hard_skills: list[dict[str, RichText | str]] = []
+        for item in hard_skills_qs:
+            hard_skills.append(
+                {
+                    "category": RichText(
+                        item.category,
+                        bold = True,
+                        ),
+                    "hard_skill_text": item.hard_skill_text,
+                    }
+                )
+
+        return hard_skills
+
 
     def get(self, request):
         lang = request.GET.get("lang")
@@ -185,10 +212,13 @@ class GenerateDocx(APIView):
         manifest_text: str = self._fetch_manifest(lang)
         header_tuple: HeaderTuple = self._fetch_header(lang, doc)
         block_names_tuple: BlockNameTuple = self._fetch_block_names(lang)
+        hard_skills = self._fetch_hard_skills(lang)
 
+        # ipdb.set_trace()
         context = {
-            "manifest": manifest_text,
+            # photo
             "photo": photo,
+            # header
             "first_name": header_tuple.first_name,
             "second_name": header_tuple.second_name,
             "phone": header_tuple.phone,
@@ -201,6 +231,11 @@ class GenerateDocx(APIView):
             "country_title": block_names_tuple.country_title,
             "city_title": block_names_tuple.city_title,
             "district_title": block_names_tuple.district_title,
+            # manifest
+            "manifest": manifest_text,
+            # hard_skills
+            "hard_skills_name": block_names_tuple.hard_skills_name,
+            "hard_skills": hard_skills,
 
             }
 

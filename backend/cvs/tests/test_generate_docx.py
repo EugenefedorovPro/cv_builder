@@ -21,6 +21,13 @@ class GenerateDocxTest(TestCase):
                         .create_photo()
                         .create_header()
                         .create_manifest()
+                        .create_hard_skills()
+                        .create_projects()
+                        .create_experience()
+                        .create_soft_skills()
+                        .create_education()
+                        .create_interest()
+                        .create_natural_lang()
                         )
         logged_in = self.client.login(
             username = self.builder.username,
