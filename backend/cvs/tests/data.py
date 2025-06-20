@@ -66,6 +66,7 @@ block_name_eng = BlockNameTuple(
     result_title = "Result",
     tech_stack_title = "Tech Stack",
     contacts_title = "Contacts",
+    current = "current",
     )
 
 BLOCK_NAMES: list[BlockNameTuple] = [
@@ -326,10 +327,8 @@ PROJECTS_ENG: dict[int, ProjectTuple] = {
     7: project_7,
     }
 
-ACHIEVEMENTS_1 = """
-Developed and maintained: software apps - monitoring system, platform for making polls; 
-complex system of remote and secure access to the server via VPN;
-"""
+ACHIEVEMENTS_1 = "Developed and maintained: software apps - monitoring system, platform for making polls; "
+"complex system of remote and secure access to the server via VPN;"
 
 # Experience
 experience_1 = ExperienceTuple(
@@ -342,11 +341,10 @@ experience_1 = ExperienceTuple(
     order = 0,
     )
 
-ACHIEVEMENTS_2 = """
-Conceptual development of company and owner's web-sites.
-Launch of a new business in sport - B1 Boxing Promotion: financial plan,
-architecture of the brand, creative launch campaign, launch of SM.
-"""
+ACHIEVEMENTS_2 = "Conceptual development of company and owner's web-sites. "
+"Launch of a new business in sport - B1 Boxing Promotion: financial plan, "
+"architecture of the brand, creative launch campaign, launch of SM."
+
 
 experience_2 = ExperienceTuple(
     id = 2,
@@ -358,12 +356,11 @@ experience_2 = ExperienceTuple(
     order = 2,
     )
 
-ACHIEVEMENTS_3 = """Research-driven communication strategies for many companies in public, commercial and state sectors:
-Honda, Electrolux, OLX, Київстар, PepsiCo; Dozorro; cybersecurity campaign for National Police, 
-communication support of the State Aid Reform, SESAR project for Antimonopoly Committee of Ukraine, 
-Kiev city state council, state concept of crisis communications in partnership with 
-Ministry of Information Policy and National Security and Defense Council of Ukraine. 
-"""
+ACHIEVEMENTS_3 = "Research-driven communication strategies for many companies in public, commercial and state sectors: "
+"Honda, Electrolux, OLX, Київстар, PepsiCo; Dozorro; cybersecurity campaign for National Police, "
+"communication support of the State Aid Reform, SESAR project for Antimonopoly Committee of Ukraine, "
+"Kiev city state council, state concept of crisis communications in partnership with "
+"Ministry of Information Policy and National Security and Defense Council of Ukraine."
 
 experience_3 = ExperienceTuple(
     id = 3,

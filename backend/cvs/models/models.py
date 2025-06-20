@@ -38,6 +38,11 @@ class OccupationChoice(models.Model):
 
 
 class BlockNames(models.Model):
+    """
+    _name postfix is reserved for names of big blocks
+    _title - for names inside some blocks
+    no postfix as in current for other auxiliary fields
+    """
     # block names
     photo_name = models.CharField(max_length = 100, default = "Photo")
     header_name = models.CharField(max_length = 100, default = "Header")
@@ -83,6 +88,8 @@ class BlockNames(models.Model):
     tech_stack_title = models.CharField(max_length = 50, default = "Tech Stack")
     ## feedback
     contacts_title = models.CharField(max_length = 50, default = "Contacts")
+    # placeholder for no time
+    current = models.CharField(max_length = 50, default = "current")
 
     def __str__(self):
         return f"{self.lang} - {self.user} - {self.occupation}"

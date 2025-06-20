@@ -138,6 +138,7 @@ BlockNameTuple = namedtuple(
         "result_title",
         "tech_stack_title",
         "contacts_title",
+        "current",
         ))
 
 
@@ -173,6 +174,7 @@ class BlockNameType(TypedDict):
     result_title: str
     tech_stack_title: str
     contacts_title: str
+    current: str
 
 
 class PhotoType(TypedDict):

@@ -26,15 +26,13 @@ from cvs.models.models import (Header,
                                )
 from django.db.models import QuerySet
 from django.conf import settings
-from cvs.types import (HeaderTuple,
-                       BlockNameTuple,
-                       )
+from cvs.types import DATE_FORMATTER
 
 
-FONT_TEXT = "Lato",
+FONT_TEXT = "Lato"
 SIZE_NAME = 28
 SIZE_HEADER = 18
-SISE_BODY = 24
+SIZE_BODY = 24
 
 
 class GenerateDocx(APIView):
@@ -107,6 +105,19 @@ class GenerateDocx(APIView):
                     size = SIZE_HEADER,
                     bold = True,
                     )
+            elif "current" in name:
+                block_names[name] = RichText(
+                    text = getattr(block_names_qs, name),
+                    font = FONT_TEXT,
+                    size = SIZE_BODY,
+                    )
+            elif "title" in name:
+                block_names[name] = RichText(
+                    text = getattr(block_names_qs, name),
+                    font = FONT_TEXT,
+                    size = SIZE_BODY,
+                    bold = True,
+                    )
             else:
                 block_names[name] = RichText(
                     text = getattr(block_names_qs, name),
@@ -125,12 +136,12 @@ class GenerateDocx(APIView):
                     "category": RichText(
                         item.category,
                         bold = True,
-                        size = SISE_BODY,
+                        size = SIZE_BODY,
 
                         ),
                     "hard_skill_text": RichText(
                         text = item.hard_skill_text,
-                        size = SISE_BODY,
+                        size = SIZE_BODY,
 
                         )
                     }
@@ -138,9 +149,30 @@ class GenerateDocx(APIView):
 
         return hard_skills
 
-    def _fetch_experience(self, lang: str):
-        experienc_qs: QuerySet[Experience] = Experience.objects.filter(lang__lang = lang)
+    def _rich_exp(self, text: str) -> RichText:
+        rich: RichText = RichText(
+            text = text,
+            font = FONT_TEXT,
+            size = SIZE_BODY,
+            )
+        return rich
+
+
+    def _fetch_experience(self, lang: str, current: str):
+        experience_qs: QuerySet[Experience] = Experience.objects.filter(lang__lang = lang)
         experience: list[dict[str, RichText]] = []
+        for item in experience_qs:
+            experience.append(
+                {
+                    "company": RichText(text = item.company, font = FONT_TEXT, size = SIZE_BODY, bold = True),
+                    "start_date": self._rich_exp(item.start_date.strftime(DATE_FORMATTER)),
+                    "end_date": self._rich_exp(item.end_date.strftime(DATE_FORMATTER)) if item.end_date else current,
+                    "position": self._rich_exp(item.position),
+                    "achievements": self._rich_exp(item.achievements),
+
+                    },
+                )
+        return experience
 
 
     def get(self, request):
@@ -148,14 +180,13 @@ class GenerateDocx(APIView):
         template_path = Path(__file__).parent.parent / "doc_templates" / "cv.docx"
         doc = DocxTemplate(template_path)
 
+        block_names: dict[str, RichText] = self._fetch_block_names(lang)
         photo: Photos = self._fetch_photo(lang, doc)
         manifest: RichText = self._fetch_manifest(lang)
         header: dict[str, RichText] = self._fetch_header(lang, doc)
-        block_names: dict[str, RichText] = self._fetch_block_names(lang)
         hard_skills: list[dict[str, RichText]] = self._fetch_hard_skills(lang)
-        experiences = self._fetch_experience(lang)
+        experience = self._fetch_experience(lang, block_names["current"])
 
-        # ipdb.set_trace()
         context = {
             # photo
             "photo": photo,
@@ -179,7 +210,10 @@ class GenerateDocx(APIView):
             "hard_skills": hard_skills,
             # experiences
             "experience_name": block_names["experience_name"],
-            "experiences": experiences,
+            "exp_period_title": block_names["exp_period_title"],
+            "position_title": block_names["position_title"],
+            "achievements_title": block_names["achievements_title"],
+            "experience": experience,
 
             }
 
