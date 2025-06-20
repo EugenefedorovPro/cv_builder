@@ -174,6 +174,36 @@ class GenerateDocx(APIView):
                 )
         return experience
 
+    def _rich_proj(self, text: str) -> RichText:
+        return RichText(
+            text = text,
+            font = FONT_TEXT,
+            size = SIZE_BODY,
+            )
+
+    def _rich_proj_url(self, name:str, url: str, doc: DocxTemplate) -> RichText:
+        return RichText(
+            text = name,
+            url_id = doc.build_url_id(url),
+            color = "0000FF",
+            font = FONT_TEXT,
+            size = SIZE_BODY,
+            )
+
+    def _fetch_projects(self, lang: str, doc: DocxTemplate) -> list[dict[str, RichText]]:
+        projects_qs: QuerySet[Project] = Project.objects.filter(lang__lang = lang)
+        projects: list[dict[str, RichText]] = []
+        for item in projects_qs:
+            projects.append(
+                {
+                    "project_name": RichText(text = item.project_name, font = FONT_TEXT, size = SIZE_BODY, bold = True),
+                    "project_text": self._rich_proj(item.project_text),
+                    "web_url": self._rich_proj_url("web", item.web_url, doc) if item.web_url else "",
+                    "git_url": self._rich_proj_url("git", item.git_url, doc) if item.git_url else "",
+                    }
+                )
+        return projects
+
 
     def get(self, request):
         lang = request.GET.get("lang")
@@ -186,6 +216,7 @@ class GenerateDocx(APIView):
         header: dict[str, RichText] = self._fetch_header(lang, doc)
         hard_skills: list[dict[str, RichText]] = self._fetch_hard_skills(lang)
         experience = self._fetch_experience(lang, block_names["current"])
+        projects = self._fetch_projects(lang, doc)
 
         context = {
             # photo
@@ -214,6 +245,10 @@ class GenerateDocx(APIView):
             "position_title": block_names["position_title"],
             "achievements_title": block_names["achievements_title"],
             "experience": experience,
+            # projects
+            "projects_name": block_names["projects_name"],
+            "projects": projects,
+
 
             }
 

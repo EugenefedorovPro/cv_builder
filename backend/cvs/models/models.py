@@ -39,7 +39,7 @@ class OccupationChoice(models.Model):
 
 class BlockNames(models.Model):
     """
-    _name postfix is reserved for names of big blocks
+    # _name postfix is reserved for names of big blocks
     _title - for names inside some blocks
     no postfix as in current for other auxiliary fields
     """
