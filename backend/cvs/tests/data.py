@@ -52,7 +52,20 @@ block_name_eng = BlockNameTuple(
     country_title = "Country: ",
     city_title = "City: ",
     district_title = "District: ",
-
+    company_title = "Company",
+    exp_period_title = "Period",
+    position_title = "Position",
+    achievements_title = "Achievements",
+    institution_title = "Institution",
+    ed_period_title = "Period",
+    degree_title = "Degree",
+    level_title = "level: ",
+    task_title = "Task",
+    solution_title = "Solution",
+    optimization_title = "Optimization",
+    result_title = "Result",
+    tech_stack_title = "Tech Stack",
+    contacts_title = "Contacts",
     )
 
 BLOCK_NAMES: list[BlockNameTuple] = [

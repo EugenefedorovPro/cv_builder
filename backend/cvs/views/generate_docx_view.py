@@ -143,7 +143,6 @@ class GenerateDocx(APIView):
         experience: list[dict[str, RichText]] = []
 
 
-
     def get(self, request):
         lang = request.GET.get("lang")
         template_path = Path(__file__).parent.parent / "doc_templates" / "cv.docx"

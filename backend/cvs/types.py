@@ -103,45 +103,42 @@ NaturalLangTuple = namedtuple("NaturalLangTuple", (
 
     ))
 
-BlockNameTuple = namedtuple("BlockNameTuple", (
-    "id",
-    "photo_name",
-    "header_name",
-    "hard_skills_name",
-    "manifest_name",
-    "projects_name",
-    "experience_name",
-    "soft_skills_name",
-    "education_name",
-    "natural_lang_name",
-    "interest_name",
-    "cases_name",
-    "why_me_name",
-    "feedback_name",
-    "country_title",
-    "city_title",
-    "district_title",
 
-    ), defaults = (
-    None,
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-
-    ))
+BlockNameTuple = namedtuple(
+    "BlockNameTuple",
+    (
+        "id",
+        "photo_name",
+        "header_name",
+        "hard_skills_name",
+        "manifest_name",
+        "projects_name",
+        "experience_name",
+        "soft_skills_name",
+        "education_name",
+        "natural_lang_name",
+        "interest_name",
+        "cases_name",
+        "why_me_name",
+        "feedback_name",
+        "country_title",
+        "city_title",
+        "district_title",
+        "company_title",
+        "exp_period_title",
+        "position_title",
+        "achievements_title",
+        "institution_title",
+        "ed_period_title",
+        "degree_title",
+        "level_title",
+        "task_title",
+        "solution_title",
+        "optimization_title",
+        "result_title",
+        "tech_stack_title",
+        "contacts_title",
+        ))
 
 
 class BlockNameType(TypedDict):
@@ -162,6 +159,20 @@ class BlockNameType(TypedDict):
     country_title: str
     city_title: str
     district_title: str
+    company_title: str
+    exp_period_title: str
+    position_title: str
+    achievements_title: str
+    institution_title: str
+    ed_period_title: str
+    degree_title: str
+    level_title: str
+    task_title: str
+    solution_title: str
+    optimization_title: str
+    result_title: str
+    tech_stack_title: str
+    contacts_title: str
 
 
 class PhotoType(TypedDict):

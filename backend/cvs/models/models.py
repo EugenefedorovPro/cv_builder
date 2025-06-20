@@ -38,6 +38,7 @@ class OccupationChoice(models.Model):
 
 
 class BlockNames(models.Model):
+    # block names
     photo_name = models.CharField(max_length = 100, default = "Photo")
     header_name = models.CharField(max_length = 100, default = "Header")
     hard_skills_name = models.CharField(max_length = 100, default = "Hard Skills")
@@ -51,14 +52,37 @@ class BlockNames(models.Model):
     cases_name = models.CharField(max_length = 100, default = "Cases")
     why_me_name = models.CharField(max_length = 100, default = "Why me?")
     feedback_name = models.CharField(max_length = 100, default = "Feedback")
-    country_title = models.CharField(max_length = 50, default = "Country: ")
-    city_title = models.CharField(max_length = 50, default = "City: ")
-    district_title = models.CharField(max_length = 50, default = "District: ")
+    # datetime
     created_at = models.DateTimeField(auto_now_add = True)
     updated_at = models.DateTimeField(auto_now = True)
+    # foreign keys
     lang = models.ForeignKey("LanguageChoice", on_delete = models.CASCADE)
     user = models.ForeignKey("CustomUser", on_delete = models.CASCADE)
     occupation = models.ForeignKey("OccupationChoice", on_delete = models.CASCADE)
+    # names withtin the block
+    ## header
+    country_title = models.CharField(max_length = 50, default = "Country: ")
+    city_title = models.CharField(max_length = 50, default = "City: ")
+    district_title = models.CharField(max_length = 50, default = "District: ")
+    ## experience
+    company_title = models.CharField(max_length = 50, default = "Company")
+    exp_period_title = models.CharField(max_length = 50, default = "Period")
+    position_title = models.CharField(max_length = 50, default = "Position")
+    achievements_title = models.CharField(max_length = 50, default = "Achievements")
+    ## education
+    institution_title = models.CharField(max_length = 50, default = "Institution")
+    ed_period_title = models.CharField(max_length = 50, default = "Period")
+    degree_title = models.CharField(max_length = 50, default = "Degree")
+    ## natural language
+    level_title = models.CharField(max_length = 50, default = "level: ")
+    ## case
+    task_title = models.CharField(max_length = 50, default = "Task")
+    solution_title = models.CharField(max_length = 50, default = "Solution")
+    optimization_title = models.CharField(max_length = 50, default = "Optimization")
+    result_title = models.CharField(max_length = 50, default = "Result")
+    tech_stack_title = models.CharField(max_length = 50, default = "Tech Stack")
+    ## feedback
+    contacts_title = models.CharField(max_length = 50, default = "Contacts")
 
     def __str__(self):
         return f"{self.lang} - {self.user} - {self.occupation}"
@@ -123,6 +147,8 @@ class HardSkill(models.Model):
 
 class Manifest(models.Model):
     manifest_text = models.TextField()
+    created_at = models.DateTimeField(auto_now_add = True)
+    updated_at = models.DateTimeField(auto_now = True)
     lang = models.ForeignKey("LanguageChoice", on_delete = models.CASCADE)
     user = models.ForeignKey("CustomUser", on_delete = models.CASCADE)
     occupation = models.ForeignKey("OccupationChoice", on_delete = models.CASCADE)
