@@ -64,7 +64,7 @@ class BlockNames(models.Model):
     lang = models.ForeignKey("LanguageChoice", on_delete = models.CASCADE)
     user = models.ForeignKey("CustomUser", on_delete = models.CASCADE)
     occupation = models.ForeignKey("OccupationChoice", on_delete = models.CASCADE)
-    # names withtin the block
+    # names within the block
     ## header
     country_title = models.CharField(max_length = 50, default = "Country: ")
     city_title = models.CharField(max_length = 50, default = "City: ")

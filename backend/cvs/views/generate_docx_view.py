@@ -36,24 +36,68 @@ SIZE_BODY = 24
 
 
 class GenerateDocx(APIView):
-    def _rich_body(self, text: str) -> RichText:
-        rich: RichText = RichText(
+    def _rich_header_normal(self, text: str) -> RichText:
+        return RichText(
+            text = text,
+            font = FONT_TEXT,
+            size = SIZE_HEADER,
+
+            )
+
+    def _rich_header_bold(self, text: str) -> RichText:
+        return RichText(
+            text = text,
+            font = FONT_TEXT,
+            size = SIZE_HEADER,
+            bold = True,
+
+            )
+
+    def _rich_header_url(self, value, name: str, doc: DocxTemplate, is_text_value: bool = True) -> RichText:
+        return RichText(
+            text = value if is_text_value else name,
+            url_id = doc.build_url_id(value),
+            color = "0000FF",
+            size = SIZE_HEADER,
+            font = FONT_TEXT,
+
+            )
+
+    def _rich_body_normal(self, text: str) -> RichText:
+        return RichText(
             text = text,
             font = FONT_TEXT,
             size = SIZE_BODY,
 
             )
-        return rich
 
     def _rich_body_bold(self, text: str) -> RichText:
-        rich: RichText = RichText(
+        return RichText(
             text = text,
             font = FONT_TEXT,
             size = SIZE_BODY,
             bold = True,
 
             )
-        return rich
+
+    def _rich_body_name(self, text: str) -> RichText:
+        return RichText(
+            text = text,
+            font = FONT_TEXT,
+            size = SIZE_NAME,
+            bold = True,
+
+            )
+
+    def _rich_body_url(self, value: str, name: str, doc: DocxTemplate, is_text_value: bool = True) -> RichText:
+        return RichText(
+            text = value if is_text_value else name,
+            url_id = doc.build_url_id(value),
+            color = "0000FF",
+            size = SIZE_BODY,
+            font = FONT_TEXT,
+
+            )
 
     def _fetch_photo(self, lang: str, doc: DocxTemplate):
         photo_url = str(Photos.objects.filter(lang__lang = lang).first().photo_url)
@@ -61,89 +105,50 @@ class GenerateDocx(APIView):
         img = Image.open(str(photo_path))
         clean_path = Path("/tmp/clean_quattr.jpg")
         img.convert("RGB").save(clean_path, format = "JPEG")
-        photo = InlineImage(doc, str(clean_path), width = Mm(25))
-        return photo
+        return InlineImage(doc, str(clean_path), width = Mm(25))
 
     def _fetch_manifest(self, lang: str) -> RichText:
-        manifest_qs: Manifest = Manifest.objects.filter(lang__lang = lang).first()
-        manifest = RichText(
-            text = manifest_qs.manifest_text,
-            size = SIZE_HEADER,
-            font = FONT_TEXT,
-            )
-
-        return manifest
+        manifest_obj: Manifest = Manifest.objects.filter(lang__lang = lang).first()
+        return self._rich_header_normal(manifest_obj.manifest_text)
 
     def _fetch_header(self, lang: str, doc: DocxTemplate) -> dict[str, RichText]:
-        header_qs: Header = Header.objects.filter(lang__lang = lang).first()
-        header_names: list[str] = [item.name for item in header_qs._meta.fields]
+        header_obj: Header = Header.objects.filter(lang__lang = lang).first()
+        header_names: list[str] = [item.name for item in header_obj._meta.fields]
 
         headers: dict[str, RichText] = {}
         for name in header_names:
             if "email" in name:
-                value = getattr(header_qs, name)
-                headers[name] = RichText(
-                    text = value,
-                    url_id = doc.build_url_id(value),
-                    color = "0000FF",
-                    size = SIZE_HEADER,
-                    font = FONT_TEXT,
-                    )
+                value = getattr(header_obj, name)
+                headers[name] = self._rich_header_url(value, name, doc, is_text_value = True)
 
             elif "linkedin" in name or "github" in name:
-                value = getattr(header_qs, name)
-                headers[name] = RichText(
-                    text = name,
-                    url_id = doc.build_url_id(value),
-                    color = "0000FF",
-                    size = SIZE_HEADER,
-                    font = FONT_TEXT,
-                    )
+                value = getattr(header_obj, name)
+                headers[name] = self._rich_header_url(value, name, doc, is_text_value = False)
             else:
-                value = getattr(header_qs, name)
-                headers[name] = RichText(
-                    text = value,
-                    size = SIZE_HEADER,
-                    font = FONT_TEXT,
-                    bold = True,
-                    )
+                value = getattr(header_obj, name)
+                headers[name] = self._rich_header_normal(value)
         return headers
 
 
     def _fetch_block_names(self, lang: str) -> dict[str, RichText]:
-        block_names_qs: BlockNames = BlockNames.objects.filter(lang__lang = lang).first()
+        block_names_obj: BlockNames = BlockNames.objects.filter(lang__lang = lang).first()
 
-        field_names: list[str] = [item.name for item in block_names_qs._meta.fields]
+        field_names: list[str] = [item.name for item in block_names_obj._meta.fields]
 
         block_names: dict[str, RichText] = {}
         for name in field_names:
             if "country" in name or "city" in name or "district" in name:
-                block_names[name] = RichText(
-                    text = getattr(block_names_qs, name),
-                    font = FONT_TEXT,
-                    size = SIZE_HEADER,
-                    bold = True,
-                    )
+                value = getattr(block_names_obj, name)
+                block_names[name] = self._rich_header_bold(value)
             elif "current" in name:
-                block_names[name] = RichText(
-                    text = getattr(block_names_qs, name),
-                    font = FONT_TEXT,
-                    size = SIZE_BODY,
-                    )
+                value = getattr(block_names_obj, name)
+                block_names[name] = self._rich_header_normal(value)
             elif "title" in name:
-                block_names[name] = RichText(
-                    text = getattr(block_names_qs, name),
-                    font = FONT_TEXT,
-                    size = SIZE_BODY,
-                    bold = True,
-                    )
+                value = getattr(block_names_obj, name)
+                block_names[name] = self._rich_body_bold(value)
             else:
-                block_names[name] = RichText(
-                    text = getattr(block_names_qs, name),
-                    font = FONT_TEXT,
-                    size = SIZE_NAME,
-                    bold = True,
-                    )
+                value = getattr(block_names_obj, name)
+                block_names[name] = self._rich_body_name(value)
         return block_names
 
     def _fetch_hard_skills(self, lang: str) -> list[dict[str, RichText]]:
@@ -152,17 +157,9 @@ class GenerateDocx(APIView):
         for item in hard_skills_qs:
             hard_skills.append(
                 {
-                    "category": RichText(
-                        item.category,
-                        bold = True,
-                        size = SIZE_BODY,
+                    "category": self._rich_body_bold(item.category),
+                    "hard_skill_text": self._rich_body_normal(item.hard_skill_text),
 
-                        ),
-                    "hard_skill_text": RichText(
-                        text = item.hard_skill_text,
-                        size = SIZE_BODY,
-
-                        )
                     }
                 )
 
@@ -176,30 +173,14 @@ class GenerateDocx(APIView):
             experience.append(
                 {
                     "company": self._rich_body_bold(item.company),
-                    "start_date": self._rich_body(item.start_date.strftime(DATE_FORMATTER)),
-                    "end_date": self._rich_body(item.end_date.strftime(DATE_FORMATTER)) if item.end_date else current,
-                    "position": self._rich_body(item.position),
-                    "achievements": self._rich_body(item.achievements),
+                    "start_date": self._rich_body_normal(item.start_date.strftime(DATE_FORMATTER)),
+                    "end_date": self._rich_body_normal(item.end_date.strftime(DATE_FORMATTER)) if item.end_date else current,
+                    "position": self._rich_body_normal(item.position),
+                    "achievements": self._rich_body_normal(item.achievements),
 
                     },
                 )
         return experience
-
-    def _rich_proj(self, text: str) -> RichText:
-        return RichText(
-            text = text,
-            font = FONT_TEXT,
-            size = SIZE_BODY,
-            )
-
-    def _rich_proj_url(self, name: str, url: str, doc: DocxTemplate) -> RichText:
-        return RichText(
-            text = name,
-            url_id = doc.build_url_id(url),
-            color = "0000FF",
-            font = FONT_TEXT,
-            size = SIZE_BODY,
-            )
 
     def _fetch_projects(self, lang: str, doc: DocxTemplate) -> list[dict[str, RichText]]:
         projects_qs: QuerySet[Project] = Project.objects.filter(lang__lang = lang)
@@ -207,10 +188,10 @@ class GenerateDocx(APIView):
         for item in projects_qs:
             projects.append(
                 {
-                    "project_name": RichText(text = item.project_name, font = FONT_TEXT, size = SIZE_BODY, bold = True),
-                    "project_text": self._rich_proj(item.project_text),
-                    "web_url": self._rich_proj_url("web", item.web_url, doc) if item.web_url else "",
-                    "git_url": self._rich_proj_url("git", item.git_url, doc) if item.git_url else "",
+                    "project_name": self._rich_body_bold(item.project_name),
+                    "project_text": self._rich_body_normal(item.project_text),
+                    "web_url": self._rich_body_url("web", item.web_url, doc) if item.web_url else "",
+                    "git_url": self._rich_body_url("git", item.git_url, doc) if item.git_url else "",
                     }
                 )
         return projects
@@ -221,13 +202,8 @@ class GenerateDocx(APIView):
         for item in soft_skills_qs:
             soft_skills.append(
                 {
-                    "soft_skill_text": RichText(
-                        # text = "    \u2022" + item.soft_skill_text,
-                        text = item.soft_skill_text,
-                        size = SIZE_BODY,
-                        font = FONT_TEXT,
+                    "soft_skill_text": self._rich_body_normal(item.soft_skill_text),
 
-                        )
                     }
                 )
 
@@ -240,9 +216,9 @@ class GenerateDocx(APIView):
             education.append(
                 {
                     "institution": self._rich_body_bold(item.institution),
-                    "start_date": self._rich_body(item.start_date.strftime(DATE_FORMATTER)),
-                    "end_date": self._rich_body(item.end_date.strftime(DATE_FORMATTER)) if item.end_date else current,
-                    "degree_title": self._rich_body(item.degree_title),
+                    "start_date": self._rich_body_normal(item.start_date.strftime(DATE_FORMATTER)),
+                    "end_date": self._rich_body_normal(item.end_date.strftime(DATE_FORMATTER)) if item.end_date else current,
+                    "degree_title": self._rich_body_normal(item.degree_title),
                     },
                 )
         return education
