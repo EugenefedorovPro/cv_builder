@@ -36,6 +36,25 @@ SIZE_BODY = 24
 
 
 class GenerateDocx(APIView):
+    def _rich_body(self, text: str) -> RichText:
+        rich: RichText = RichText(
+            text = text,
+            font = FONT_TEXT,
+            size = SIZE_BODY,
+
+            )
+        return rich
+
+    def _rich_body_bold(self, text: str) -> RichText:
+        rich: RichText = RichText(
+            text = text,
+            font = FONT_TEXT,
+            size = SIZE_BODY,
+            bold = True,
+
+            )
+        return rich
+
     def _fetch_photo(self, lang: str, doc: DocxTemplate):
         photo_url = str(Photos.objects.filter(lang__lang = lang).first().photo_url)
         photo_path = os.path.join(settings.MEDIA_ROOT, photo_url)
@@ -149,14 +168,6 @@ class GenerateDocx(APIView):
 
         return hard_skills
 
-    def _rich_exp(self, text: str) -> RichText:
-        rich: RichText = RichText(
-            text = text,
-            font = FONT_TEXT,
-            size = SIZE_BODY,
-            )
-        return rich
-
 
     def _fetch_experience(self, lang: str, current: str):
         experience_qs: QuerySet[Experience] = Experience.objects.filter(lang__lang = lang)
@@ -164,11 +175,11 @@ class GenerateDocx(APIView):
         for item in experience_qs:
             experience.append(
                 {
-                    "company": RichText(text = item.company, font = FONT_TEXT, size = SIZE_BODY, bold = True),
-                    "start_date": self._rich_exp(item.start_date.strftime(DATE_FORMATTER)),
-                    "end_date": self._rich_exp(item.end_date.strftime(DATE_FORMATTER)) if item.end_date else current,
-                    "position": self._rich_exp(item.position),
-                    "achievements": self._rich_exp(item.achievements),
+                    "company": self._rich_body_bold(item.company),
+                    "start_date": self._rich_body(item.start_date.strftime(DATE_FORMATTER)),
+                    "end_date": self._rich_body(item.end_date.strftime(DATE_FORMATTER)) if item.end_date else current,
+                    "position": self._rich_body(item.position),
+                    "achievements": self._rich_body(item.achievements),
 
                     },
                 )
@@ -181,7 +192,7 @@ class GenerateDocx(APIView):
             size = SIZE_BODY,
             )
 
-    def _rich_proj_url(self, name:str, url: str, doc: DocxTemplate) -> RichText:
+    def _rich_proj_url(self, name: str, url: str, doc: DocxTemplate) -> RichText:
         return RichText(
             text = name,
             url_id = doc.build_url_id(url),
@@ -204,6 +215,37 @@ class GenerateDocx(APIView):
                 )
         return projects
 
+    def _fetch_soft_skills(self, lang: str) -> list[dict[str, RichText]]:
+        soft_skills_qs: QuerySet[SoftSkill] = SoftSkill.objects.filter(lang__lang = lang)
+        soft_skills: list[dict[str, RichText | str]] = []
+        for item in soft_skills_qs:
+            soft_skills.append(
+                {
+                    "soft_skill_text": RichText(
+                        # text = "    \u2022" + item.soft_skill_text,
+                        text = item.soft_skill_text,
+                        size = SIZE_BODY,
+                        font = FONT_TEXT,
+
+                        )
+                    }
+                )
+
+        return soft_skills
+
+    def _fetch_education(self, lang: str, current: str):
+        education_qs: QuerySet[Education] = Education.objects.filter(lang__lang = lang)
+        education: list[dict[str, RichText]] = []
+        for item in education_qs:
+            education.append(
+                {
+                    "institution": self._rich_body_bold(item.institution),
+                    "start_date": self._rich_body(item.start_date.strftime(DATE_FORMATTER)),
+                    "end_date": self._rich_body(item.end_date.strftime(DATE_FORMATTER)) if item.end_date else current,
+                    "degree_title": self._rich_body(item.degree_title),
+                    },
+                )
+        return education
 
     def get(self, request):
         lang = request.GET.get("lang")
@@ -211,12 +253,15 @@ class GenerateDocx(APIView):
         doc = DocxTemplate(template_path)
 
         block_names: dict[str, RichText] = self._fetch_block_names(lang)
+        current = block_names["current"]
         photo: Photos = self._fetch_photo(lang, doc)
         manifest: RichText = self._fetch_manifest(lang)
         header: dict[str, RichText] = self._fetch_header(lang, doc)
         hard_skills: list[dict[str, RichText]] = self._fetch_hard_skills(lang)
-        experience = self._fetch_experience(lang, block_names["current"])
+        experience = self._fetch_experience(lang, current)
         projects = self._fetch_projects(lang, doc)
+        soft_skills = self._fetch_soft_skills(lang)
+        education = self._fetch_education(lang, current)
 
         context = {
             # photo
@@ -248,6 +293,14 @@ class GenerateDocx(APIView):
             # projects
             "projects_name": block_names["projects_name"],
             "projects": projects,
+            # soft sills
+            "soft_skills_name": block_names["soft_skills_name"],
+            "soft_skills": soft_skills,
+            # education
+            "education_name": block_names["education_name"],
+            "ed_period_title": block_names["ed_period_title"],
+            "degree_title": block_names["degree_title"],
+            "education": education,
 
 
             }
