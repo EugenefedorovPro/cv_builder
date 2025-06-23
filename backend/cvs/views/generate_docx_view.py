@@ -31,7 +31,7 @@ from cvs.types import DATE_FORMATTER
 
 FONT_TEXT = "Lato"
 SIZE_NAME = 28
-SIZE_HEADER = 18
+SIZE_HEADER = 20
 SIZE_BODY = 24
 
 
@@ -105,7 +105,7 @@ class GenerateDocx(APIView):
         img = Image.open(str(photo_path))
         clean_path = Path("/tmp/clean_quattr.jpg")
         img.convert("RGB").save(clean_path, format = "JPEG")
-        return InlineImage(doc, str(clean_path), width = Mm(25))
+        return InlineImage(doc, str(clean_path), width = Mm(25), anchor = "as_char")
 
     def _fetch_manifest(self, lang: str) -> RichText:
         manifest_obj: Manifest = Manifest.objects.filter(lang__lang = lang).first()
@@ -117,7 +117,10 @@ class GenerateDocx(APIView):
 
         headers: dict[str, RichText] = {}
         for name in header_names:
-            if "email" in name:
+            if "first_name" in name or "second_name" in name:
+                value = getattr(header_obj, name)
+                headers[name] = self._rich_header_bold(value.upper())
+            elif "email" in name:
                 value = getattr(header_obj, name)
                 headers[name] = self._rich_header_url(value, name, doc, is_text_value = True)
 
@@ -323,4 +326,5 @@ class GenerateDocx(APIView):
             content_type = "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
             )
         response['Content-Disposition'] = 'attachment; filename="cv.docx"'
+        # ipdb.set_trace()
         return response
