@@ -236,6 +236,17 @@ class GenerateDocx(APIView):
                 )
         return natural_lang
 
+    def _fetch_interest(self, lang: str) -> list[dict[str, RichText]]:
+        interest_qs: QuerySet[Interest] = Interest.objects.filter(lang__lang = lang)
+        interests: list[dict[str, RichText]] = []
+        for item in interest_qs:
+            interests.append(
+                {
+                    "interest_text": self._rich_body_normal(item.interest_text),
+                    },
+                )
+        return interests
+
     def get(self, request):
         lang = request.GET.get("lang")
         template_path = Path(__file__).parent.parent / "doc_templates" / "cv.docx"
@@ -252,6 +263,7 @@ class GenerateDocx(APIView):
         soft_skills = self._fetch_soft_skills(lang)
         education = self._fetch_education(lang, current)
         natural_langs = self._fetch_natural_lang(lang)
+        interests = self._fetch_interest(lang)
 
         context = {
             # photo
@@ -294,7 +306,9 @@ class GenerateDocx(APIView):
             # natural languages
             "natural_lang_name": block_names["natural_lang_name"],
             "natural_langs": natural_langs,
-
+            # interests
+            "interest_name": block_names["interest_name"],
+            "interests": interests,
 
             }
 
