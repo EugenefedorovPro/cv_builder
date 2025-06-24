@@ -1,7 +1,7 @@
 import json
 import ipdb
 from django.test import TestCase
-from cvs.models.models import Header
+from cvs.models.models import BlockNames
 from .populate_test_db import TestBuilderSuper
 from django.shortcuts import reverse
 from cvs.tests.data import header_user_super
@@ -26,12 +26,15 @@ class HeaderTest(TestCase):
             )
         self.assertTrue(logged_in)
 
-
-    def test_get(self):
+    def get_actual_header(self):
         url = reverse("cvs:header")
         response = self.client.get(url + "?lang=eng")
         actual_header = json.loads(response.content.decode())
-        actual_photo = actual_header.pop("photo")
+        return actual_header
+
+    def test_get(self):
+        actual_header = self.get_actual_header()
+        actual_photo = actual_header["header"].pop("photo")
 
         expected_photo = {
             'photo': {
@@ -39,4 +42,5 @@ class HeaderTest(TestCase):
                 }
             }
         self.assertIn(expected_photo["photo"]["photo_url"], actual_photo["photo_url"])
-        self.assertEqual(actual_header, header_user_super._asdict())
+        self.assertEqual(actual_header["header"], header_user_super._asdict())
+

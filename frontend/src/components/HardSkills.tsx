@@ -3,8 +3,8 @@ import {useFetchData} from "../api/UseFetchData";
 import {ListGroup, ListGroupItem, Container} from "react-bootstrap";
 
 
-type BlockNameObject = {
-    block_name: string,
+interface BlockNameObject {
+    hard_skills_name: string,
 }
 
 interface HardSkillsItemInterface {
@@ -13,15 +13,15 @@ interface HardSkillsItemInterface {
     hard_skill_text: string,
 }
 
-type HardSkillType = [
-    BlockNameObject,
-    HardSkillsItemInterface[],
-]
+interface HardSkillsInterface {
+    block_names: BlockNameObject;
+    hard_skills: HardSkillsItemInterface[];
+}
 
 const HardSkillsCV = () => {
     const name = "Hard Skills"
     const url: string = "http://localhost:8002/hard_skills/";
-    const {data, loading, error} = useFetchData<HardSkillType>(url);
+    const {data, loading, error} = useFetchData<HardSkillsInterface>(url);
 
     if (loading) {
         return <div> Loading data for {name}...</div>
@@ -37,13 +37,17 @@ const HardSkillsCV = () => {
 
     }
 
-    const [block_name, block_data] = data;
+    const {block_names, hard_skills} = data;
+
+    if (!block_names || !hard_skills) {
+        return <div>No data on {name}</div>
+    }
 
     return (
         <ListGroup>
-            <ListGroupItem className="block-name">{block_name.block_name}</ListGroupItem>
+            <ListGroupItem className="block-name">{block_names.hard_skills_name}</ListGroupItem>
             {
-                block_data.map((item) => (
+                hard_skills.map((item) => (
                         <ListGroupItem key={item.id} className="hard-skills-items">
                             <span className="title">{item.category}</span>: {item.hard_skill_text}
                         </ListGroupItem>

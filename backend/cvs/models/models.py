@@ -44,19 +44,19 @@ class BlockNames(models.Model):
     no postfix as in current for other auxiliary fields
     """
     # block names
-    photo_name = models.CharField(max_length = 100, default = "Photo")
-    header_name = models.CharField(max_length = 100, default = "Header")
-    hard_skills_name = models.CharField(max_length = 100, default = "Hard Skills")
-    manifest_name = models.CharField(max_length = 100, default = "Manifest")
-    projects_name = models.CharField(max_length = 100, default = "Projects")
-    experience_name = models.CharField(max_length = 100, default = "Experience")
-    soft_skills_name = models.CharField(max_length = 100, default = "Soft Skills")
-    education_name = models.CharField(max_length = 100, default = "Education")
-    natural_lang_name = models.CharField(max_length = 100, default = "Natural languages")
-    interest_name = models.CharField(max_length = 100, default = "Interests")
-    cases_name = models.CharField(max_length = 100, default = "Cases")
-    why_me_name = models.CharField(max_length = 100, default = "Why me?")
-    feedback_name = models.CharField(max_length = 100, default = "Feedback")
+    photo_name = models.CharField(max_length = 100, blank = True, null = True)
+    header_name = models.CharField(max_length = 100, blank = True, null = True)
+    hard_skills_name = models.CharField(max_length = 100, blank = True, null = True)
+    manifest_name = models.CharField(max_length = 100, blank = True, null = True)
+    projects_name = models.CharField(max_length = 100, blank = True, null = True)
+    experience_name = models.CharField(max_length = 100, blank = True, null = True)
+    soft_skills_name = models.CharField(max_length = 100, blank = True, null = True)
+    education_name = models.CharField(max_length = 100, blank = True, null = True)
+    natural_lang_name = models.CharField(max_length = 100, blank = True, null = True)
+    interest_name = models.CharField(max_length = 100, blank = True, null = True)
+    cases_name = models.CharField(max_length = 100, blank = True, null = True)
+    why_me_name = models.CharField(max_length = 100, blank = True, null = True)
+    feedback_name = models.CharField(max_length = 100, blank = True, null = True)
     # datetime
     created_at = models.DateTimeField(auto_now_add = True)
     updated_at = models.DateTimeField(auto_now = True)
@@ -66,30 +66,32 @@ class BlockNames(models.Model):
     occupation = models.ForeignKey("OccupationChoice", on_delete = models.CASCADE)
     # names within the block
     ## header
-    country_title = models.CharField(max_length = 50, default = "Country: ")
-    city_title = models.CharField(max_length = 50, default = "City: ")
-    district_title = models.CharField(max_length = 50, default = "District: ")
+    github_title = models.CharField(max_length = 50, blank = True, null = True)
+    linkedin_title = models.CharField(max_length = 50, blank = True, null = True)
+    country_title = models.CharField(max_length = 50, blank = True, null = True)
+    city_title = models.CharField(max_length = 50, blank = True, null = True)
+    district_title = models.CharField(max_length = 50, blank = True, null = True)
     ## experience
-    company_title = models.CharField(max_length = 50, default = "Company")
-    exp_period_title = models.CharField(max_length = 50, default = "Period")
-    position_title = models.CharField(max_length = 50, default = "Position")
-    achievements_title = models.CharField(max_length = 50, default = "Achievements")
+    company_title = models.CharField(max_length = 50, blank = True, null = True)
+    exp_period_title = models.CharField(max_length = 50, blank = True, null = True)
+    position_title = models.CharField(max_length = 50, blank = True, null = True)
+    achievements_title = models.CharField(max_length = 50, blank = True, null = True)
     ## education
-    institution_title = models.CharField(max_length = 50, default = "Institution")
-    ed_period_title = models.CharField(max_length = 50, default = "Period")
-    degree_title = models.CharField(max_length = 50, default = "Degree")
+    institution_title = models.CharField(max_length = 50, blank = True, null = True)
+    ed_period_title = models.CharField(max_length = 50, blank = True, null = True)
+    degree_title = models.CharField(max_length = 50, blank = True, null = True)
     ## natural language
-    level_title = models.CharField(max_length = 50, default = "level: ")
+    level_title = models.CharField(max_length = 50, blank = True, null = True)
     ## case
-    task_title = models.CharField(max_length = 50, default = "Task")
-    solution_title = models.CharField(max_length = 50, default = "Solution")
-    optimization_title = models.CharField(max_length = 50, default = "Optimization")
-    result_title = models.CharField(max_length = 50, default = "Result")
-    tech_stack_title = models.CharField(max_length = 50, default = "Tech Stack")
+    task_title = models.CharField(max_length = 50, blank = True, null = True)
+    solution_title = models.CharField(max_length = 50, blank = True, null = True)
+    optimization_title = models.CharField(max_length = 50, blank = True, null = True)
+    result_title = models.CharField(max_length = 50, blank = True, null = True)
+    tech_stack_title = models.CharField(max_length = 50, blank = True, null = True)
     ## feedback
-    contacts_title = models.CharField(max_length = 50, default = "Contacts")
+    contacts_title = models.CharField(max_length = 50, blank = True, null = True)
     # placeholder for no time
-    current = models.CharField(max_length = 50, default = "current")
+    current = models.CharField(max_length = 50, blank = True, null = True)
 
     def __str__(self):
         return f"{self.lang} - {self.user} - {self.occupation}"
@@ -121,9 +123,11 @@ class Header(models.Model):
     country = models.CharField(max_length = 100, blank = True, null = True)
     city = models.CharField(max_length = 100, blank = True, null = True)
     district = models.CharField(max_length = 100, blank = True, null = True)
+    # date time
     created_at = models.DateTimeField(auto_now_add = True)
     updated_at = models.DateTimeField(auto_now = True)
     photo = models.ForeignKey("Photos", on_delete = models.CASCADE, blank = True, null = True)
+    # foreign keys
     lang = models.ForeignKey("LanguageChoice", on_delete = models.CASCADE)
     user = models.ForeignKey("CustomUser", on_delete = models.CASCADE)
     occupation = models.ForeignKey("OccupationChoice", on_delete = models.CASCADE)
@@ -139,8 +143,10 @@ class Header(models.Model):
 class HardSkill(models.Model):
     category = models.CharField(max_length = 50)
     hard_skill_text = models.TextField()
+    # date time
     created_at = models.DateTimeField(auto_now_add = True)
     updated_at = models.DateTimeField(auto_now = True)
+    # foreign keys
     lang = models.ForeignKey("LanguageChoice", on_delete = models.CASCADE)
     user = models.ForeignKey("CustomUser", on_delete = models.CASCADE)
     occupation = models.ForeignKey("OccupationChoice", on_delete = models.CASCADE)

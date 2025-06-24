@@ -122,6 +122,8 @@ BlockNameTuple = namedtuple(
         "why_me_name",
         "feedback_name",
         "country_title",
+        "github_title",
+        "linkedin_title",
         "city_title",
         "district_title",
         "company_title",
@@ -157,6 +159,8 @@ class BlockNameType(TypedDict):
     cases_name: str
     why_me_name: str
     feedback_name: str
+    githut_title: str
+    linkedin_title: str
     country_title: str
     city_title: str
     district_title: str

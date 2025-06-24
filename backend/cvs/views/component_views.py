@@ -31,21 +31,38 @@ class HeaderView(APIView):
     def get(self, request):
         lang = request.GET.get("lang")
         header = Header.objects.filter(lang__lang = lang).first()
+        block_names_ins: BlockNames = BlockNames.objects.all().first()
+        block_name = {
+            "github_title": block_names_ins.github_title,
+            "linkedin_title": block_names_ins.linkedin_title,
+            "country_title": block_names_ins.country_title,
+            "city_title": block_names_ins.city_title,
+            "district_title": block_names_ins.district_title,
+            }
         serializer = HeaderSerializer(header)
-        return Response(serializer.data)
+        return Response(
+            {
+                "block_names": block_name,
+                "header": serializer.data,
+                }
+            )
 
 
 class HardSkillView(APIView):
     def get(self, request):
         lang = request.GET.get("lang")
         hard_skills = HardSkill.objects.filter(lang__lang = lang)
-        serializer_hard_skills = HardSkillSerializer(hard_skills, many = True)
+        serializer = HardSkillSerializer(hard_skills, many = True)
         block_names_ins: BlockNames = BlockNames.objects.all().first()
         block_name = {
-            "block_name": block_names_ins.hard_skills_name if block_names_ins else None
+            "hard_skills_name": block_names_ins.hard_skills_name if block_names_ins else None
             }
-
-        return Response((block_name, serializer_hard_skills.data))
+        return Response(
+            {
+                "block_names": block_name,
+                "hard_skills": serializer.data,
+                }
+            )
 
 
 class ManifestView(APIView):
@@ -130,5 +147,3 @@ class NaturalLangView(APIView):
             "block_name": block_names_ins.natural_lang_name if block_names_ins else None
             }
         return Response((block_name, serializer_natural_lang.data))
-
-

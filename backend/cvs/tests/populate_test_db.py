@@ -111,7 +111,7 @@ class OccupationEng(OccupationFactory):
 
 
 class BlockNamesFactory(CvBlockInterface):
-    def __init__(self, user: User, lang: LanguageChoice, occupation: OccupationChoice, data: BlockNameTuple):
+    def __init__(self, user: User, lang: LanguageChoice, occupation: OccupationChoice, data: list[BlockNameTuple]):
         self.user = user
         self.lang = lang
         self.occupation = occupation
@@ -122,27 +122,10 @@ class BlockNamesFactory(CvBlockInterface):
         for item in self.data:
             blocks.append(
                 BlockNames(
-                    id = item.id,
-                    photo_name = item.photo_name,
-                    header_name = item.header_name,
-                    hard_skills_name = item.hard_skills_name,
-                    manifest_name = item.manifest_name,
-                    projects_name = item.projects_name,
-                    experience_name = item.experience_name,
-                    soft_skills_name = item.soft_skills_name,
-                    education_name = item.education_name,
-                    natural_lang_name = item.natural_lang_name,
-                    interest_name = item.interest_name,
-                    cases_name = item.cases_name,
-                    why_me_name = item.why_me_name,
-                    feedback_name = item.feedback_name,
-                    country_title = item.country_title,
-                    city_title = item.city_title,
-                    district_title = item.district_title,
+                    **item._asdict(),
                     user = self.user,
                     lang = self.lang,
                     occupation = self.occupation,
-
                     )
                 )
         return BlockNames.objects.bulk_create(blocks)

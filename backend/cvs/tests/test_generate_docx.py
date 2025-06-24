@@ -1,11 +1,11 @@
 import ipdb
 from django.test import TestCase
 from .populate_test_db import TestBuilderSuper
-from cvs.tests.data import block_name_eng
 from django.contrib.auth import get_user_model
-from cvs.models.models import BlockNames
+from cvs.models.models import (BlockNames,
+                               Header,
+                               )
 from django.shortcuts import reverse
-from unittest import skip
 
 User = get_user_model()
 
@@ -35,13 +35,34 @@ class GenerateDocxTest(TestCase):
             )
         self.assertTrue(logged_in)
 
-
-    def test_get(self):
+    def write_docx(self):
         url = reverse("cvs:generate_docx")
         response = self.client.get(url + "?lang=eng")
 
         with open("test_cv.docx", "wb") as f:
             f.write(response.content)
+        return response
 
+
+    def test_get(self):
+        response = self.write_docx()
         expected = '<HttpResponse status_code=200, "application/vnd.openxmlformats-officedocument.wordprocessingml.document">'
         self.assertEqual(expected, str(response))
+
+    def test_get_void_in_header(self):
+        """no city and district fields in BlockNames and Header"""
+        lang = "eng"
+
+        block_names = BlockNames.objects.filter(lang__lang = lang).first()
+        block_names.city_title = ""
+        block_names.district_title = None
+        block_names.country_title = ""
+        block_names.save()
+
+        header = Header.objects.filter(lang__lang = lang).first()
+        header.city = None
+        header.district = None
+        header.country = ""
+        header.save()
+
+        self.write_docx()
