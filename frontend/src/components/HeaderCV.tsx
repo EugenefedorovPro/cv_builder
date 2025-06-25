@@ -44,7 +44,7 @@ const HeaderCV = () => {
     }
 
     if (error) {
-        return <div>`Error on fetching {name}: ${error}`</div>
+        return <div>Error on fetching {name}: {error}</div>
 
     }
 

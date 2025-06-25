@@ -12,14 +12,19 @@ interface ProjectItemInterface {
 
 }
 
-type BlockNameType = {
-    block_name: string,
+interface BlockNameInterface {
+    block_names: string,
+}
+
+interface ProjectsBlockInterface {
+    projects: ProjectItemInterface[];
+    block_names: BlockNameInterface;
 }
 
 const Projects = () => {
     const name = "Projects"
     const url: string = "http://localhost:8002/projects/"
-    const {data, loading, error} = useFetchData<[BlockNameType, ProjectItemInterface[]]>(url);
+    const {data, loading, error} = useFetchData<ProjectsBlockInterface>(url);
 
 
     if (loading) {
@@ -36,24 +41,27 @@ const Projects = () => {
 
     }
 
-    const [block_name, projects_data] = data;
-    console.log("Project", data);
+    const {projects, block_names} = data;
+
+    if (!projects || !block_names) {
+        return <div>No data on {name}</div>
+    }
 
     return (
         <ListGroup>
             <ListGroupItem className="block-name">
-                {block_name.block_name}
+                {block_names.block_names}
             </ListGroupItem>
-            {projects_data.map((project) => (
+            {projects.map((project) => (
                 <ListGroupItem key={project.id} className="projects-items">
                     <div className="title">{project.project_name}</div>
                     <div>{project.project_text}</div>
 
                     <div>
                         {project?.web_url && (
-                            <a href={project.web_url}>web, </a>
+                            <a href={project.web_url}>web,</a>
                         )}
-
+                        <span> </span>
                         {project?.git_url && (
                             <a href={project.git_url}>git</a>
                         )}

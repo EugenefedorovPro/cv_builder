@@ -2,8 +2,8 @@ import React from "react";
 import {ListGroup, ListGroupItem} from "react-bootstrap";
 import {useFetchData} from "../api/UseFetchData";
 
-type BlockNameObject = {
-    block_name: string;
+interface BlockNamesInterface {
+    block_names: string;
 }
 
 interface ManifestItemInterface {
@@ -11,17 +11,22 @@ interface ManifestItemInterface {
     manifest_text: string;
 }
 
+interface ManifestBlockInterface {
+    manifest: ManifestItemInterface;
+    block_names: BlockNamesInterface;
+}
+
 const ManifestCV = () => {
     const name = "Manifest"
     const url: string = "http://localhost:8002/manifest/";
-    const {data, loading, error} = useFetchData<[BlockNameObject, ManifestItemInterface]>(url);
+    const {data, loading, error} = useFetchData<ManifestBlockInterface>(url);
 
     if (loading) {
         return <div> Loading data for {name}...</div>
     }
 
     if (error) {
-        return <div>`Error on fetching {name}: ${error}`</div>
+        return <div>Error on fetching {name}: {error}</div>
 
     }
 
@@ -30,11 +35,17 @@ const ManifestCV = () => {
 
     }
 
-    const [block_name, data_manifest] = data;
+
+    const {manifest, block_names} = data;
+
+    if (!manifest || !block_names) {
+        return <div>No data on {name}</div>
+
+    }
 
     return (
         <ListGroup>
-            <ListGroupItem><span className="manifest">{data_manifest.manifest_text}</span></ListGroupItem>
+            <ListGroupItem><span className="manifest">{manifest.manifest_text}</span></ListGroupItem>
         </ListGroup>
     )
 

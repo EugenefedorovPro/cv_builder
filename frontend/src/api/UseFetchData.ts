@@ -27,7 +27,8 @@ export const useFetchData = <T>(url: string): UseDataFetchInterface<T> => {
 
             } catch (err: any) {
                 console.error(`Error fetching data from ${url}`, err)
-                setError(err);
+                const message: string = err?.response?.data?.details || err?.message || "unknown error";
+                setError(message);
             } finally {
                 setLoading(false);
             }

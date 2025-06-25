@@ -140,6 +140,22 @@ class Header(models.Model):
         db_table = "header"
 
 
+class Manifest(models.Model):
+    manifest_text = models.TextField()
+    created_at = models.DateTimeField(auto_now_add = True)
+    updated_at = models.DateTimeField(auto_now = True)
+    lang = models.ForeignKey("LanguageChoice", on_delete = models.CASCADE)
+    user = models.ForeignKey("CustomUser", on_delete = models.CASCADE)
+    occupation = models.ForeignKey("OccupationChoice", on_delete = models.CASCADE)
+
+
+    def __str__(self):
+        return f"Manifest: {self.manifest_text[:50]}..."
+
+    class Meta:
+        db_table = "manifest"
+
+
 class HardSkill(models.Model):
     category = models.CharField(max_length = 50)
     hard_skill_text = models.TextField()
@@ -158,29 +174,15 @@ class HardSkill(models.Model):
         db_table = "hard_skill"
 
 
-class Manifest(models.Model):
-    manifest_text = models.TextField()
-    created_at = models.DateTimeField(auto_now_add = True)
-    updated_at = models.DateTimeField(auto_now = True)
-    lang = models.ForeignKey("LanguageChoice", on_delete = models.CASCADE)
-    user = models.ForeignKey("CustomUser", on_delete = models.CASCADE)
-    occupation = models.ForeignKey("OccupationChoice", on_delete = models.CASCADE)
-
-
-    def __str__(self):
-        return f"Manifest: {self.manifest_text[:50]}..."
-
-    class Meta:
-        db_table = "manifest"
-
-
 class Project(models.Model):
     project_name = models.CharField(max_length = 255)
     project_text = models.TextField(max_length = 300)
     web_url = models.URLField(null = True, blank = True)
     git_url = models.URLField(null = True, blank = True)
+    # date time
     created_at = models.DateTimeField(auto_now_add = True)
     updated_at = models.DateTimeField(auto_now = True)
+    # foreign keys
     lang = models.ForeignKey("LanguageChoice", on_delete = models.CASCADE)
     user = models.ForeignKey("CustomUser", on_delete = models.CASCADE)
     occupation = models.ForeignKey("OccupationChoice", on_delete = models.CASCADE)

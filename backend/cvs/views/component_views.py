@@ -1,6 +1,7 @@
 import ipdb
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework import status
 from cvs.serializers import (HeaderSerializer,
                              HardSkillSerializer,
                              ManifestSerializer,
@@ -10,6 +11,7 @@ from cvs.serializers import (HeaderSerializer,
                              ExperienceSerializer,
                              InterestSerializer,
                              NaturalLangSerializer,
+
                              )
 from cvs.models.models import (Header,
                                HardSkill,
@@ -22,7 +24,6 @@ from cvs.models.models import (Header,
                                Interest,
                                NaturalLanguage,
 
-
                                )
 from django.db.models import QuerySet
 
@@ -31,7 +32,21 @@ class HeaderView(APIView):
     def get(self, request):
         lang = request.GET.get("lang")
         header = Header.objects.filter(lang__lang = lang).first()
+        if not header:
+            return Response(
+                {
+                    "details": f"No header data for language: {lang}"
+                    },
+                status = status.HTTP_404_NOT_FOUND,
+                )
         block_names_ins: BlockNames = BlockNames.objects.all().first()
+        if not block_names_ins:
+            return Response(
+                {
+                    "details": f"No block_names data for language: {lang}"
+                    },
+                status = status.HTTP_404_NOT_FOUND,
+                )
         block_name = {
             "github_title": block_names_ins.github_title,
             "linkedin_title": block_names_ins.linkedin_title,
@@ -52,8 +67,22 @@ class HardSkillView(APIView):
     def get(self, request):
         lang = request.GET.get("lang")
         hard_skills = HardSkill.objects.filter(lang__lang = lang)
+        if not hard_skills:
+            return Response(
+                {
+                    "details": f"No hard_skills data for language: {lang}"
+                    },
+                status = status.HTTP_404_NOT_FOUND,
+                )
         serializer = HardSkillSerializer(hard_skills, many = True)
         block_names_ins: BlockNames = BlockNames.objects.all().first()
+        if not block_names_ins:
+            return Response(
+                {
+                    "details": f"No block_names data for language: {lang}"
+                    },
+                status = status.HTTP_404_NOT_FOUND,
+                )
         block_name = {
             "hard_skills_name": block_names_ins.hard_skills_name if block_names_ins else None
             }
@@ -69,24 +98,61 @@ class ManifestView(APIView):
     def get(self, request):
         lang = request.GET.get("lang")
         manifest: Manifest = Manifest.objects.all().first()
+        if not manifest:
+            return Response(
+                {
+                    "details": f"No manifest data for language: {lang}"
+                    },
+                status = status.HTTP_404_NOT_FOUND,
+                )
         serializer = ManifestSerializer(manifest)
         block_names_ins: BlockNames = BlockNames.objects.all().filter(lang__lang = lang).first()
-        block_name = {
-            "block_name": block_names_ins.manifest_name if block_names_ins else None
+        if not block_names_ins:
+            return Response(
+                {
+                    "details": f"No block_names data for language: {lang}"
+                    },
+                status = status.HTTP_404_NOT_FOUND,
+                )
+
+        block_names = {
+            "manifest_name": block_names_ins.manifest_name if block_names_ins else None
             }
-        return Response((block_name, serializer.data))
+        return Response(
+            {
+                "block_names": block_names,
+                "manifest": serializer.data,
+                }
+            )
 
 
 class ProjectView(APIView):
     def get(self, request):
         lang: str = request.GET.get("lang")
         projects: QuerySet[Project] = Project.objects.filter(lang__lang = lang)
+        if not projects:
+            return Response(
+                {
+                    "details": f"No projects data for language: {lang}"
+                    },
+                status = status.HTTP_404_NOT_FOUND,
+                )
         serializer_project = ProjectSerializer(projects, many = True)
         block_names_ins: BlockNames = BlockNames.objects.all().first()
-        block_name = {
-            "block_name": block_names_ins.projects_name if block_names_ins else None
+        if not block_names_ins:
+            return Response(
+                {
+                    "details": f"No block_names data for language: {lang}"
+                    },
+                status = status.HTTP_404_NOT_FOUND,
+                )
+        block_names = {
+            "project_name": block_names_ins.projects_name if block_names_ins else None
             }
-        return Response((block_name, serializer_project.data))
+        return Response({
+            "block_names": block_names,
+            "projects": serializer_project.data
+            })
 
 
 class ExperienceView(APIView):
