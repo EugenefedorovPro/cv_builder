@@ -158,13 +158,36 @@ class ProjectView(APIView):
 class ExperienceView(APIView):
     def get(self, request):
         lang: str = request.GET.get("lang")
-        experience_items: QuerySet[Experience] = Experience.objects.filter(lang__lang = lang)
-        serializer_project = ExperienceSerializer(experience_items, many = True)
+        experience_qs: QuerySet[Experience] = Experience.objects.filter(lang__lang = lang)
+        if not experience_qs:
+            return Response(
+                {
+                    "details": f"No experience data for language: {lang}"
+                    },
+                status = status.HTTP_404_NOT_FOUND,
+                )
+        serializer_project = ExperienceSerializer(experience_qs, many = True)
         block_names_ins: BlockNames = BlockNames.objects.all().first()
-        block_name = {
-            "block_name": block_names_ins.experience_name if block_names_ins else None
+        if not block_names_ins:
+            return Response(
+                {
+                    "details": f"No block_names data for language: {lang}"
+                    },
+                status = status.HTTP_404_NOT_FOUND,
+                )
+        block_names = {
+            "experience_name": block_names_ins.experience_name,
+            "company_title": block_names_ins.company_title,
+            "exp_period_title": block_names_ins.exp_period_title,
+            "position_title": block_names_ins.position_title,
+            'achievements_title': block_names_ins.achievements_title,
             }
-        return Response((block_name, serializer_project.data))
+        return Response(
+            {
+                "block_names": block_names,
+                "experience": serializer_project.data
+                },
+            )
 
 
 class SoftSkillView(APIView):

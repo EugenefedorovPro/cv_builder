@@ -2,8 +2,12 @@ import React from "react";
 import {ListGroup, ListGroupItem} from "react-bootstrap";
 import {useFetchData} from "../api/UseFetchData";
 
-type BlockNameObject = {
-    block_name: string;
+interface BlockNamesInterface {
+    experience_name: string;
+    company_title: string;
+    exp_period_title: string;
+    position_title: string;
+    achievements_title: string;
 }
 
 interface ExperienceItemInterface {
@@ -16,10 +20,16 @@ interface ExperienceItemInterface {
 
 }
 
+interface ExperienceBlockInterface {
+    experience: ExperienceItemInterface[];
+    block_names: BlockNamesInterface;
+
+}
+
 const ExperienceCV = () => {
     const name = "Experience"
     const url: string = "http://localhost:8002/experience/";
-    const {data, loading, error} = useFetchData<[BlockNameObject, ExperienceItemInterface[]]>(url);
+    const {data, loading, error} = useFetchData<ExperienceBlockInterface>(url);
 
     if (loading) {
         return <div> Loading data for {name}...</div>
@@ -35,23 +45,38 @@ const ExperienceCV = () => {
 
     }
 
-    const [block_name, data_experience] = data;
+    const {experience, block_names} = data;
+
+    if (!experience || !block_names) {
+        return <div>No data on {name}</div>
+
+    }
+
 
     return (
         <>
             <ListGroup>
-                <ListGroupItem className="block-name">{block_name.block_name}</ListGroupItem>
+                <ListGroupItem className="block-name">{block_names.experience_name}</ListGroupItem>
             </ListGroup>
 
             <ListGroup>
                 {
-                    data_experience.map((item) => (
+                    experience.map((item) => (
                         <ListGroupItem className="experience-items">
-                            <span className="title">Company</span> {item.company}<br/>
-                            <span className="title">Period</span> {item.start_date} - {item.end_date ? item.end_date : "current"}<br/>
-                            <span className="title">Position</span> {item.position}<br/>
-                            <span className="title">Achievements</span><br/>
-                            <span>{item.achievements}</span>
+                            <span className="title">{item.company}</span><br/>
+                            <ul>
+                                <li>
+                                    <span
+                                        className="title">{block_names.exp_period_title}</span> {item.start_date} - {item.end_date ? item.end_date : "current"}<br/>
+                                </li>
+                                <li>
+                                    <span className="title">{block_names.position_title}</span> {item.position}<br/>
+                                </li>
+                                <li>
+                                    <span className="title">{block_names.achievements_title}</span><br/>
+                                    <span>{item.achievements}</span>
+                                </li>
+                            </ul>
                         </ListGroupItem>
                     ))
                 }
