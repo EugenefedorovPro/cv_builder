@@ -2,8 +2,8 @@ import React from "react";
 import {ListGroup, ListGroupItem} from "react-bootstrap";
 import {useFetchData} from "../api/UseFetchData";
 
-type BlockNameObject = {
-    block_name: string;
+interface BlockNamesInterface {
+    education_name: string;
 }
 
 interface EducationItemInterface {
@@ -15,10 +15,15 @@ interface EducationItemInterface {
 
 }
 
+interface EducationBlockInterface {
+    education: EducationItemInterface[];
+    block_names: BlockNamesInterface;
+}
+
 const EducationCV = () => {
     const name = "Education"
     const url: string = "http://localhost:8002/education/";
-    const {data, loading, error} = useFetchData<[BlockNameObject, EducationItemInterface[]]>(url);
+    const {data, loading, error} = useFetchData<EducationBlockInterface>(url);
 
     if (loading) {
         return <div> Loading data for {name}...</div>
@@ -34,17 +39,22 @@ const EducationCV = () => {
 
     }
 
-    const [block_name, data_education] = data;
+    const {education, block_names} = data;
+
+    if (!education || !block_names) {
+        return <div>No data on {name}</div>
+
+    }
 
     return (
         <>
             <ListGroup>
-                <ListGroupItem className="block-name">{block_name.block_name}</ListGroupItem>
+                <ListGroupItem className="block-name">{block_names.education_name}</ListGroupItem>
             </ListGroup>
 
             <ListGroup>
                 {
-                    data_education.map((item) => (
+                    education.map((item) => (
                         <ListGroupItem className="education-items">
                             <span className="title">{item.institution}</span><br/>
                             {item.start_date} - {item.end_date}<br/>

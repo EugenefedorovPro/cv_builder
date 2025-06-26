@@ -226,13 +226,34 @@ class SoftSkillView(APIView):
 class EducationView(APIView):
     def get(self, request):
         lang: str = request.GET.get("lang")
-        education_items: QuerySet[Education] = Education.objects.filter(lang__lang = lang)
-        serializer_education = EducationSerializer(education_items, many = True)
+        education_qs: QuerySet[Education] = Education.objects.filter(lang__lang = lang)
+        if not education_qs:
+            return Response(
+                {
+                    "details": f"No education data for language: {lang}"
+                    },
+                status = status.HTTP_404_NOT_FOUND,
+                )
+        serializer = EducationSerializer(education_qs, many = True)
         block_names_ins: BlockNames = BlockNames.objects.all().first()
-        block_name = {
-            "block_name": block_names_ins.education_name if block_names_ins else None
+        if not block_names_ins:
+            return Response(
+                {
+                    "details": f"No block_names data for language: {lang}"
+                    },
+                status = status.HTTP_404_NOT_FOUND,
+                )
+
+        block_names = {
+            "education_name": block_names_ins.education_name if block_names_ins else None
             }
-        return Response((block_name, serializer_education.data))
+
+        return Response(
+            {
+                "block_names": block_names,
+                "education": serializer.data
+                },
+            )
 
 
 class InterestView(APIView):
