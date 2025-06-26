@@ -2,8 +2,8 @@ import React from "react";
 import {ListGroup, ListGroupItem} from "react-bootstrap";
 import {useFetchData} from "../api/UseFetchData";
 
-type BlockNameObject = {
-    block_name: string;
+interface BlockNameInterface {
+    natural_lang_name: string;
 }
 
 interface NaturalLangItemInterface {
@@ -13,10 +13,15 @@ interface NaturalLangItemInterface {
 
 }
 
+interface NaturalLangBlockInterface {
+    natural_langs: NaturalLangItemInterface[];
+    block_names: BlockNameInterface;
+}
+
 const NaturalLangCV = () => {
     const name = "Natural languages"
     const url: string = "http://localhost:8002/natural_lang/";
-    const {data, loading, error} = useFetchData<[BlockNameObject, NaturalLangItemInterface[]]>(url);
+    const {data, loading, error} = useFetchData<NaturalLangBlockInterface>(url);
 
     if (loading) {
         return <div> Loading data for {name}...</div>
@@ -32,28 +37,32 @@ const NaturalLangCV = () => {
 
     }
 
-    const [block_name, data_natural_lang] = data;
+    const {natural_langs, block_names} = data;
+
+    if (!natural_langs || !block_names) {
+        return <div>No data on {name}</div>
+
+    }
 
     return (
         <>
             <ListGroup>
-                <ListGroupItem className="block-name">{block_name.block_name}</ListGroupItem>
+                <ListGroupItem className="block-name">{block_names.natural_lang_name}</ListGroupItem>
             </ListGroup>
 
             <ListGroup>
                 <ListGroupItem className="natural-lang-items">
                     {
-                        data_natural_lang.map((item, index) => (
+                        natural_langs.map((item, index) => (
                             <span key={item.id}>
                                 <span className="title">{item.natural_lang}</span> - {item.level}
-                                {index < data_natural_lang.length - 1 ? ", " : ""}
+                                {index < natural_langs.length - 1 ? " • " : ""}
                             </span>
                         ))
                     }
                 </ListGroupItem>
             </ListGroup>
         </>
-
     )
 }
 
