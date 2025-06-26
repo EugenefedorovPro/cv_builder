@@ -137,7 +137,7 @@ class ProjectView(APIView):
                     },
                 status = status.HTTP_404_NOT_FOUND,
                 )
-        serializer_project = ProjectSerializer(projects, many = True)
+        serializer = ProjectSerializer(projects, many = True)
         block_names_ins: BlockNames = BlockNames.objects.all().first()
         if not block_names_ins:
             return Response(
@@ -151,7 +151,7 @@ class ProjectView(APIView):
             }
         return Response({
             "block_names": block_names,
-            "projects": serializer_project.data
+            "projects": serializer.data
             })
 
 
@@ -166,7 +166,7 @@ class ExperienceView(APIView):
                     },
                 status = status.HTTP_404_NOT_FOUND,
                 )
-        serializer_project = ExperienceSerializer(experience_qs, many = True)
+        serializer = ExperienceSerializer(experience_qs, many = True)
         block_names_ins: BlockNames = BlockNames.objects.all().first()
         if not block_names_ins:
             return Response(
@@ -185,7 +185,7 @@ class ExperienceView(APIView):
         return Response(
             {
                 "block_names": block_names,
-                "experience": serializer_project.data
+                "experience": serializer.data
                 },
             )
 
@@ -193,13 +193,34 @@ class ExperienceView(APIView):
 class SoftSkillView(APIView):
     def get(self, request):
         lang: str = request.GET.get("lang")
-        soft_skills: QuerySet[SoftSkill] = SoftSkill.objects.filter(lang__lang = lang)
-        serializer_soft_skill = SoftSkillSerializer(soft_skills, many = True)
+        soft_skills_qs: QuerySet[SoftSkill] = SoftSkill.objects.filter(lang__lang = lang)
+        if not soft_skills_qs:
+            return Response(
+                {
+                    "details": f"No soft_skills data for language: {lang}"
+                    },
+                status = status.HTTP_404_NOT_FOUND,
+                )
+
+        serializer = SoftSkillSerializer(soft_skills_qs, many = True)
         block_names_ins: BlockNames = BlockNames.objects.all().first()
-        block_name = {
-            "block_name": block_names_ins.soft_skills_name if block_names_ins else None
+        if not block_names_ins:
+            return Response(
+                {
+                    "details": f"No block_names data for language: {lang}"
+                    },
+                status = status.HTTP_404_NOT_FOUND,
+                )
+
+        block_names = {
+            "soft_skills_name": block_names_ins.soft_skills_name if block_names_ins else None
             }
-        return Response((block_name, serializer_soft_skill.data))
+        return Response(
+            {
+                "block_names": block_names,
+                "soft_skills": serializer.data
+                },
+            )
 
 
 class EducationView(APIView):

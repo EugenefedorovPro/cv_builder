@@ -76,6 +76,7 @@ const ExperienceCV = () => {
                                     <span className="title">{block_names.achievements_title}</span><br/>
                                     <span>{item.achievements}</span>
                                 </li>
+
                             </ul>
                         </ListGroupItem>
                     ))
