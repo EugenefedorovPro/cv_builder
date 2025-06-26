@@ -259,13 +259,33 @@ class EducationView(APIView):
 class InterestView(APIView):
     def get(self, request):
         lang: str = request.GET.get("lang")
-        interest_items: QuerySet[Interest] = Interest.objects.filter(lang__lang = lang)
-        serializer_interest = InterestSerializer(interest_items, many = True)
+        interest_qs: QuerySet[Interest] = Interest.objects.filter(lang__lang = lang)
+        if not interest_qs:
+            return Response(
+                {
+                    "details": f"No interest data for language: {lang}"
+                    },
+                status = status.HTTP_404_NOT_FOUND,
+                )
+        serializer = InterestSerializer(interest_qs, many = True)
         block_names_ins: BlockNames = BlockNames.objects.all().first()
-        block_name = {
-            "block_name": block_names_ins.interest_name if block_names_ins else None
+        if not block_names_ins:
+            return Response(
+                {
+                    "details": f"No block_names data for language: {lang}"
+                    },
+                status = status.HTTP_404_NOT_FOUND,
+                )
+
+        block_names = {
+            "interest_name": block_names_ins.interest_name if block_names_ins else None
             }
-        return Response((block_name, serializer_interest.data))
+        return Response(
+            {
+                "block_names": block_names,
+                "interests": serializer.data
+                },
+            )
 
 
 class NaturalLangView(APIView):
