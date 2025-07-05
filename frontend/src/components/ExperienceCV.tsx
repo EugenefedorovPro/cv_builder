@@ -62,7 +62,7 @@ const ExperienceCV = () => {
             <ListGroup>
                 {
                     experience.map((item) => (
-                        <ListGroupItem className="experience-items">
+                        <ListGroupItem key={item.id} className="experience-items">
                             <span className="title">{item.company}</span><br/>
                             <ul>
                                 <li>

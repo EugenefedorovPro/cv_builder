@@ -55,7 +55,7 @@ const EducationCV = () => {
             <ListGroup>
                 {
                     education.map((item) => (
-                        <ListGroupItem className="education-items">
+                        <ListGroupItem key={item.id} className="education-items">
                             <span className="title">{item.institution}</span><br/>
                             {item.start_date} - {item.end_date}<br/>
                             {item.degree_title}
