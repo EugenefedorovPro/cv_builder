@@ -36,7 +36,7 @@ export const useFetchData = <T>(url: string): UseDataFetchInterface<T> => {
         if (url) {
             fetchData();
         }
-    }, [url])
+    }, [url, lang])
 
     return {data, loading, error};
 }
