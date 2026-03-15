@@ -1,5 +1,5 @@
 import json
-
+import ipdb
 from django.test import TestCase
 from .populate_test_db import TestBuilderSuper
 from django.shortcuts import reverse
@@ -42,4 +42,5 @@ class ExperienceTest(TestCase):
             expected_projects,
             ]
 
+        ipdb.set_trace()
         self.assertEqual(actual, expected)

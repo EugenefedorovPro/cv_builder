@@ -5,19 +5,28 @@ from django.test import TestCase
 from .populate_test_db import TestBuilderSuper
 from django.shortcuts import reverse
 from cvs.tests.data import EDUCATION_ENG
-from cvs.types import (EducationItemType,
-                       DATE_FORMATTER,
-                       )
+from cvs.types import (
+    EducationItemType,
+    DATE_FORMATTER,
+)
 
 from cvs.models.models import BlockNames
 
 
 class EducationTest(TestCase):
     def setUp(self):
-        self.builder = TestBuilderSuper().create_user().create_lang().create_occupation().create_block_names().create_education()
-        logged_in = self.client.login(username = self.builder.username, password = self.builder.password)
+        self.builder = (
+            TestBuilderSuper()
+            .create_user()
+            .create_lang()
+            .create_occupation()
+            .create_block_names()
+            .create_education()
+        )
+        logged_in = self.client.login(
+            username=self.builder.username, password=self.builder.password
+        )
         self.assertTrue(logged_in)
-
 
     def test_education(self):
         url = reverse("cvs:education")
@@ -33,15 +42,14 @@ class EducationTest(TestCase):
                     "start_date": item.start_date.strftime(DATE_FORMATTER),
                     "end_date": item.end_date.strftime(DATE_FORMATTER),
                     "degree_title": item.degree_title,
-                    }
-                )
+                }
+            )
 
-        expected = [
-            {
-                'block_name': BlockNames.objects.all().first().education_name,
-
-                },
-            education_items,
-            ]
+        expected = {
+            "block_names": {
+                "education_name": BlockNames.objects.all().first().education_name
+            },
+            "education": education_items,
+        }
 
         self.assertEqual(actual, expected)

@@ -1,4 +1,4 @@
-const baseUrl: string = "http://localhost:8002/";
+const baseUrl = import.meta.env.VITE_BASE_URL_REACT;
 export const urlHeader: string = `${baseUrl}header/`;
 export const urlHardSkills: string = `${baseUrl}hard_skills/`;
 export const urlProjects: string = `${baseUrl}projects/`;

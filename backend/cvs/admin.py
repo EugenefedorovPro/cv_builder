@@ -15,9 +15,11 @@ from cvs.models.models import (Case,
                                Project,
                                SoftSkill,
                                WhyMe,
+                               BlockNames,
                                )
 
 
+admin.site.register(BlockNames)
 admin.site.register(CustomUser)
 admin.site.register(Header)
 admin.site.register(Photos)
