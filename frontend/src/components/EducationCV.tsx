@@ -1,4 +1,5 @@
 import React from "react";
+import { urlEducation } from "../urls";
 import {ListGroup, ListGroupItem} from "react-bootstrap";
 import {useFetchData} from "../api/UseFetchData";
 
@@ -22,8 +23,7 @@ interface EducationBlockInterface {
 
 const EducationCV = () => {
     const name = "Education"
-    const url: string = "http://localhost:8002/education/";
-    const {data, loading, error} = useFetchData<EducationBlockInterface>(url);
+    const {data, loading, error} = useFetchData<EducationBlockInterface>(urlEducation);
 
     if (loading) {
         return <div> Loading data for {name}...</div>

@@ -1,4 +1,5 @@
 import React from "react";
+import { urlHeader } from "../urls";
 import {Image, ListGroup, ListGroupItem, Container, Col, Row, Figure} from "react-bootstrap";
 import {useFetchData, UseDataFetchInterface} from "../api/UseFetchData";
 import ManifestCV from "./Manifest";
@@ -36,8 +37,7 @@ export type HeaderBlockType = {
 
 const HeaderCV = () => {
     const name = "Header"
-    const url: string = "http://localhost:8002/header/";
-    const {data, loading, error} = useFetchData<HeaderBlockType>(url);
+    const {data, loading, error} = useFetchData<HeaderBlockType>(urlHeader);
 
     if (loading) {
         return <div> Loading data for {name}...</div>

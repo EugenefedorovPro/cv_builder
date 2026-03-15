@@ -32,7 +32,7 @@ services:
     healthcheck:
       test: [ "CMD-SHELL", "curl -f http://localhost:8002/ || exit 1" ]
       interval: 5s
-      timeout: 2s
+      timeout: 5s
       retries: 3
 
   react_app:

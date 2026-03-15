@@ -1,4 +1,5 @@
 import React from "react";
+import { urlHardSkills } from "../urls";
 import {useFetchData} from "../api/UseFetchData";
 import {ListGroup, ListGroupItem, Container} from "react-bootstrap";
 
@@ -20,8 +21,7 @@ interface HardSkillsInterface {
 
 const HardSkillsCV = () => {
     const name = "Hard Skills"
-    const url: string = "http://localhost:8002/hard_skills/";
-    const {data, loading, error} = useFetchData<HardSkillsInterface>(url);
+    const {data, loading, error} = useFetchData<HardSkillsInterface>(urlHardSkills);
 
     if (loading) {
         return <div> Loading data for {name}...</div>

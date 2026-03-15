@@ -1,4 +1,5 @@
 import React from "react";
+import { urlInterest } from "../urls";
 import {ListGroup, ListGroupItem} from "react-bootstrap";
 import {useFetchData} from "../api/UseFetchData";
 
@@ -19,8 +20,7 @@ interface InterestBlockInterface {
 
 const InterestCV = () => {
     const name = "Interests"
-    const url: string = "http://localhost:8002/interest/";
-    const {data, loading, error} = useFetchData<InterestBlockInterface>(url);
+    const {data, loading, error} = useFetchData<InterestBlockInterface>(urlInterest);
 
     if (loading) {
         return <div> Loading data for {name}...</div>

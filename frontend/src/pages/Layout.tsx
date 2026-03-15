@@ -1,5 +1,4 @@
 import {Col, Container, Row, Stack} from "react-bootstrap";
-import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import NavbarCV from "../components/Navbar";
 import HeaderCV from "../components/HeaderCV";

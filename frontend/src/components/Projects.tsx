@@ -1,4 +1,5 @@
 import React from "react";
+import { urlProjects } from "../urls";
 import {ListGroup, ListGroupItem} from "react-bootstrap";
 import {useFetchData} from "../api/UseFetchData";
 
@@ -23,8 +24,7 @@ interface ProjectsBlockInterface {
 
 const Projects = () => {
     const name = "Projects"
-    const url: string = "http://localhost:8002/projects/"
-    const {data, loading, error} = useFetchData<ProjectsBlockInterface>(url);
+    const {data, loading, error} = useFetchData<ProjectsBlockInterface>(urlProjects);
 
 
     if (loading) {
