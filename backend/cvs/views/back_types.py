@@ -1,14 +1,21 @@
-from datetime import date, datetime
 from typing import TypedDict
 
 
-class HeaderPhotoType(TypedDict, total=False):
+# ----------------------------
+# Common / nested serializer data
+# ----------------------------
+
+class ErrorResponseType(TypedDict):
+    details: str
+
+
+class PhotoData(TypedDict, total=False):
     photo_url: str | None
 
 
 class HeaderData(TypedDict, total=False):
     id: int
-    photo: HeaderPhotoType | None
+    photo: PhotoData | None
     first_name: str
     second_name: str
     phone: str
@@ -20,171 +27,152 @@ class HeaderData(TypedDict, total=False):
     district: str | None
 
 
-class CustomUserData(TypedDict, total=False):
-    username: str
-    password: str
-    first_name: str
-    last_name: str
-    email: str
-    is_active: bool
-    is_staff: bool
-    is_superuser: bool
+class HardSkillData(TypedDict):
+    id: int
+    category: str
+    hard_skill_text: str
 
 
-class LanguageChoiceData(TypedDict):
-    lang: str
+class ManifestData(TypedDict):
+    id: int
+    manifest_text: str
 
 
-class OccupationChoiceData(TypedDict):
-    occupation: str
+class ProjectData(TypedDict, total=False):
+    id: int
+    project_name: str
+    project_text: str
+    web_url: str | None
+    git_url: str | None
 
 
-class BlockNamesData(TypedDict, total=False):
-    photo_name: str | None
-    header_name: str | None
-    hard_skills_name: str | None
-    manifest_name: str | None
-    projects_name: str | None
-    experience_name: str | None
-    soft_skills_name: str | None
-    education_name: str | None
-    natural_lang_name: str | None
-    interest_name: str | None
-    cases_name: str | None
-    why_me_name: str | None
-    feedback_name: str | None
+class ExperienceData(TypedDict, total=False):
+    id: int
+    company: str
+    start_date: str
+    end_date: str | None
+    achievements: str | None
+    position: str
 
-    lang_id: int
-    user_id: int
-    occupation_id: int
 
+class SoftSkillData(TypedDict):
+    id: int
+    soft_skill_text: str
+
+
+class EducationData(TypedDict):
+    id: int
+    institution: str
+    degree_title: str
+    start_date: str
+    end_date: str
+
+
+class InterestData(TypedDict, total=False):
+    id: int
+    interest_text: str | None
+
+
+class NaturalLanguageData(TypedDict):
+    id: int
+    natural_lang: str
+    level: str
+
+
+# ----------------------------
+# Block names for each view
+# ----------------------------
+
+class HeaderBlockNamesType(TypedDict, total=False):
     github_title: str | None
     linkedin_title: str | None
     country_title: str | None
     city_title: str | None
     district_title: str | None
 
+
+class HardSkillBlockNamesType(TypedDict, total=False):
+    hard_skills_name: str | None
+
+
+class ManifestBlockNamesType(TypedDict, total=False):
+    manifest_name: str | None
+
+
+class ProjectBlockNamesType(TypedDict, total=False):
+    project_name: str | None
+    # Better logical alternative for future:
+    # projects_name: str | None
+
+
+class ExperienceBlockNamesType(TypedDict, total=False):
+    experience_name: str | None
     company_title: str | None
     exp_period_title: str | None
     position_title: str | None
     achievements_title: str | None
 
-    institution_title: str | None
-    ed_period_title: str | None
-    degree_title: str | None
 
-    level_title: str | None
-
-    task_title: str | None
-    solution_title: str | None
-    optimization_title: str | None
-    result_title: str | None
-    tech_stack_title: str | None
-
-    contacts_title: str | None
-    current: str | None
+class SoftSkillBlockNamesType(TypedDict, total=False):
+    soft_skills_name: str | None
 
 
-class PhotosData(TypedDict, total=False):
-    photo_url: str | None
-    description: str | None
-    user_id: int
-    lang_id: int
-    occupation_id: int
+class EducationBlockNamesType(TypedDict, total=False):
+    education_name: str | None
 
 
-class ManifestData(TypedDict):
-    manifest_text: str
-    lang_id: int
-    user_id: int
-    occupation_id: int
+class InterestBlockNamesType(TypedDict, total=False):
+    interest_name: str | None
 
 
-class HardSkillData(TypedDict):
-    category: str
-    hard_skill_text: str
-    lang_id: int
-    user_id: int
-    occupation_id: int
+class NaturalLangBlockNamesType(TypedDict, total=False):
+    natural_lang_name: str | None
 
 
-class ProjectData(TypedDict, total=False):
-    project_name: str
-    project_text: str
-    web_url: str | None
-    git_url: str | None
-    lang_id: int
-    user_id: int
-    occupation_id: int
+# ----------------------------
+# Full success responses
+# ----------------------------
+
+class HeaderViewResponseType(TypedDict):
+    block_names: HeaderBlockNamesType
+    header: HeaderData
 
 
-class ExperienceData(TypedDict, total=False):
-    company: str
-    start_date: date
-    end_date: date | None
-    position: str
-    achievements: str | None
-    order: int
-    lang_id: int
-    user_id: int
-    occupation_id: int
+class HardSkillViewResponseType(TypedDict):
+    block_names: HardSkillBlockNamesType
+    hard_skills: list[HardSkillData]
 
 
-class SoftSkillData(TypedDict):
-    soft_skill_text: str
-    lang_id: int
-    user_id: int
-    occupation_id: int
+class ManifestViewResponseType(TypedDict):
+    block_names: ManifestBlockNamesType
+    manifest: ManifestData
 
 
-class EducationData(TypedDict):
-    institution: str
-    start_date: date
-    end_date: date
-    degree_title: str
-    lang_id: int
-    user_id: int
-    occupation_id: int
+class ProjectViewResponseType(TypedDict):
+    block_names: ProjectBlockNamesType
+    projects: list[ProjectData]
 
 
-class NaturalLanguageData(TypedDict):
-    natural_lang: str
-    level: str
-    lang_id: int
-    user_id: int
-    occupation_id: int
+class ExperienceViewResponseType(TypedDict):
+    block_names: ExperienceBlockNamesType
+    experience: list[ExperienceData]
 
 
-class InterestData(TypedDict):
-    interest_text: str
-    lang_id: int
-    user_id: int
-    occupation_id: int
+class SoftSkillViewResponseType(TypedDict):
+    block_names: SoftSkillBlockNamesType
+    soft_skills: list[SoftSkillData]
 
 
-class CaseData(TypedDict, total=False):
-    task: str
-    solution: str
-    optimization: str | None
-    result: str | None
-    tech_stack: str
-    lang_id: int
-    user_id: int
-    occupation_id: int
+class EducationViewResponseType(TypedDict):
+    block_names: EducationBlockNamesType
+    education: list[EducationData]
 
 
-class WhyMeData(TypedDict):
-    company: str
-    why_me_text: str
-    lang_id: int
-    user_id: int
-    occupation_id: int
+class InterestViewResponseType(TypedDict):
+    block_names: InterestBlockNamesType
+    interests: list[InterestData]
 
 
-class FeedbackData(TypedDict, total=False):
-    company: str
-    feedback_text: str
-    contacts: str | None
-    lang_id: int
-    user_id: int
-    occupation_id: int
+class NaturalLangViewResponseType(TypedDict):
+    block_names: NaturalLangBlockNamesType
+    natural_langs: list[NaturalLanguageData]

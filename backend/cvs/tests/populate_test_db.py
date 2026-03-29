@@ -57,7 +57,7 @@ User = get_user_model()
 
 class CvBlockInterface(ABC):
     @abstractmethod
-    def create_block(self):
+    def create_block(self) -> User:
         pass
 
 

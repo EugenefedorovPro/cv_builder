@@ -1,67 +1,67 @@
-import ipdb
-from typing import TypedDict, cast
-from rest_framework.views import APIView
-from rest_framework.response import Response
+from typing import cast
+
+from django.db.models import QuerySet
 from rest_framework import status
-from cvs.serializers import (
-    HeaderSerializer,
-    HardSkillSerializer,
-    ManifestSerializer,
-    ProjectSerializer,
-    SoftSkillSerializer,
-    EducationSerializer,
-    ExperienceSerializer,
-    InterestSerializer,
-    NaturalLangSerializer,
-)
+from rest_framework.request import Request
+from rest_framework.response import Response
+from rest_framework.views import APIView
+
 from cvs.models.models import (
-    Header,
-    HardSkill,
     BlockNames,
-    Manifest,
-    Project,
-    SoftSkill,
     Education,
     Experience,
+    HardSkill,
+    Header,
     Interest,
+    Manifest,
     NaturalLanguage,
+    Project,
+    SoftSkill,
 )
-from django.db.models import QuerySet
+from cvs.serializers import (
+    EducationSerializer,
+    ExperienceSerializer,
+    HardSkillSerializer,
+    HeaderSerializer,
+    InterestSerializer,
+    ManifestSerializer,
+    NaturalLangSerializer,
+    ProjectSerializer,
+    SoftSkillSerializer,
+)
 from cvs.views.back_types import (
-    CustomUserData,
-    LanguageChoiceData,
-    OccupationChoiceData,
-    HeaderData,
-    ManifestData,
-    HardSkillData,
-    ProjectData,
-    ExperienceData,
-    SoftSkillData,
+    EducationBlockNamesType,
     EducationData,
-    NaturalLanguageData,
+    EducationViewResponseType,
+    ExperienceBlockNamesType,
+    ExperienceData,
+    ExperienceViewResponseType,
+    HardSkillBlockNamesType,
+    HardSkillData,
+    HardSkillViewResponseType,
+    HeaderBlockNamesType,
+    HeaderData,
+    HeaderViewResponseType,
+    InterestBlockNamesType,
     InterestData,
-    CaseData,
-    WhyMeData,
-    FeedbackData,
-    BlockNamesData,
-    PhotosData,
+    InterestViewResponseType,
+    ManifestBlockNamesType,
+    ManifestData,
+    ManifestViewResponseType,
+    NaturalLangBlockNamesType,
+    NaturalLanguageData,
+    NaturalLangViewResponseType,
+    ProjectBlockNamesType,
+    ProjectData,
+    ProjectViewResponseType,
+    SoftSkillBlockNamesType,
+    SoftSkillData,
+    SoftSkillViewResponseType,
 )
-
-
-class BlockNameHeaderType(TypedDict, total=False):
-    github_title: str | None
-    linkedin_title: str | None
-    country_title: str | None
-    city_title: str | None
-    district_title: str | None
-
-class HeaderViewType(TypedDict):
-    block_names: BlockNameHeaderType
-    header: HeaderData
 
 
 class HeaderView(APIView):
-    def get(self, request):
+    def get(self, request: Request) -> Response:
         lang: str | None = request.GET.get("lang")
         header: Header | None = Header.objects.filter(lang__lang=lang).first()
         if not header:
@@ -69,13 +69,13 @@ class HeaderView(APIView):
                 {"details": f"No header data for language: {lang}"},
                 status=status.HTTP_404_NOT_FOUND,
             )
-        block_names_ins: BlockNames = BlockNames.objects.all().first()
+        block_names_ins: BlockNames | None = BlockNames.objects.all().first()
         if not block_names_ins:
             return Response(
                 {"details": f"No block_names data for language: {lang}"},
                 status=status.HTTP_404_NOT_FOUND,
             )
-        block_name: BlockNameHeaderType = {
+        block_name: HeaderBlockNamesType = {
             "github_title": block_names_ins.github_title,
             "linkedin_title": block_names_ins.linkedin_title,
             "country_title": block_names_ins.country_title,
@@ -84,7 +84,7 @@ class HeaderView(APIView):
         }
         serializer = HeaderSerializer(header)
         header_data: HeaderData = cast(HeaderData, serializer.data)
-        data: HeaderViewType = {
+        data: HeaderViewResponseType = {
             "block_names": block_name,
             "header": header_data,
         }
@@ -92,218 +92,259 @@ class HeaderView(APIView):
 
 
 class HardSkillView(APIView):
-    def get(self, request):
+    def get(self, request: Request) -> Response:
         lang = request.GET.get("lang")
-        hard_skills = HardSkill.objects.filter(lang__lang=lang)
+        hard_skills: QuerySet[HardSkill] = HardSkill.objects.filter(lang__lang=lang)
         if not hard_skills:
             return Response(
                 {"details": f"No hard_skills data for language: {lang}"},
                 status=status.HTTP_404_NOT_FOUND,
             )
-        serializer = HardSkillSerializer(hard_skills, many=True)
-        block_names_ins: BlockNames = BlockNames.objects.all().first()
+        hard_skills_data: list[HardSkillData] = cast(
+            list[HardSkillData], HardSkillSerializer(hard_skills, many=True).data
+        )
+        block_names_ins: BlockNames | None = BlockNames.objects.all().first()
         if not block_names_ins:
             return Response(
                 {"details": f"No block_names data for language: {lang}"},
                 status=status.HTTP_404_NOT_FOUND,
             )
-        block_name = {
+        block_name: HardSkillBlockNamesType = {
             "hard_skills_name": (
                 block_names_ins.hard_skills_name if block_names_ins else None
             )
         }
-        return Response(
-            {
-                "block_names": block_name,
-                "hard_skills": serializer.data,
-            }
-        )
+        hard_skill_response: HardSkillViewResponseType = {
+            "block_names": block_name,
+            "hard_skills": hard_skills_data,
+        }
+        return Response(hard_skill_response)
 
 
 class ManifestView(APIView):
-    def get(self, request):
-        lang = request.GET.get("lang")
-        manifest: Manifest = Manifest.objects.all().first()
+    def get(self, request: Request) -> Response:
+        lang: str | None = request.GET.get("lang")
+        manifest: Manifest | None = Manifest.objects.all().first()
         if not manifest:
             return Response(
                 {"details": f"No manifest data for language: {lang}"},
                 status=status.HTTP_404_NOT_FOUND,
             )
-        serializer = ManifestSerializer(manifest)
-        block_names_ins: BlockNames = (
+        manifest_data: ManifestData = cast(
+            ManifestData, ManifestSerializer(manifest).data
+        )
+        block_names_ins: BlockNames | None = (
             BlockNames.objects.all().filter(lang__lang=lang).first()
         )
+
         if not block_names_ins:
             return Response(
                 {"details": f"No block_names data for language: {lang}"},
                 status=status.HTTP_404_NOT_FOUND,
             )
 
-        block_names = {
+        block_names: ManifestBlockNamesType = {
             "manifest_name": block_names_ins.manifest_name if block_names_ins else None
         }
-        return Response(
-            {
-                "block_names": block_names,
-                "manifest": serializer.data,
-            }
-        )
+        manifest_response: ManifestViewResponseType = {
+            "block_names": block_names,
+            "manifest": manifest_data,
+        }
+        return Response(manifest_response)
 
 
 class ProjectView(APIView):
-    def get(self, request):
-        lang: str = request.GET.get("lang")
+    def get(self, request: Request) -> Response:
+        lang: str | None = request.GET.get("lang")
         projects: QuerySet[Project] = Project.objects.filter(lang__lang=lang)
         if not projects:
             return Response(
                 {"details": f"No projects data for language: {lang}"},
                 status=status.HTTP_404_NOT_FOUND,
             )
-        serializer = ProjectSerializer(projects, many=True)
-        block_names_ins: BlockNames = BlockNames.objects.all().first()
+        project_data: list[ProjectData] = cast(
+            list[ProjectData], ProjectSerializer(projects, many=True).data
+        )
+        block_names_ins: BlockNames | None = BlockNames.objects.all().first()
         if not block_names_ins:
             return Response(
                 {"details": f"No block_names data for language: {lang}"},
                 status=status.HTTP_404_NOT_FOUND,
             )
-        block_names = {
+        block_names: ProjectBlockNamesType = {
             "project_name": block_names_ins.projects_name if block_names_ins else None
         }
-        return Response({"block_names": block_names, "projects": serializer.data})
+        project_response: ProjectViewResponseType = {
+            "block_names": block_names,
+            "projects": project_data,
+        }
+        return Response(project_response)
 
 
 class ExperienceView(APIView):
-    def get(self, request):
-        lang: str = request.GET.get("lang")
-        experience_qs: QuerySet[Experience] = Experience.objects.filter(lang__lang=lang)
+    def get(self, request: Request) -> Response:
+        lang: str | None = request.GET.get("lang")
+        experience_qs: QuerySet[Experience] | None = Experience.objects.filter(
+            lang__lang=lang
+        )
         if not experience_qs:
             return Response(
                 {"details": f"No experience data for language: {lang}"},
                 status=status.HTTP_404_NOT_FOUND,
             )
-        serializer = ExperienceSerializer(experience_qs, many=True)
-        block_names_ins: BlockNames = BlockNames.objects.all().first()
+        experience_data: list[ExperienceData] = cast(
+            list[ExperienceData], ExperienceSerializer(experience_qs, many=True).data
+        )
+        block_names_ins: BlockNames | None = BlockNames.objects.all().first()
         if not block_names_ins:
             return Response(
                 {"details": f"No block_names data for language: {lang}"},
                 status=status.HTTP_404_NOT_FOUND,
             )
-        block_names = {
+        block_names: ExperienceBlockNamesType = {
             "experience_name": block_names_ins.experience_name,
             "company_title": block_names_ins.company_title,
             "exp_period_title": block_names_ins.exp_period_title,
             "position_title": block_names_ins.position_title,
             "achievements_title": block_names_ins.achievements_title,
         }
-        return Response(
-            {"block_names": block_names, "experience": serializer.data},
-        )
+        experience_response: ExperienceViewResponseType = {
+            "block_names": block_names,
+            "experience": experience_data,
+        }
+        return Response(experience_response)
 
 
 class SoftSkillView(APIView):
-    def get(self, request):
-        lang: str = request.GET.get("lang")
-        soft_skills_qs: QuerySet[SoftSkill] = SoftSkill.objects.filter(lang__lang=lang)
+    def get(self, request: Request) -> Response:
+        lang: str | None = request.GET.get("lang")
+        soft_skills_qs: QuerySet[SoftSkill] | None = SoftSkill.objects.filter(
+            lang__lang=lang
+        )
         if not soft_skills_qs:
             return Response(
                 {"details": f"No soft_skills data for language: {lang}"},
                 status=status.HTTP_404_NOT_FOUND,
             )
 
-        serializer = SoftSkillSerializer(soft_skills_qs, many=True)
-        block_names_ins: BlockNames = BlockNames.objects.all().first()
+        soft_skills_data: list[SoftSkillData] = cast(
+            list[SoftSkillData], SoftSkillSerializer(soft_skills_qs, many=True)
+        )
+        block_names_ins: BlockNames = cast(BlockNames, BlockNames.objects.all().first())
         if not block_names_ins:
             return Response(
                 {"details": f"No block_names data for language: {lang}"},
                 status=status.HTTP_404_NOT_FOUND,
             )
 
-        block_names = {
+        block_names: SoftSkillBlockNamesType = {
             "soft_skills_name": (
                 block_names_ins.soft_skills_name if block_names_ins else None
             )
         }
-        return Response(
-            {"block_names": block_names, "soft_skills": serializer.data},
-        )
+        soft_skill_response: SoftSkillViewResponseType = {
+            "block_names": block_names,
+            "soft_skills": soft_skills_data,
+        }
+        return Response(soft_skill_response)
 
 
 class EducationView(APIView):
-    def get(self, request):
-        lang: str = request.GET.get("lang")
-        education_qs: QuerySet[Education] = Education.objects.filter(lang__lang=lang)
+    def get(self, request: Request) -> Response:
+        lang: str | None = request.GET.get("lang")
+        education_qs: QuerySet[Education] | None = Education.objects.filter(
+            lang__lang=lang
+        )
         if not education_qs:
             return Response(
                 {"details": f"No education data for language: {lang}"},
                 status=status.HTTP_404_NOT_FOUND,
             )
-        serializer = EducationSerializer(education_qs, many=True)
-        block_names_ins: BlockNames = BlockNames.objects.all().first()
+        education_data: list[EducationData] = cast(
+            list[EducationData], EducationSerializer(education_qs, many=True).data
+        )
+        block_names_ins: BlockNames | None = BlockNames.objects.all().first()
         if not block_names_ins:
             return Response(
                 {"details": f"No block_names data for language: {lang}"},
                 status=status.HTTP_404_NOT_FOUND,
             )
 
-        block_names = {
+        block_names: EducationBlockNamesType = {
             "education_name": (
                 block_names_ins.education_name if block_names_ins else None
             )
         }
 
-        return Response(
-            {"block_names": block_names, "education": serializer.data},
-        )
+        education_response: EducationViewResponseType = {
+            "block_names": block_names,
+            "education": education_data,
+        }
+
+        return Response(education_response)
 
 
 class InterestView(APIView):
-    def get(self, request):
-        lang: str = request.GET.get("lang")
-        interest_qs: QuerySet[Interest] = Interest.objects.filter(lang__lang=lang)
+    def get(self, request: Request) -> Response:
+        lang: str | None = request.GET.get("lang")
+        interest_qs: QuerySet[Interest] | None = Interest.objects.filter(
+            lang__lang=lang
+        )
         if not interest_qs:
             return Response(
                 {"details": f"No interest data for language: {lang}"},
                 status=status.HTTP_404_NOT_FOUND,
             )
-        serializer = InterestSerializer(interest_qs, many=True)
-        block_names_ins: BlockNames = BlockNames.objects.all().first()
+        interest_data: list[InterestData] = cast(
+            list[InterestData], InterestSerializer(interest_qs, many=True)
+        )
+        block_names_ins: BlockNames | None = BlockNames.objects.all().first()
         if not block_names_ins:
             return Response(
                 {"details": f"No block_names data for language: {lang}"},
                 status=status.HTTP_404_NOT_FOUND,
             )
 
-        block_names = {
+        block_names: InterestBlockNamesType = {
             "interest_name": block_names_ins.interest_name if block_names_ins else None
         }
-        return Response(
-            {"block_names": block_names, "interests": serializer.data},
-        )
+
+        interest_response: InterestViewResponseType = {
+            "block_names": block_names,
+            "interests": interest_data,
+        }
+        return Response(interest_response)
 
 
 class NaturalLangView(APIView):
-    def get(self, request):
-        lang: str = request.GET.get("lang")
-        natural_lang_qs: QuerySet[NaturalLanguage] = NaturalLanguage.objects.filter(
-            lang__lang=lang
+    def get(self, request: Request) -> Response:
+        lang: str | None = request.GET.get("lang")
+        natural_lang_qs: QuerySet[NaturalLanguage] | None = (
+            NaturalLanguage.objects.filter(lang__lang=lang)
         )
         if not natural_lang_qs:
             return Response(
                 {"details": f"No natural languages data for language: {lang}"},
                 status=status.HTTP_404_NOT_FOUND,
             )
-        serializer = NaturalLangSerializer(natural_lang_qs, many=True)
-        block_names_ins: BlockNames = BlockNames.objects.all().first()
+        natural_lang_data: list[NaturalLanguageData] = cast(
+            list[NaturalLanguageData],
+            NaturalLangSerializer(natural_lang_qs, many=True).data,
+        )
+        block_names_ins: BlockNames | None = BlockNames.objects.all().first()
         if not block_names_ins:
             return Response(
                 {"details": f"No block_names data for language: {lang}"},
                 status=status.HTTP_404_NOT_FOUND,
             )
-        block_names = {
+        block_names: NaturalLangBlockNamesType = {
             "natural_lang_name": (
                 block_names_ins.natural_lang_name if block_names_ins else None
             )
         }
-        return Response(
-            {"block_names": block_names, "natural_langs": serializer.data},
-        )
+
+        natural_lang_response: NaturalLangViewResponseType = {
+            "block_names": block_names,
+            "natural_langs": natural_lang_data,
+        }
+        return Response(natural_lang_response)

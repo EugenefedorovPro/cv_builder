@@ -14,7 +14,9 @@ class CustomUser(AbstractUser):
 
 
 class LanguageChoice(models.Model):
+    # obligatory fields
     lang = models.CharField(max_length = 100)
+    # date time
     created_at = models.DateTimeField(auto_now_add = True)
     updated_at = models.DateTimeField(auto_now = True)
 
@@ -114,23 +116,25 @@ class Photos(models.Model):
 
 
 class Header(models.Model):
+    # obligatory fields
     phone = models.CharField(max_length = 50)
     first_name = models.CharField(max_length = 255)
     second_name = models.CharField(max_length = 255)
     email = models.EmailField()
+    # mandatory fields
     linkedin = models.URLField(blank = True, null = True)
     github = models.URLField(blank = True, null = True)
     country = models.CharField(max_length = 100, blank = True, null = True)
     city = models.CharField(max_length = 100, blank = True, null = True)
     district = models.CharField(max_length = 100, blank = True, null = True)
-    # date time
-    created_at = models.DateTimeField(auto_now_add = True)
-    updated_at = models.DateTimeField(auto_now = True)
-    photo = models.ForeignKey("Photos", on_delete = models.CASCADE, blank = True, null = True)
     # foreign keys
+    photo = models.ForeignKey("Photos", on_delete = models.CASCADE, blank = True, null = True)
     lang = models.ForeignKey("LanguageChoice", on_delete = models.CASCADE)
     user = models.ForeignKey("CustomUser", on_delete = models.CASCADE)
     occupation = models.ForeignKey("OccupationChoice", on_delete = models.CASCADE)
+    # date time
+    created_at = models.DateTimeField(auto_now_add = True)
+    updated_at = models.DateTimeField(auto_now = True)
 
 
     def __str__(self):
@@ -141,12 +145,15 @@ class Header(models.Model):
 
 
 class Manifest(models.Model):
+    # mandatory fields
     manifest_text = models.TextField()
-    created_at = models.DateTimeField(auto_now_add = True)
-    updated_at = models.DateTimeField(auto_now = True)
+    # foreign keys
     lang = models.ForeignKey("LanguageChoice", on_delete = models.CASCADE)
     user = models.ForeignKey("CustomUser", on_delete = models.CASCADE)
     occupation = models.ForeignKey("OccupationChoice", on_delete = models.CASCADE)
+    # date time
+    created_at = models.DateTimeField(auto_now_add = True)
+    updated_at = models.DateTimeField(auto_now = True)
 
 
     def __str__(self):
@@ -157,6 +164,7 @@ class Manifest(models.Model):
 
 
 class HardSkill(models.Model):
+    # obligatory fields
     category = models.CharField(max_length = 50)
     hard_skill_text = models.TextField()
     # date time
@@ -175,8 +183,10 @@ class HardSkill(models.Model):
 
 
 class Project(models.Model):
+    # obligatory fields
     project_name = models.CharField(max_length = 255)
     project_text = models.TextField(max_length = 300)
+    # mandatory fields
     web_url = models.URLField(null = True, blank = True)
     git_url = models.URLField(null = True, blank = True)
     # date time
@@ -195,14 +205,18 @@ class Project(models.Model):
 
 
 class Experience(models.Model):
+    # obligatory fields
     company = models.CharField(max_length = 255)
-    start_date = models.DateField()
-    end_date = models.DateField(null = True, blank = True)
     position = models.CharField(max_length = 255)
+    start_date = models.DateField()
+    order = models.PositiveIntegerField(default = 0)
+    # mandatory fields
+    end_date = models.DateField(null = True, blank = True)
     achievements = models.TextField(blank = True, null = True)
+    # date time
     created_at = models.DateTimeField(auto_now_add = True)
     updated_at = models.DateTimeField(auto_now = True)
-    order = models.PositiveIntegerField(default = 0)
+    # foreign keys
     lang = models.ForeignKey("LanguageChoice", on_delete = models.CASCADE)
     user = models.ForeignKey("CustomUser", on_delete = models.CASCADE)
     occupation = models.ForeignKey("OccupationChoice", on_delete = models.CASCADE)
@@ -223,9 +237,12 @@ class Experience(models.Model):
 
 
 class SoftSkill(models.Model):
+    # obligatory fields
     soft_skill_text = models.CharField(max_length = 300)
+    # date time
     created_at = models.DateTimeField(auto_now_add = True)
     updated_at = models.DateTimeField(auto_now = True)
+    # foreign keys
     lang = models.ForeignKey("LanguageChoice", on_delete = models.CASCADE)
     user = models.ForeignKey("CustomUser", on_delete = models.CASCADE)
     occupation = models.ForeignKey("OccupationChoice", on_delete = models.CASCADE)
@@ -238,12 +255,15 @@ class SoftSkill(models.Model):
 
 
 class Education(models.Model):
+    # obligatory fields
     institution = models.CharField(max_length = 255)
     start_date = models.DateField()
-    end_date = models.DateField()
     degree_title = models.CharField(max_length = 255)
+    end_date = models.DateField()
+    # date time
     created_at = models.DateTimeField(auto_now_add = True)
     updated_at = models.DateTimeField(auto_now = True)
+    # foreign keys
     lang = models.ForeignKey("LanguageChoice", on_delete = models.CASCADE)
     user = models.ForeignKey("CustomUser", on_delete = models.CASCADE)
     occupation = models.ForeignKey("OccupationChoice", on_delete = models.CASCADE)
@@ -264,19 +284,25 @@ class Education(models.Model):
 
 
 class NaturalLanguage(models.Model):
+    # obligatory fields
     natural_lang = models.CharField(max_length = 30, default = 'Ukrainian')
     level = models.CharField(max_length = 30, default = 'fluent')
+    # data time
     created_at = models.DateTimeField(auto_now_add = True)
     updated_at = models.DateTimeField(auto_now = True)
+    # foreign keys
     lang = models.ForeignKey("LanguageChoice", on_delete = models.CASCADE)
     user = models.ForeignKey("CustomUser", on_delete = models.CASCADE)
     occupation = models.ForeignKey("OccupationChoice", on_delete = models.CASCADE)
 
 
 class Interest(models.Model):
-    interest_text = models.CharField(max_length = 300)
+    # mandatory fields
+    interest_text = models.CharField(max_length = 300, null=True, blank=True)
+    # date time
     created_at = models.DateTimeField(auto_now_add = True)
     updated_at = models.DateTimeField(auto_now = True)
+    # foreign keys
     lang = models.ForeignKey("LanguageChoice", on_delete = models.CASCADE)
     user = models.ForeignKey("CustomUser", on_delete = models.CASCADE)
     occupation = models.ForeignKey("OccupationChoice", on_delete = models.CASCADE)
@@ -289,13 +315,17 @@ class Interest(models.Model):
 
 
 class Case(models.Model):
+    # obligatory fields
     task = models.TextField()
     solution = models.TextField()
+    tech_stack = models.TextField()
+    # mandatory fields
     optimization = models.TextField(blank = True, null = True)
     result = models.TextField(blank = True, null = True)
-    tech_stack = models.TextField()
+    # date time
     created_at = models.DateTimeField(auto_now_add = True)
     updated_at = models.DateTimeField(auto_now = True)
+    # foreign keys
     lang = models.ForeignKey("LanguageChoice", on_delete = models.CASCADE)
     user = models.ForeignKey("CustomUser", on_delete = models.CASCADE)
     occupation = models.ForeignKey("OccupationChoice", on_delete = models.CASCADE)
@@ -308,10 +338,13 @@ class Case(models.Model):
 
 
 class WhyMe(models.Model):
-    company = models.CharField(max_length = 255)
-    why_me_text = models.TextField()
+    # mandatory fields
+    company = models.CharField(max_length = 255, null=True, blank=True)
+    why_me_text = models.TextField(null=True, blank=True)
+    # date time
     created_at = models.DateTimeField(auto_now_add = True)
     updated_at = models.DateTimeField(auto_now = True)
+    # foreign keys
     lang = models.ForeignKey("LanguageChoice", on_delete = models.CASCADE)
     user = models.ForeignKey("CustomUser", on_delete = models.CASCADE)
     occupation = models.ForeignKey("OccupationChoice", on_delete = models.CASCADE)
@@ -324,11 +357,15 @@ class WhyMe(models.Model):
 
 
 class Feedback(models.Model):
+    # obligatory fields
     company = models.CharField(max_length = 255)
     feedback_text = models.CharField(max_length = 10_000)
+    # mandatory fields
     contacts = models.CharField(max_length = 255, blank = True, null = True)
+    # date time
     created_at = models.DateTimeField(auto_now_add = True)
     updated_at = models.DateTimeField(auto_now = True)
+    # foreign keys
     lang = models.ForeignKey("LanguageChoice", on_delete = models.CASCADE)
     user = models.ForeignKey("CustomUser", on_delete = models.CASCADE)
     occupation = models.ForeignKey("OccupationChoice", on_delete = models.CASCADE)

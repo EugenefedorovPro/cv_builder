@@ -1,0 +1,27 @@
+[tool.mypy]
+python_version = "3.12"
+plugins = [
+    "mypy_django_plugin.main",
+    "mypy_drf_plugin.main",
+]
+warn_unused_configs = true
+explicit_package_bases = true
+disallow_untyped_defs = false
+disallow_incomplete_defs = false
+check_untyped_defs = false
+disallow_untyped_calls = false
+
+[tool.django-stubs]
+django_settings_module = "cv_builder.settings"
+
+[[tool.mypy.overrides]]
+module = "*.migrations.*"
+ignore_errors = true
+
+[[tool.mypy.overrides]]
+module = "cvs.tests.*"
+ignore_errors = true
+
+[[tool.mypy.overrides]]
+module = ["ipdb", "docxtpl"]
+ignore_missing_imports = true

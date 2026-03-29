@@ -6,102 +6,131 @@ from cvs.models.models import OccupationChoice
 
 DATE_FORMATTER = "%Y-%m-%d"
 
-PhotoTuple = namedtuple("PhotoTuple", (
-    "id",
-    "description",
-    "name",
-    "width",
-    "height",
-    "color",
-    "mode",
-    "format",
-    ))
+PhotoTuple = namedtuple(
+    "PhotoTuple",
+    (
+        "id",
+        "description",
+        "name",
+        "width",
+        "height",
+        "color",
+        "mode",
+        "format",
+    ),
+)
 
-HeaderTuple = namedtuple("HeaderTuple", (
-    "id",
-    "first_name",
-    "second_name",
-    "phone",
-    "email",
-    "linkedin",
-    "github",
-    "country",
-    "city",
-    "district",
-    ), defaults = (
-    None,
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
+HeaderTuple = namedtuple(
+    "HeaderTuple",
+    (
+        "id",
+        "first_name",
+        "second_name",
+        "phone",
+        "email",
+        "linkedin",
+        "github",
+        "country",
+        "city",
+        "district",
+    ),
+    defaults=(
+        None,
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+    ),
+)
 
-    ))
+OccupationChoiceTuple = namedtuple(
+    "OccupationChoiceTuple",
+    (
+        "id",
+        "occupation",
+    ),
+)
 
-OccupationChoiceTuple = namedtuple("OccupationChoiceTuple", (
-    "id",
-    "occupation",
-    ))
+ManifestTuple = namedtuple(
+    "ManifestTuple",
+    (
+        "id",
+        "manifest_text",
+    ),
+)
 
-ManifestTuple = namedtuple("ManifestTuple", (
-    "id",
-    "manifest_text",
+ProjectTuple = namedtuple(
+    "ProjectTuple",
+    (
+        "project_name",
+        "project_text",
+        "web_url",
+        "git_url",
+    ),
+)
 
-    ))
+ExperienceTuple = namedtuple(
+    "ExperienceTuple",
+    (
+        "id",
+        "company",
+        "start_date",
+        "end_date",
+        "position",
+        "achievements",
+        "order",
+    ),
+)
 
-ProjectTuple = namedtuple("ProjectTuple", (
-    "project_name",
-    "project_text",
-    "web_url",
-    "git_url",
+HardSkillTuple = namedtuple(
+    "HardSkillTuple",
+    (
+        "id",
+        "category",
+        "hard_skill_text",
+    ),
+)
 
-    ))
+SoftSkillTuple = namedtuple(
+    "SoftSkillTuple",
+    (
+        "id",
+        "soft_skill_text",
+    ),
+)
 
-ExperienceTuple = namedtuple("ExperienceTuple", (
-    "id",
-    "company",
-    "start_date",
-    "end_date",
-    "position",
-    "achievements",
-    "order",
+EducationTuple = namedtuple(
+    "EducationTuple",
+    (
+        "id",
+        "institution",
+        "start_date",
+        "end_date",
+        "degree_title",
+    ),
+)
 
-    ))
+InterestTuple = namedtuple(
+    "InterestTuple",
+    (
+        "id",
+        "interest_text",
+    ),
+)
 
-HardSkillTuple = namedtuple("HardSkillTuple", (
-    "id",
-    "category",
-    "hard_skill_text",
-    ))
-
-SoftSkillTuple = namedtuple("SoftSkillTuple", (
-    "id",
-    "soft_skill_text",
-    ))
-
-EducationTuple = namedtuple("EducationTuple", (
-    "id",
-    "institution",
-    "start_date",
-    "end_date",
-    "degree_title",
-    ))
-
-InterestTuple = namedtuple("InterestTuple", (
-    "id",
-    "interest_text",
-    ))
-
-NaturalLangTuple = namedtuple("NaturalLangTuple", (
-    "id",
-    "natural_lang",
-    "level",
-
-    ))
+NaturalLangTuple = namedtuple(
+    "NaturalLangTuple",
+    (
+        "id",
+        "natural_lang",
+        "level",
+    ),
+)
 
 
 BlockNameTuple = namedtuple(
@@ -141,7 +170,8 @@ BlockNameTuple = namedtuple(
         "tech_stack_title",
         "contacts_title",
         "current",
-        ))
+    ),
+)
 
 
 class BlockNameType(TypedDict):

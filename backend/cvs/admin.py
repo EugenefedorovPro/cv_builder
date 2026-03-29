@@ -1,22 +1,23 @@
 from django.contrib import admin
 
-from cvs.models.models import (Case,
-                               CustomUser,
-                               Education,
-                               Experience,
-                               Feedback,
-                               HardSkill,
-                               Header,
-                               Interest,
-                               LanguageChoice,
-                               Manifest,
-                               OccupationChoice,
-                               Photos,
-                               Project,
-                               SoftSkill,
-                               WhyMe,
-                               BlockNames,
-                               )
+from cvs.models.models import (
+    Case,
+    CustomUser,
+    Education,
+    Experience,
+    Feedback,
+    HardSkill,
+    Header,
+    Interest,
+    LanguageChoice,
+    Manifest,
+    OccupationChoice,
+    Photos,
+    Project,
+    SoftSkill,
+    WhyMe,
+    BlockNames,
+)
 
 
 admin.site.register(BlockNames)
