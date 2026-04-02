@@ -37,8 +37,9 @@ export interface ExperienceBlockInterface {
   block_names: HeaderBlockNamesInterface;
 }
 
-export interface BlockNameObject {
-  hard_skills_name: string;
+// HardSkill
+export interface HardSkillsBlockNameObject {
+  hard_skills_name?: string | null;
 }
 
 export interface HardSkillsItemInterface {
@@ -48,15 +49,14 @@ export interface HardSkillsItemInterface {
 }
 
 export interface HardSkillsInterface {
-  block_names: BlockNameObject;
+  block_names: HardSkillsBlockNameObject;
   hard_skills: HardSkillsItemInterface[];
 }
 
+// Header
 export interface PhotoInterface {
   photo_url: string;
 }
-
-// Header
 
 export interface HeaderBlockNamesInterface {
   github_title?: string;
@@ -170,4 +170,3 @@ export interface SoftSkillsBlockInterface {
   soft_skills: SoftSkillItemInterface[];
   block_names: BlockNameInterface;
 }
-

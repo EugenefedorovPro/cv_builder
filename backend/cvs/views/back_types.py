@@ -5,10 +5,9 @@ class ErrorResponseType(TypedDict):
     details: str
 
 
+# Header
 class PhotoData(TypedDict, total=False):
     photo_url: str | None
-
-# Header
 
 class HeaderBlockNamesType(TypedDict, total=False):
     github_title: str | None
@@ -36,7 +35,7 @@ class HeaderViewResponseType(TypedDict):
     block_names: HeaderBlockNamesType
     header: HeaderData
 
-
+# HardSkill
 class HardSkillBlockNamesType(TypedDict, total=False):
     hard_skills_name: str | None
 
@@ -51,7 +50,7 @@ class HardSkillViewResponseType(TypedDict):
     block_names: HardSkillBlockNamesType
     hard_skills: list[HardSkillData]
 
-
+# Manifest
 class ManifestBlockNamesType(TypedDict, total=False):
     manifest_name: str | None
 
