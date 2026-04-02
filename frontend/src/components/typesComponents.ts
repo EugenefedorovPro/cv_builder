@@ -1,4 +1,4 @@
-export interface BlockNamesInterface {
+export interface HeaderBlockNamesInterface {
   education_name: string;
 }
 
@@ -12,10 +12,10 @@ export interface EducationItemInterface {
 
 export interface EducationBlockInterface {
   education: EducationItemInterface[];
-  block_names: BlockNamesInterface;
+  block_names: HeaderBlockNamesInterface;
 }
 
-export interface BlockNamesInterface {
+export interface HeaderBlockNamesInterface {
   experience_name: string;
   company_title: string;
   exp_period_title: string;
@@ -34,7 +34,7 @@ export interface ExperienceItemInterface {
 
 export interface ExperienceBlockInterface {
   experience: ExperienceItemInterface[];
-  block_names: BlockNamesInterface;
+  block_names: HeaderBlockNamesInterface;
 }
 
 export interface BlockNameObject {
@@ -56,7 +56,9 @@ export interface PhotoInterface {
   photo_url: string;
 }
 
-export interface BlockNamesInterface {
+// Header
+
+export interface HeaderBlockNamesInterface {
   github_title?: string;
   linkedin_title?: string;
   country_title?: string;
@@ -70,17 +72,17 @@ export interface HeaderInterface {
   second_name: string;
   phone: string;
   email: string;
-  city?: string;
-  country?: string;
-  district?: string;
-  github?: string;
-  linkedin?: string;
-  photo?: PhotoInterface;
+  city?: string | null;
+  country?: string | null;
+  district?: string | null;
+  github?: string | null;
+  linkedin?: string | null;
+  photo?: PhotoInterface | null;
 }
 
 export type HeaderBlockType = {
   header: HeaderInterface;
-  block_names: BlockNamesInterface;
+  block_names: HeaderBlockNamesInterface;
 };
 
 export interface BlockNameInterface {
@@ -96,7 +98,7 @@ export interface InterestBlockInterface {
   interests: InterestItemInterface[];
   block_names: BlockNameInterface;
 }
-export interface BlockNamesInterface {
+export interface HeaderBlockNamesInterface {
   block_names: string;
 }
 
@@ -107,7 +109,7 @@ export interface ManifestItemInterface {
 
 export interface ManifestBlockInterface {
   manifest: ManifestItemInterface;
-  block_names: BlockNamesInterface;
+  block_names: HeaderBlockNamesInterface;
 }
 export interface BlockNameInterface {
   natural_lang_name: string;
