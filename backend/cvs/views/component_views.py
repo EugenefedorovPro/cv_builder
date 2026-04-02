@@ -1,4 +1,5 @@
 from typing import cast
+import ipdb
 
 from django.db.models import QuerySet
 from rest_framework import status
@@ -228,7 +229,7 @@ class SoftSkillView(APIView):
             )
 
         soft_skills_data: list[SoftSkillData] = cast(
-            list[SoftSkillData], SoftSkillSerializer(soft_skills_qs, many=True)
+            list[SoftSkillData], SoftSkillSerializer(soft_skills_qs, many=True).data
         )
         block_names_ins: BlockNames = cast(BlockNames, BlockNames.objects.all().first())
         if not block_names_ins:
@@ -296,7 +297,7 @@ class InterestView(APIView):
                 status=status.HTTP_404_NOT_FOUND,
             )
         interest_data: list[InterestData] = cast(
-            list[InterestData], InterestSerializer(interest_qs, many=True)
+            list[InterestData], InterestSerializer(interest_qs, many=True).data
         )
         block_names_ins: BlockNames | None = BlockNames.objects.all().first()
         if not block_names_ins:

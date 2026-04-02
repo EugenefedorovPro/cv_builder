@@ -1,21 +1,7 @@
-import React from "react";
 import { urlSoftSkills } from "../urls";
 import { ListGroup, ListGroupItem } from "react-bootstrap";
 import { useFetchData } from "../api/UseFetchData";
-
-interface BlockNameInterface {
-  soft_skills_name: string;
-}
-
-interface SoftSkillItemInterface {
-  id: number;
-  soft_skill_text: string;
-}
-
-interface SoftSkillsBlockInterface {
-  soft_skills: SoftSkillItemInterface[];
-  block_names: BlockNameInterface;
-}
+import { SoftSkillsBlockInterface } from "../components/typesComponents";
 
 const SoftSkillsCV = () => {
   const name = "Soft Skills";
@@ -61,4 +47,3 @@ const SoftSkillsCV = () => {
 };
 
 export default SoftSkillsCV;
-

@@ -1,16 +1,39 @@
 import json
 
 import ipdb
-from django.test import TestCase
-from .populate_test_db import TestBuilderSuper
 from django.shortcuts import reverse
-from cvs.tests.data import EDUCATION_ENG
-from cvs.types import (
-    EducationItemType,
-    DATE_FORMATTER,
-)
+from django.test import TestCase
 
 from cvs.models.models import BlockNames
+from cvs.tests.data import EDUCATION_ENG
+from cvs.types import DATE_FORMATTER, EducationItemType
+
+from .populate_test_db import TestBuilderSuper
+
+expected = {
+    "block_names": {"education_name": "Education"},
+    "education": [
+        {
+            "degree_title": "Specialist in Practical Psychology and "
+            "English Philology, with teaching "
+            "qualification in World Literature",
+            "end_date": "2001-06-01",
+            "id": 1,
+            "institution": "Kyiv State Linguistic University",
+            "start_date": "1996-11-01",
+        },
+        {
+            "degree_title": "Completed postgraduate studies in Philosophy "
+            "with a focus on Ethics, Aesthetics, and "
+            "Personality",
+            "end_date": "2008-07-01",
+            "id": 2,
+            "institution": "Hryhoriy Skovoroda Institute of Philosophy, "
+            "National Academy of Sciences of Ukraine",
+            "start_date": "2005-11-01",
+        },
+    ],
+}
 
 
 class EducationTest(TestCase):
@@ -32,24 +55,4 @@ class EducationTest(TestCase):
         url = reverse("cvs:education")
         response = self.client.get(url + "?lang=eng")
         actual = json.loads(response.content.decode())
-
-        education_items: list[EducationItemType] = []
-        for item in EDUCATION_ENG:
-            education_items.append(
-                {
-                    "id": item.id,
-                    "institution": item.institution,
-                    "start_date": item.start_date.strftime(DATE_FORMATTER),
-                    "end_date": item.end_date.strftime(DATE_FORMATTER),
-                    "degree_title": item.degree_title,
-                }
-            )
-
-        expected = {
-            "block_names": {
-                "education_name": BlockNames.objects.all().first().education_name
-            },
-            "education": education_items,
-        }
-
         self.assertEqual(actual, expected)

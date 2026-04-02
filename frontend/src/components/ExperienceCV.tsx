@@ -2,28 +2,7 @@ import React from "react";
 import { ListGroup, ListGroupItem } from "react-bootstrap";
 import { useFetchData } from "../api/UseFetchData";
 import { urlExperience } from "../urls";
-
-interface BlockNamesInterface {
-  experience_name: string;
-  company_title: string;
-  exp_period_title: string;
-  position_title: string;
-  achievements_title: string;
-}
-
-interface ExperienceItemInterface {
-  id: number;
-  company: string;
-  position: string;
-  start_date: string;
-  end_date?: string;
-  achievements: string;
-}
-
-interface ExperienceBlockInterface {
-  experience: ExperienceItemInterface[];
-  block_names: BlockNamesInterface;
-}
+import { ExperienceBlockInterface } from "../components/typesComponents";
 
 const ExperienceCV = () => {
   const name = "Experience";

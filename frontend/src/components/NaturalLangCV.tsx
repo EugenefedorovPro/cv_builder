@@ -2,21 +2,8 @@ import React from "react";
 import { ListGroup, ListGroupItem } from "react-bootstrap";
 import { useFetchData } from "../api/UseFetchData";
 import { urlNaturalLang } from "../urls";
+import { NaturalLangBlockInterface } from "../components/typesComponents";
 
-interface BlockNameInterface {
-  natural_lang_name: string;
-}
-
-interface NaturalLangItemInterface {
-  id: number;
-  natural_lang: string;
-  level: string;
-}
-
-interface NaturalLangBlockInterface {
-  natural_langs: NaturalLangItemInterface[];
-  block_names: BlockNameInterface;
-}
 
 const NaturalLangCV = () => {
   const name = "Natural languages";
