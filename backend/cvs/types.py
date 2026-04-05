@@ -1,5 +1,4 @@
 from typing import TypedDict
-from datetime import datetime
 from collections import namedtuple
 
 from cvs.models.models import OccupationChoice
@@ -176,67 +175,91 @@ BlockNameTuple = namedtuple(
 
 class BlockNameType(TypedDict):
     id: int
-    photo_name: str
-    header_name: str
-    hard_skills_name: str
-    manifest_name: str
-    projects_name: str
-    experience_name: str
-    soft_skills_name: str
-    education_name: str
-    natural_lang_name: str
-    interest_name: str
-    cases_name: str
-    why_me_name: str
-    feedback_name: str
-    githut_title: str
-    linkedin_title: str
-    country_title: str
-    city_title: str
-    district_title: str
-    company_title: str
-    exp_period_title: str
-    position_title: str
-    achievements_title: str
-    institution_title: str
-    ed_period_title: str
-    degree_title: str
-    level_title: str
-    task_title: str
-    solution_title: str
-    optimization_title: str
-    result_title: str
-    tech_stack_title: str
-    contacts_title: str
-    current: str
+    photo_name: str | None
+    header_name: str | None
+    hard_skills_name: str | None
+    manifest_name: str | None
+    projects_name: str | None
+    experience_name: str | None
+    soft_skills_name: str | None
+    education_name: str | None
+    natural_lang_name: str | None
+    interest_name: str | None
+    cases_name: str | None
+    why_me_name: str | None
+    feedback_name: str | None
+    github_title: str | None
+    linkedin_title: str | None
+    country_title: str | None
+    city_title: str | None
+    district_title: str | None
+    company_title: str | None
+    exp_period_title: str | None
+    position_title: str | None
+    achievements_title: str | None
+    institution_title: str | None
+    ed_period_title: str | None
+    degree_title: str | None
+    level_title: str | None
+    task_title: str | None
+    solution_title: str | None
+    optimization_title: str | None
+    result_title: str | None
+    tech_stack_title: str | None
+    contacts_title: str | None
+    current: str | None
 
 
 class PhotoType(TypedDict):
-    id: str
-    description: str
-    name: str
-    width: int
-    height: int
-    color: str
-    mode: str
-    format: str
+    photo_url: str
 
 
 class HeaderType(TypedDict):
+    id: int
     first_name: str
     second_name: str
     phone: str
     email: str
-    linkedin: str
-    github: str
+    linkedin: str | None
+    github: str | None
     country: str | None
     city: str | None
     district: str | None
+    photo: PhotoType | None
 
 
 CvHeaderType = tuple[BlockNameType, list[HeaderType]]
 
 
+# Header response
+class HeaderBlockNamesType(TypedDict):
+    github_title: str | None
+    linkedin_title: str | None
+    country_title: str | None
+    city_title: str | None
+    district_title: str | None
+
+
+class HeaderData(TypedDict):
+    id: int
+    first_name: str
+    second_name: str
+    phone: str
+    email: str
+    linkedin: str | None
+    github: str | None
+    country: str | None
+    city: str | None
+    district: str | None
+    photo: PhotoType | None
+
+
+class HeaderViewResponseType(TypedDict):
+    block_names: HeaderBlockNamesType
+    header: HeaderData
+
+
+# manifest
 class ManifestType(TypedDict):
     id: int
     manifest_text: str
@@ -245,27 +268,80 @@ class ManifestType(TypedDict):
 CvManifestType = tuple[BlockNameType, list[ManifestType]]
 
 
+class ManifestBlockNamesType(TypedDict):
+    manifest_name: str | None
+
+
+class ManifestData(TypedDict):
+    id: int
+    manifest_text: str
+
+
+class ManifestViewResponseType(TypedDict):
+    block_names: ManifestBlockNamesType
+    manifest: ManifestData
+
+
 class ProjectItemType(TypedDict):
     id: int
     project_name: str
     project_text: str
-    web_url: str
-    git_url: str
+    web_url: str | None
+    git_url: str | None
 
 
 CvProjectType = tuple[BlockNameType, list[ProjectItemType]]
 
 
+class ProjectBlockNamesType(TypedDict):
+    project_name: str | None
+
+
+class ProjectData(TypedDict):
+    id: int
+    project_name: str
+    project_text: str
+    web_url: str | None
+    git_url: str | None
+
+
+class ProjectViewResponseType(TypedDict):
+    block_names: ProjectBlockNamesType
+    projects: list[ProjectData]
+
+
 class ExperienceItemType(TypedDict):
     id: int
     company: str
-    start_date: datetime
-    end_date: datetime | None
-    achievements: str
+    start_date: str
+    end_date: str | None
+    achievements: str | None
     position: str
 
 
 CvExperienceType = tuple[BlockNameType, list[ExperienceItemType]]
+
+
+class ExperienceBlockNamesType(TypedDict):
+    experience_name: str | None
+    company_title: str | None
+    exp_period_title: str | None
+    position_title: str | None
+    achievements_title: str | None
+
+
+class ExperienceData(TypedDict):
+    id: int
+    company: str
+    start_date: str
+    end_date: str | None
+    achievements: str | None
+    position: str
+
+
+class ExperienceViewResponseType(TypedDict):
+    block_names: ExperienceBlockNamesType
+    experience: list[ExperienceData]
 
 
 class HardSkilItemType(TypedDict):
@@ -274,40 +350,115 @@ class HardSkilItemType(TypedDict):
     hard_skill_text: str
 
 
-CvHardSkillsType = tuple[BlockNameType, HardSkilItemType]
+CvHardSkillsType = tuple[BlockNameType, list[HardSkilItemType]]
 
 
-class SoftSkillItemType:
+class HardSkillBlockNamesType(TypedDict):
+    hard_skills_name: str | None
+
+
+class HardSkillData(TypedDict):
+    id: int
+    category: str
+    hard_skill_text: str
+
+
+class HardSkillViewResponseType(TypedDict):
+    block_names: HardSkillBlockNamesType
+    hard_skills: list[HardSkillData]
+
+
+class SoftSkillItemType(TypedDict):
     id: int
     soft_skill_text: str
 
 
-CvSoftSkillsType = tuple[BlockNameType, SoftSkillItemType]
+CvSoftSkillsType = tuple[BlockNameType, list[SoftSkillItemType]]
 
 
-class EducationItemType:
+class SoftSkillBlockNamesType(TypedDict):
+    soft_skills_name: str | None
+
+
+class SoftSkillData(TypedDict):
+    id: int
+    soft_skill_text: str
+
+
+class SoftSkillViewResponseType(TypedDict):
+    block_names: SoftSkillBlockNamesType
+    soft_skills: list[SoftSkillData]
+
+
+class EducationItemType(TypedDict):
     id: int
     institution: str
-    start_date: datetime
-    end_date: datetime
+    start_date: str
+    end_date: str
     degree_title: str
 
 
-CvEducationType = tuple[BlockNameType, EducationItemType]
+CvEducationType = tuple[BlockNameType, list[EducationItemType]]
 
 
-class InterestItemType:
+class EducationBlockNamesType(TypedDict):
+    education_name: str | None
+
+
+class EducationData(TypedDict):
+    id: int
+    institution: str
+    start_date: str
+    end_date: str
+    degree_title: str
+
+
+class EducationViewResponseType(TypedDict):
+    block_names: EducationBlockNamesType
+    education: list[EducationData]
+
+
+class InterestItemType(TypedDict):
     id: int
     interest_text: str
 
 
-CvInterestType = tuple[BlockNameType, InterestItemType]
+CvInterestType = tuple[BlockNameType, list[InterestItemType]]
 
 
-class NaturalLangItemType:
+class InterestBlockNamesType(TypedDict):
+    interest_name: str | None
+
+
+class InterestData(TypedDict):
+    id: int
+    interest_text: str
+
+
+class InterestViewResponseType(TypedDict):
+    block_names: InterestBlockNamesType
+    interests: list[InterestData]
+
+
+class NaturalLangItemType(TypedDict):
     id: int
     natural_lang: str
     level: str
 
 
-CvNaturalLangType = tuple[BlockNameType, NaturalLangItemType]
+CvNaturalLangType = tuple[BlockNameType, list[NaturalLangItemType]]
+
+
+class NaturalLangBlockNamesType(TypedDict):
+    natural_lang_name: str | None
+
+
+class NaturalLanguageData(TypedDict):
+    id: int
+    natural_lang: str
+    level: str
+
+
+class NaturalLangViewResponseType(TypedDict):
+    block_names: NaturalLangBlockNamesType
+    natural_langs: list[NaturalLanguageData]
