@@ -1,6 +1,6 @@
 from typing import cast
-import ipdb
 
+import ipdb
 from django.db.models import QuerySet
 from rest_framework import status
 from rest_framework.request import Request

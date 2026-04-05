@@ -2,10 +2,6 @@ from django.contrib.auth.models import AbstractUser
 from django.core.exceptions import ValidationError
 from django.db import models
 
-
-# TODO: manage order - remoce Resume (many - to many filds) - add occupation to every many folded model???
-# TODO: link to this cv
-
 class CustomUser(AbstractUser):
     pass
 
