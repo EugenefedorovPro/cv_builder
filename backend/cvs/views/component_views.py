@@ -32,7 +32,7 @@ from cvs.serializers import (
     ProjectSerializer,
     SoftSkillSerializer,
 )
-from cvs.views.back_types import (
+from cvs.types import (
     CustomUserType,
     EducationBlockNamesType,
     EducationData,
