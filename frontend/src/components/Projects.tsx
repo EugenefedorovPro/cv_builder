@@ -33,7 +33,7 @@ const Projects = () => {
   return (
     <ListGroup>
       <ListGroupItem className="block-name">
-        {block_names.block_names}
+        {block_names.project_name}
       </ListGroupItem>
       {projects.map((project) => (
         <ListGroupItem key={project.id} className="projects-items">

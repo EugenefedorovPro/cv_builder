@@ -1,5 +1,6 @@
-export interface HeaderBlockNamesInterface {
-  education_name: string;
+// Education
+export interface EducationBlockNamesInterface {
+  education_name: string | null;
 }
 
 export interface EducationItemInterface {
@@ -12,15 +13,16 @@ export interface EducationItemInterface {
 
 export interface EducationBlockInterface {
   education: EducationItemInterface[];
-  block_names: HeaderBlockNamesInterface;
+  block_names: EducationBlockNamesInterface;
 }
 
-export interface HeaderBlockNamesInterface {
-  experience_name: string;
-  company_title: string;
-  exp_period_title: string;
-  position_title: string;
-  achievements_title: string;
+// Experience
+export interface ExperienceBlockNamesInterface {
+  experience_name: string | null;
+  company_title: string | null;
+  exp_period_title: string | null;
+  position_title: string | null;
+  achievements_title: string | null;
 }
 
 export interface ExperienceItemInterface {
@@ -28,18 +30,18 @@ export interface ExperienceItemInterface {
   company: string;
   position: string;
   start_date: string;
-  end_date?: string;
-  achievements: string;
+  end_date: string | null;
+  achievements: string | null;
 }
 
 export interface ExperienceBlockInterface {
   experience: ExperienceItemInterface[];
-  block_names: HeaderBlockNamesInterface;
+  block_names: ExperienceBlockNamesInterface;
 }
 
 // HardSkill
 export interface HardSkillsBlockNameObject {
-  hard_skills_name?: string | null;
+  hard_skills_name: string | null;
 }
 
 export interface HardSkillsItemInterface {
@@ -59,11 +61,11 @@ export interface PhotoInterface {
 }
 
 export interface HeaderBlockNamesInterface {
-  github_title?: string;
-  linkedin_title?: string;
-  country_title?: string;
-  city_title?: string;
-  district_title?: string;
+  github_title: string | null;
+  linkedin_title: string | null;
+  country_title: string | null;
+  city_title: string | null;
+  district_title: string | null;
 }
 
 export interface HeaderInterface {
@@ -72,21 +74,22 @@ export interface HeaderInterface {
   second_name: string;
   phone: string;
   email: string;
-  city?: string | null;
-  country?: string | null;
-  district?: string | null;
-  github?: string | null;
-  linkedin?: string | null;
-  photo?: PhotoInterface | null;
+  city: string | null;
+  country: string | null;
+  district: string | null;
+  github: string | null;
+  linkedin: string | null;
+  photo: PhotoInterface | null;
 }
 
-export type HeaderBlockType = {
+export interface HeaderBlockType {
   header: HeaderInterface;
   block_names: HeaderBlockNamesInterface;
-};
+}
 
-export interface BlockNameInterface {
-  interest_name: string;
+// Interest
+export interface InterestBlockNameInterface {
+  interest_name: string | null;
 }
 
 export interface InterestItemInterface {
@@ -96,10 +99,12 @@ export interface InterestItemInterface {
 
 export interface InterestBlockInterface {
   interests: InterestItemInterface[];
-  block_names: BlockNameInterface;
+  block_names: InterestBlockNameInterface;
 }
-export interface HeaderBlockNamesInterface {
-  block_names: string;
+
+// Manifest
+export interface ManifestBlockNameInterface {
+  manifest_name: string | null;
 }
 
 export interface ManifestItemInterface {
@@ -109,10 +114,12 @@ export interface ManifestItemInterface {
 
 export interface ManifestBlockInterface {
   manifest: ManifestItemInterface;
-  block_names: HeaderBlockNamesInterface;
+  block_names: ManifestBlockNameInterface;
 }
-export interface BlockNameInterface {
-  natural_lang_name: string;
+
+// Natural language
+export interface NaturalLangBlockNameInterface {
+  natural_lang_name: string | null;
 }
 
 export interface NaturalLangItemInterface {
@@ -123,22 +130,12 @@ export interface NaturalLangItemInterface {
 
 export interface NaturalLangBlockInterface {
   natural_langs: NaturalLangItemInterface[];
-  block_names: BlockNameInterface;
+  block_names: NaturalLangBlockNameInterface;
 }
 
-export interface BlockNameInterface {
-  natural_lang_name: string;
-}
-
-export interface NaturalLangItemInterface {
-  id: number;
-  natural_lang: string;
-  level: string;
-}
-
-export interface NaturalLangBlockInterface {
-  natural_langs: NaturalLangItemInterface[];
-  block_names: BlockNameInterface;
+// Projects
+export interface ProjectsBlockNameInterface {
+  project_name: string | null;
 }
 
 export interface ProjectItemInterface {
@@ -149,16 +146,14 @@ export interface ProjectItemInterface {
   git_url: string | null;
 }
 
-export interface BlockNameInterface {
-  block_names: string;
-}
-
 export interface ProjectsBlockInterface {
   projects: ProjectItemInterface[];
-  block_names: BlockNameInterface;
+  block_names: ProjectsBlockNameInterface;
 }
-export interface BlockNameInterface {
-  soft_skills_name: string;
+
+// Soft skills
+export interface SoftSkillsBlockNameInterface {
+  soft_skills_name: string | null;
 }
 
 export interface SoftSkillItemInterface {
@@ -168,5 +163,5 @@ export interface SoftSkillItemInterface {
 
 export interface SoftSkillsBlockInterface {
   soft_skills: SoftSkillItemInterface[];
-  block_names: BlockNameInterface;
+  block_names: SoftSkillsBlockNameInterface;
 }

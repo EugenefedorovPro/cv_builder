@@ -31,18 +31,21 @@ const HeaderCV = () => {
   }
 
   return (
-    <Row className="">
-      <Col className="d-none d-md-block">
-        <Image
-          thumbnail
-          width={150}
-          height={200}
-          alt="150x200"
-          src={`http://localhost:8002${header?.photo?.photo_url}/`}
-          className="overall-background rounded-0"
-        />
-      </Col>
-      <Col sm={12} md={10} lg={10} className="">
+    <Row>
+      {header.photo && (
+        <Col className="d-none d-md-block">
+          <Image
+            thumbnail
+            width={150}
+            height={200}
+            alt="150x200"
+            src={`http://localhost:8002${header.photo.photo_url}`}
+            className="overall-background rounded-0"
+          />
+        </Col>
+      )}
+
+      <Col sm={12} md={10} lg={10}>
         <ListGroup>
           <ListGroupItem>
             <h5>
@@ -59,7 +62,7 @@ const HeaderCV = () => {
             <a
               href={`tel:${header.phone}`}
               target="_blank"
-              rel="noopener noteferrer"
+              rel="noopener noreferrer"
             >
               {header.phone}
             </a>
@@ -69,7 +72,7 @@ const HeaderCV = () => {
             <a
               href={`mailto:${header.email}`}
               target="_blank"
-              rel="noopener noteferrer"
+              rel="noopener noreferrer"
             >
               {header.email}
             </a>
@@ -78,10 +81,11 @@ const HeaderCV = () => {
           {header.github && (
             <ListGroupItem>
               <a href={header.github} target="_blank" rel="noopener noreferrer">
-                {block_names.github_title}
+                {block_names.github_title ?? "GitHub"}
               </a>
             </ListGroupItem>
           )}
+
           {header.linkedin && (
             <ListGroupItem>
               <a
@@ -89,7 +93,7 @@ const HeaderCV = () => {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                {block_names.linkedin_title}
+                {block_names.linkedin_title ?? "LinkedIn"}
               </a>
             </ListGroupItem>
           )}
@@ -98,28 +102,35 @@ const HeaderCV = () => {
             <ListGroupItem className="d-flex flex-wrap gap-3">
               {header.country && (
                 <div>
-                  <span className="title">{block_names.country_title}</span>:{" "}
+                  <span className="title">
+                    {block_names.country_title ?? "Country:"}
+                  </span>{" "}
                   {header.country}
                 </div>
               )}
 
               {header.city && (
                 <div>
-                  <span className="title">{block_names.city_title}</span>:{" "}
+                  <span className="title">
+                    {block_names.city_title ?? "City:"}
+                  </span>{" "}
                   {header.city}
                 </div>
               )}
 
               {header.district && (
                 <div>
-                  <span className="title">{block_names.district_title}</span>:{" "}
+                  <span className="title">
+                    {block_names.district_title ?? "District:"}
+                  </span>{" "}
                   {header.district}
                 </div>
               )}
             </ListGroupItem>
           )}
         </ListGroup>
-        {<ManifestCV />}
+
+        <ManifestCV />
       </Col>
     </Row>
   );
