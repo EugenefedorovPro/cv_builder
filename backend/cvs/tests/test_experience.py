@@ -1,13 +1,8 @@
 import json
 from pprint import pprint
 
-import ipdb
 from django.test import TestCase
 from django.urls import reverse
-
-from cvs.models.models import BlockNames
-from cvs.tests.data import EXPERIENCE_ENG
-from cvs.types import DATE_FORMATTER, CvExperienceType, ExperienceItemType
 
 from .populate_test_db import TestBuilderSuper
 

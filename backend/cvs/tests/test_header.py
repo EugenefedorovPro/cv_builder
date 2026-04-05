@@ -1,15 +1,41 @@
 import json
+from pprint import pprint
 
 import ipdb
-from cvs.tests.data import header_user_super
 from django.contrib.auth import get_user_model
 from django.test import TestCase
 from django.urls import reverse
-from pprint import pprint
+
+from cvs.tests.data import header_user_super
 
 from .populate_test_db import TestBuilderSuper
 
 User = get_user_model()
+
+
+expected_header = {
+    "block_names": {
+        "github_title": "github",
+        "linkedin_title": "linkedin",
+        "country_title": "Country: ",
+        "city_title": "City: ",
+        "district_title": "District: ",
+    },
+    "header": {
+        "id": 1,
+        "first_name": "Eugene",
+        "second_name": "Proskulikov",
+        "phone": "+38-(096)-464-3910",
+        "email": "eugene.proskulikov@gmail.com",
+        "linkedin": "https://www.linkedin.com/in/eugene-proskulikov-168050a4/",
+        "github": "https://github.com/EugenefedorovPro/",
+        "country": "Ukraine",
+        "city": "Kyiv",
+        "district": "Left Bank",
+    },
+}
+
+expected_photo = {"photo_url": "/media/photos/test_image"}
 
 
 class HeaderTest(TestCase):
@@ -37,31 +63,6 @@ class HeaderTest(TestCase):
         return actual_header
 
     def test_get(self):
-        expected_header = {
-            'block_names': {
-                'github_title': 'github',
-                'linkedin_title': 'linkedin',
-                'country_title': 'Country: ',
-                'city_title': 'City: ',
-                'district_title': 'District: '
-            },
-            'header': {
-                'id': 1,
-                'first_name': 'Eugene',
-                'second_name': 'Proskulikov',
-                'phone': '+38-(096)-464-3910',
-                'email': 'eugene.proskulikov@gmail.com',
-                'linkedin': 'https://www.linkedin.com/in/eugene-proskulikov-168050a4/',
-                'github': 'https://github.com/EugenefedorovPro/',
-                'country': 'Ukraine',
-                'city': 'Kyiv',
-                'district': 'Left Bank'
-            }
-        }
-
-        expected_photo = {
-            'photo_url': '/media/photos/test_image'
-        }
 
         actual_header = self.get_actual_header()
         actual_photo = actual_header["header"].pop("photo")

@@ -9,6 +9,7 @@ class ErrorResponseType(TypedDict):
 class PhotoData(TypedDict, total=False):
     photo_url: str | None
 
+
 class HeaderBlockNamesType(TypedDict, total=False):
     github_title: str | None
     linkedin_title: str | None
@@ -35,6 +36,7 @@ class HeaderViewResponseType(TypedDict):
     block_names: HeaderBlockNamesType
     header: HeaderData
 
+
 # HardSkill
 class HardSkillBlockNamesType(TypedDict, total=False):
     hard_skills_name: str | None
@@ -49,6 +51,7 @@ class HardSkillData(TypedDict):
 class HardSkillViewResponseType(TypedDict):
     block_names: HardSkillBlockNamesType
     hard_skills: list[HardSkillData]
+
 
 # Manifest
 class ManifestBlockNamesType(TypedDict, total=False):
@@ -164,3 +167,14 @@ class NaturalLanguageData(TypedDict):
 class NaturalLangViewResponseType(TypedDict):
     block_names: NaturalLangBlockNamesType
     natural_langs: list[NaturalLanguageData]
+
+
+class CustomUserType(TypedDict):
+    id: int
+    username: str
+    first_name: str | None
+    second_name: str | None
+    email: str
+
+class UserResponseType(TypedDict):
+    user_data: CustomUserType

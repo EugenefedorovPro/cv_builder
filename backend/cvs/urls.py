@@ -8,13 +8,14 @@ from cvs.views.component_views import (HeaderView,
                                        ExperienceView,
                                        InterestView,
                                        NaturalLangView,
-
+                                       UserView,
                                        )
 from cvs.views.generate_docx_view import GenerateDocx
 
 app_name = "cvs"
 
 urlpatterns = [
+    path("user/", UserView.as_view(), name="user"),
     path("header/", HeaderView.as_view(), name = "header"),
     path("hard_skills/", HardSkillView.as_view(), name = "hard_skills"),
     path("manifest/", ManifestView.as_view(), name = "manifest"),

@@ -1,12 +1,7 @@
 import json
 
-import ipdb
 from django.shortcuts import reverse
 from django.test import TestCase
-
-from cvs.models.models import BlockNames
-from cvs.tests.data import NATURAL_LANGS_ENG
-from cvs.types import NaturalLangItemType
 
 from .populate_test_db import TestBuilderSuper
 

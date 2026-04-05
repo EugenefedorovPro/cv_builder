@@ -1,10 +1,6 @@
 import json
 from pprint import pprint
 
-import ipdb
-from cvs.models.models import BlockNames
-from cvs.tests.data import PROJECTS_ENG, ProjectTuple
-from cvs.types import CvProjectType, ProjectItemType
 from django.test import TestCase
 from django.urls import reverse
 

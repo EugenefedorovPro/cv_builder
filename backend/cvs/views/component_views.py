@@ -9,6 +9,7 @@ from rest_framework.views import APIView
 
 from cvs.models.models import (
     BlockNames,
+    CustomUser,
     Education,
     Experience,
     HardSkill,
@@ -20,6 +21,7 @@ from cvs.models.models import (
     SoftSkill,
 )
 from cvs.serializers import (
+    CustomUserSerializer,
     EducationSerializer,
     ExperienceSerializer,
     HardSkillSerializer,
@@ -31,6 +33,7 @@ from cvs.serializers import (
     SoftSkillSerializer,
 )
 from cvs.views.back_types import (
+    CustomUserType,
     EducationBlockNamesType,
     EducationData,
     EducationViewResponseType,
@@ -58,7 +61,18 @@ from cvs.views.back_types import (
     SoftSkillBlockNamesType,
     SoftSkillData,
     SoftSkillViewResponseType,
+    UserResponseType,
 )
+
+
+class UserView(APIView):
+    def get(self, request: Request) -> Response:
+        user_obj: CustomUser | None = CustomUser.objects.first()
+        user_data: CustomUserType = cast(
+            CustomUserType, CustomUserSerializer(user_obj).data
+        )
+        data: UserResponseType = {"user_data": user_data}
+        return Response(data)
 
 
 class HeaderView(APIView):

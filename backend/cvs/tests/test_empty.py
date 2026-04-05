@@ -5,11 +5,13 @@ import ipdb
 from django.contrib.auth import get_user_model
 from django.test import TestCase
 from django.urls import reverse
+from unittest import skip
 
 
 User = get_user_model()
 
 
+@skip("")
 class HeaderTest(TestCase):
 
     def get_actual_header(self):

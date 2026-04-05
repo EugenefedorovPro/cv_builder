@@ -1,15 +1,24 @@
 from rest_framework import serializers
-from cvs.models.models import (Header,
-                               NaturalLanguage,
-                               Photos,
-                               HardSkill,
-                               Manifest,
-                               Project,
-                               SoftSkill,
-                               Education,
-                               Experience,
-                               Interest,
-                               )
+
+from cvs.models.models import (
+    CustomUser,
+    Education,
+    Experience,
+    HardSkill,
+    Header,
+    Interest,
+    Manifest,
+    NaturalLanguage,
+    Photos,
+    Project,
+    SoftSkill,
+)
+
+
+class CustomUserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CustomUser
+        fields = ["id", "username", "first_name", "last_name", "email"]
 
 
 class PhotoSerializer(serializers.ModelSerializer):
@@ -25,18 +34,19 @@ class HeaderSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Header
-        fields = ["id",
-                  "photo",
-                  "first_name",
-                  "second_name",
-                  "phone",
-                  "email",
-                  "linkedin",
-                  "github",
-                  "country",
-                  "city",
-                  "district",
-                  ]
+        fields = [
+            "id",
+            "photo",
+            "first_name",
+            "second_name",
+            "phone",
+            "email",
+            "linkedin",
+            "github",
+            "country",
+            "city",
+            "district",
+        ]
 
 
 class HardSkillSerializer(serializers.ModelSerializer):

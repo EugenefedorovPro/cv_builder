@@ -1,9 +1,6 @@
 import json
 from pprint import pprint
-import ipdb
-from cvs.models.models import BlockNames
-from cvs.tests.data import HARD_SKILLS_ENG
-from cvs.types import HardSkilItemType
+
 from django.test import TestCase
 from django.urls import reverse
 
@@ -107,4 +104,3 @@ class HardSkillTest(TestCase):
         actual_response = json.loads(response.content.decode())
         pprint(f"hard_skills_response = {actual_response}")
         self.assertEqual(actual_response, expected_response)
-
