@@ -2,11 +2,12 @@ import React from "react";
 import { ListGroup, ListGroupItem } from "react-bootstrap";
 import { useFetchData } from "../api/UseFetchData";
 import { ManifestBlockInterface } from "../components/typesComponents";
+import { urlManifest } from "../urls";
 
 const ManifestCV = () => {
   const name = "Manifest";
-  const url: string = "http://localhost:8002/manifest/";
-  const { data, loading, error } = useFetchData<ManifestBlockInterface>(url);
+  const { data, loading, error } = useFetchData<ManifestBlockInterface>(urlManifest);
+  console.log(data);
 
   if (loading) {
     return <div> Loading data for {name}...</div>;

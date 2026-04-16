@@ -18,7 +18,14 @@ from cvs.models.models import (
 class CustomUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
-        fields = ["id", "username", "first_name", "last_name", "email"]
+        fields = ["id", "username", "password", "email"]
+
+    def create(self, validated_data):
+        return CustomUser.objects.create_user(
+            username=validated_data["username"],
+            email=validated_data["email"],
+            password=validated_data["password"],
+        )
 
 
 class PhotoSerializer(serializers.ModelSerializer):

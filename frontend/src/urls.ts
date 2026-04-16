@@ -6,5 +6,7 @@ export const urlSoftSkills: string = `${baseUrl}soft_skills`;
 export const urlEducation: string = `${baseUrl}education/`;
 export const urlExperience: string = `${baseUrl}experience/`;
 export const urlInterest: string = `${baseUrl}interest/`;
+export const urlManifest: string = `${baseUrl}manifest/`;
 export const urlNaturalLang: string = `${baseUrl}natural_lang/`;
+export const urlUser: string = `${baseUrl}user/`;
 

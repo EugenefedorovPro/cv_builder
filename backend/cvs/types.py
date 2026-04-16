@@ -1,5 +1,5 @@
 from collections import namedtuple
-from typing import TypedDict
+from typing import NotRequired, TypedDict
 
 DATE_FORMATTER = "%Y-%m-%d"
 
@@ -173,11 +173,10 @@ class NaturalLangViewResponseType(TypedDict):
 
 
 class CustomUserType(TypedDict):
-    id: int
+    id: int | str
     username: str
-    first_name: str | None
-    second_name: str | None
     email: str
+    password: NotRequired[ str | None]
 
 
 class UserResponseType(TypedDict):

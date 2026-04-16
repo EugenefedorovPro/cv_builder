@@ -1,3 +1,23 @@
+from cvs.types import CustomUserType
+
+USER_PLACEHOLDERS: dict[str, CustomUserType] = {
+    "eng": {
+        "id": "",
+        "username": "Username",
+        "email": "Email",
+    },
+    "ukr": {
+        "id": "",
+        "username": "Ім'я користувача",
+        "email": "Електронна пошта",
+    },
+    "rus": {
+        "id": "",
+        "username": "Имя пользователя",
+        "email": "Электронная почта",
+    },
+}
+
 HEADER_DEFAULTS_BY_LANG = {
     "eng": {
         "phone": "Write your cell phone",

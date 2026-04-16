@@ -63,16 +63,44 @@ from cvs.types import (
     SoftSkillViewResponseType,
     UserResponseType,
 )
+from cvs.views.defaults_by_lang import USER_PLACEHOLDERS
 
 
 class UserView(APIView):
-    def get(self, request: Request) -> Response:
-        user_obj: CustomUser | None = CustomUser.objects.first()
-        user_data: CustomUserType = cast(
-            CustomUserType, CustomUserSerializer(user_obj).data
+
+    def _get_user_placeholders(self, lang: str) -> UserResponseType:
+        user_data: CustomUserType = USER_PLACEHOLDERS.get(
+            lang, USER_PLACEHOLDERS["eng"]
         )
-        data: UserResponseType = {"user_data": user_data}
-        return Response(data)
+        return {"user_data": user_data}
+
+    def get(self, request: Request, user_id=None) -> Response:
+        # ipdb.set_trace()
+        lang: str = request.GET.get("lang", "")
+
+        # returns placeholder by lang or if no lang - placeholders in eng
+        if not user_id:
+            return Response(self._get_user_placeholders(lang))
+
+        user_obj: CustomUser | None = CustomUser.objects.filter(pk=user_id).first()
+
+        # returns placeholder by lang or if no lang - placeholders in eng
+        if not user_obj:
+            return Response(self._get_user_placeholders(lang))
+
+        user_data = cast(CustomUserType, CustomUserSerializer(user_obj).data)
+        response_data = {"user_data": user_data}
+        return Response(response_data)
+
+    def post(self, request: Request) -> Response:
+        serializer = CustomUserSerializer(data=request.data)
+        if serializer.is_valid():
+            user = serializer.save()
+            return Response(
+                {"user_data": CustomUserSerializer(user).data},
+                status.HTTP_201_CREATED,
+            )
+        return Response(serializer.errors, status.HTTP_400_BAD_REQUEST)
 
 
 class HeaderView(APIView):

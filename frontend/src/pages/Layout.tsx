@@ -1,5 +1,6 @@
-import {Col, Container, Row, Stack} from "react-bootstrap";
-import 'bootstrap/dist/css/bootstrap.min.css';
+import { Col, Container, Row, Stack } from "react-bootstrap";
+import { Outlet } from "react-router-dom";
+import "bootstrap/dist/css/bootstrap.min.css";
 import NavbarCV from "../components/Navbar";
 import HeaderCV from "../components/HeaderCV";
 import HardSkillsCV from "../components/HardSkills";
@@ -10,101 +11,83 @@ import ExperienceCV from "../components/ExperienceCV";
 import InterestCV from "../components/InterestsCV";
 import NaturalLangCV from "../components/NaturalLangCV";
 import "./Layout.styles.css";
-import {LangProvider} from "../contexts/LangContext";
-
+import { LangProvider } from "../contexts/LangContext";
 
 const Layout = () => {
+  return (
+    <LangProvider>
+      <Container fluid className="overall-background">
+        <Row>
+          <Col
+            lg={{ span: 1, order: 1 }}
+            md={{ span: 12, order: 1 }}
+            sm={{ span: 12, order: 1 }}
+            xs={{ span: 12, order: 1 }}
+            className="navbar-col flex-lg-column"
+          >
+            <NavbarCV />
+          </Col>
 
-    return (<>
-            <LangProvider>
-                <Container
-                    fluid
-                    className="overall-background"
+          <Col
+            lg={{ span: 9, order: 2 }}
+            md={{ span: 12, order: 1 }}
+            sm={{ span: 12, order: 1 }}
+            xs={{ span: 12, order: 1 }}
+          >
+            <Row className="flex-column">
+              <Col className="header-col">
+                <HeaderCV />
+              </Col>
 
-                >
-                    <Row
-                        className=""
-                    >
+              <Col className="p-0 d-block d-lg-none">
+                <HardSkillsCV />
+              </Col>
 
-                        <Col
-                            lg={{span: 1, order: 1}}
-                            md={{span: 12, order: 1}}
-                            sm={{span: 12, order: 1}}
-                            xs={{span: 12, order: 1}}
+              <Col className="p-0">
+                <Stack>
+                  <div>
+                    <ProjectsCV />
+                  </div>
 
-                            className="navbar-col flex-lg-column"
-                        >
-                            {<NavbarCV/>}
-                        </Col>
-                        <Col
-                            className=""
-                            lg={{span: 9, order: 2}}
-                            md={{span: 12, order: 1}}
-                            sm={{span: 12, order: 1}}
-                            xs={{span: 12, order: 1}}
-                        >
-                            <Row className="flex-column">
-                                <Col className="header-col">
-                                    {<HeaderCV/>}
-                                </Col>
-                                <Col className="p-0 d-block d-lg-none">
-                                    {<HardSkillsCV/>}
-                                </Col>
-                                <Col className="p-0">
-                                    <Stack
-                                        className=""
-                                    >
-                                        <div className="">
-                                            {<ProjectsCV/>}
-                                        </div>
+                  <div>
+                    <ExperienceCV />
+                  </div>
 
-                                        <div className="">
-                                            {<ExperienceCV/>}
-                                        </div>
+                  <div>
+                    <SoftSkillsCV />
+                  </div>
 
-                                        <div className="">
-                                            {<SoftSkillsCV/>}
-                                        </div>
+                  <div>
+                    <EducationCV />
+                  </div>
 
-                                        <div className="">
-                                            {<EducationCV/>}
-                                        </div>
+                  <div>
+                    <NaturalLangCV />
+                  </div>
 
-                                        <div className="">
-                                            {<NaturalLangCV/>}
-                                        </div>
+                  <div>
+                    <InterestCV />
+                  </div>
 
-                                        <div className="">
-                                            {<InterestCV/>}
-                                        </div>
-                                    </Stack>
+                  <Outlet />
+                </Stack>
+              </Col>
+            </Row>
+          </Col>
 
-                                </Col>
-
-                            </Row>
-
-                        </Col>
-
-                        <Col
-                            className="hard-skills-col d-none d-lg-block flex-lg-column"
-                            lg={{span: 2, order: 4}}
-                            md={{span: 12, order: 1}}
-                            sm={{span: 12, order: 1}}
-                            xs={{span: 12, order: 1}}
-                        >
-                            <HardSkillsCV/>
-
-                        </Col>
-
-
-                    </Row>
-
-                </Container>
-
-            </LangProvider>
-
-        </>
-    )
+          <Col
+            className="hard-skills-col d-none d-lg-block flex-lg-column"
+            lg={{ span: 2, order: 4 }}
+            md={{ span: 12, order: 1 }}
+            sm={{ span: 12, order: 1 }}
+            xs={{ span: 12, order: 1 }}
+          >
+            <HardSkillsCV />
+          </Col>
+        </Row>
+      </Container>
+    </LangProvider>
+  );
 };
 
 export default Layout;

@@ -14,7 +14,7 @@ RUN npm run build
 # The second stage
 # Copy React static files and start nginx
 FROM nginx:1.27.5
-COPY --from=build /app/build /usr/share/nginx/html
+COPY --from=build /app/dist /usr/share/nginx/html
 COPY ./nginx/monitor.conf /etc/nginx/conf.d/monitor.conf
 COPY ./backend/staticfiles /app/staticfiles
 CMD ["nginx", "-g", "daemon off;"]
