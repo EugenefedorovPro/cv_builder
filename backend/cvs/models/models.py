@@ -1,6 +1,18 @@
+import uuid
+
 from django.contrib.auth.models import AbstractUser
 from django.core.exceptions import ValidationError
 from django.db import models
+
+
+class UuidUrl(models.Model):
+    uuid_url = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
+    # foreign keys
+    user = models.ForeignKey("CustomUser", on_delete=models.CASCADE)
+    occupation = models.ForeignKey("OccupationChoice", on_delete=models.CASCADE)
+    # date_time
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
 
 class CustomUser(AbstractUser):
@@ -12,10 +24,14 @@ class CustomUser(AbstractUser):
 
 class LanguageChoice(models.Model):
     # obligatory fields
-    lang = models.CharField(max_length=100)
+    lang = models.CharField(max_length=100, default="eng")
     # date time
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    # foreign keys
+    user = models.ForeignKey(
+        "CustomUser", on_delete=models.CASCADE, null=True, blank=True
+    )
 
     def __str__(self):
         return self.lang
@@ -25,9 +41,15 @@ class LanguageChoice(models.Model):
 
 
 class OccupationChoice(models.Model):
-    occupation = models.CharField(max_length=100, default="Backend")
+    # obligatory fields
+    occupation = models.CharField(max_length=100, default="Backend", unique=True)
+    # date time
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    # foreign keys
+    user = models.ForeignKey(
+        "CustomUser", on_delete=models.CASCADE, null=True, blank=True
+    )
 
     def __str__(self):
         return self.occupation
@@ -44,57 +66,75 @@ class BlockNames(models.Model):
     """
 
     # block names
-    photo_name = models.CharField(max_length=100, blank=True, null=True)
-    header_name = models.CharField(max_length=100, blank=True, null=True)
-    hard_skills_name = models.CharField(max_length=100, blank=True, null=True)
-    manifest_name = models.CharField(max_length=100, blank=True, null=True)
-    projects_name = models.CharField(max_length=100, blank=True, null=True)
-    experience_name = models.CharField(max_length=100, blank=True, null=True)
-    soft_skills_name = models.CharField(max_length=100, blank=True, null=True)
-    education_name = models.CharField(max_length=100, blank=True, null=True)
-    natural_lang_name = models.CharField(max_length=100, blank=True, null=True)
-    interest_name = models.CharField(max_length=100, blank=True, null=True)
-    cases_name = models.CharField(max_length=100, blank=True, null=True)
-    why_me_name = models.CharField(max_length=100, blank=True, null=True)
-    feedback_name = models.CharField(max_length=100, blank=True, null=True)
+    photo_name = models.CharField(max_length=100, default="Photo")
+    header_name = models.CharField(max_length=100, default="Header")
+    hard_skills_name = models.CharField(max_length=100, default="Hard Skills")
+    manifest_name = models.CharField(max_length=100, default="Manifest")
+    projects_name = models.CharField(max_length=100, default="Projects")
+    experience_name = models.CharField(max_length=100, default="Experience")
+    soft_skills_name = models.CharField(max_length=100, default="Soft Skills")
+    education_name = models.CharField(max_length=100, default="Education")
+    natural_lang_name = models.CharField(max_length=100, default="Natural Languages")
+    interest_name = models.CharField(max_length=100, default="Interests")
+    cases_name = models.CharField(max_length=100, default="Cases")
+    why_me_name = models.CharField(max_length=100, default="Why me?")
+    feedback_name = models.CharField(max_length=100, default="Feedback")
+
     # datetime
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
     # foreign keys
     lang = models.ForeignKey("LanguageChoice", on_delete=models.CASCADE)
-    user = models.ForeignKey("CustomUser", on_delete=models.CASCADE)
-    occupation = models.ForeignKey("OccupationChoice", on_delete=models.CASCADE)
+    uuid_url = models.ForeignKey(
+        "UuidUrl", on_delete=models.CASCADE, null=True, blank=True
+    )
+
     # names within the block
     ## header
-    github_title = models.CharField(max_length=50, blank=True, null=True)
-    linkedin_title = models.CharField(max_length=50, blank=True, null=True)
-    country_title = models.CharField(max_length=50, blank=True, null=True)
-    city_title = models.CharField(max_length=50, blank=True, null=True)
-    district_title = models.CharField(max_length=50, blank=True, null=True)
+    github_title = models.CharField(max_length=50, default="github")
+    linkedin_title = models.CharField(max_length=50, default="linkedin")
+    country_title = models.CharField(max_length=50, default="Country: ")
+    city_title = models.CharField(max_length=50, default="City: ")
+    district_title = models.CharField(max_length=50, default="District: ")
+
     ## experience
-    company_title = models.CharField(max_length=50, blank=True, null=True)
-    exp_period_title = models.CharField(max_length=50, blank=True, null=True)
-    position_title = models.CharField(max_length=50, blank=True, null=True)
-    achievements_title = models.CharField(max_length=50, blank=True, null=True)
+    company_title = models.CharField(max_length=50, default="Company")
+    exp_period_title = models.CharField(max_length=50, default="Period")
+    position_title = models.CharField(max_length=50, default="Position")
+    achievements_title = models.CharField(max_length=50, default="Achievements")
+
     ## education
-    institution_title = models.CharField(max_length=50, blank=True, null=True)
-    ed_period_title = models.CharField(max_length=50, blank=True, null=True)
-    degree_title = models.CharField(max_length=50, blank=True, null=True)
+    institution_title = models.CharField(max_length=50, default="Institution")
+    ed_period_title = models.CharField(max_length=50, default="Period")
+    degree_title = models.CharField(max_length=50, default="Degree")
+
     ## natural language
-    level_title = models.CharField(max_length=50, blank=True, null=True)
+    level_title = models.CharField(max_length=50, default="level: ")
+
     ## case
-    task_title = models.CharField(max_length=50, blank=True, null=True)
-    solution_title = models.CharField(max_length=50, blank=True, null=True)
-    optimization_title = models.CharField(max_length=50, blank=True, null=True)
-    result_title = models.CharField(max_length=50, blank=True, null=True)
-    tech_stack_title = models.CharField(max_length=50, blank=True, null=True)
+    task_title = models.CharField(max_length=50, default="Task")
+    solution_title = models.CharField(max_length=50, default="Solution")
+    optimization_title = models.CharField(max_length=50, default="Optimization")
+    result_title = models.CharField(max_length=50, default="Result")
+    tech_stack_title = models.CharField(max_length=50, default="Tech Stack")
+
     ## feedback
-    contacts_title = models.CharField(max_length=50, blank=True, null=True)
+    contacts_title = models.CharField(max_length=50, default="Contacts")
+
     # placeholder for no time
-    current = models.CharField(max_length=50, blank=True, null=True)
+    current = models.CharField(max_length=50, default="current")
 
     def __str__(self):
-        return f"{self.lang} - {self.user} - {self.occupation}"
+        return f"{self.lang} - {self.uuid_url.user} - {self.uuid_url.occupation.occupation}"
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=["uuid_url", "lang"],
+                name="unique_blocknames_per_uuid_and_lang",
+            )
+        ]
 
 
 class Photos(models.Model):
@@ -102,12 +142,13 @@ class Photos(models.Model):
     description = models.CharField(max_length=100, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    user = models.ForeignKey("CustomUser", on_delete=models.CASCADE)
-    lang = models.ForeignKey("LanguageChoice", on_delete=models.CASCADE)
-    occupation = models.ForeignKey("OccupationChoice", on_delete=models.CASCADE)
+    # foreign keys
+    uuid_url = models.ForeignKey(
+        "UuidUrl", on_delete=models.CASCADE, null=True, blank=True
+    )
 
     def __str__(self):
-        return f"Photo '{self.description}' by {self.user.username}"
+        return f"Photo '{self.description}' by {self.uuid_url.user.username}"
 
     class Meta:
         db_table = "photos"
@@ -128,35 +169,53 @@ class Header(models.Model):
     # foreign keys
     photo = models.ForeignKey("Photos", on_delete=models.CASCADE, blank=True, null=True)
     lang = models.ForeignKey("LanguageChoice", on_delete=models.CASCADE)
-    user = models.ForeignKey("CustomUser", on_delete=models.CASCADE)
-    occupation = models.ForeignKey("OccupationChoice", on_delete=models.CASCADE)
+    uuid_url = models.ForeignKey(
+        "UuidUrl", on_delete=models.CASCADE, null=True, blank=True
+    )
     # date time
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    def clean(self):
+        if self.photo and self.photo.uuid_url_id != self.uuid_url_id:
+            raise ValidationError("Photo must belong to the same uuid_url.")
 
     def __str__(self):
         return f"{self.first_name} - {self.second_name}"
 
     class Meta:
         db_table = "header"
+        constraints = [
+            models.UniqueConstraint(
+                fields=["uuid_url", "lang"],
+                name="unique_header_per_uuid_and_lang",
+            )
+        ]
 
 
 class Manifest(models.Model):
     # mandatory fields
     manifest_text = models.TextField()
-    # foreign keys
-    lang = models.ForeignKey("LanguageChoice", on_delete=models.CASCADE)
-    user = models.ForeignKey("CustomUser", on_delete=models.CASCADE)
-    occupation = models.ForeignKey("OccupationChoice", on_delete=models.CASCADE)
     # date time
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    # foreign keys
+    lang = models.ForeignKey("LanguageChoice", on_delete=models.CASCADE)
+    uuid_url = models.ForeignKey(
+        "UuidUrl", on_delete=models.CASCADE, null=True, blank=True
+    )
 
     def __str__(self):
         return f"Manifest: {self.manifest_text[:50]}..."
 
     class Meta:
         db_table = "manifest"
+        constraints = [
+            models.UniqueConstraint(
+                fields=["uuid_url", "lang"],
+                name="unique_manifest_per_uuid_and_lang",
+            )
+        ]
 
 
 class HardSkill(models.Model):
@@ -168,20 +227,21 @@ class HardSkill(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     # foreign keys
     lang = models.ForeignKey("LanguageChoice", on_delete=models.CASCADE)
-    user = models.ForeignKey("CustomUser", on_delete=models.CASCADE)
-    occupation = models.ForeignKey("OccupationChoice", on_delete=models.CASCADE)
+    uuid_url = models.ForeignKey(
+        "UuidUrl", on_delete=models.CASCADE, null=True, blank=True
+    )
 
     def __str__(self):
-        return f"Hard Skill: {self.user.username} - {self.lang}: {self.hard_skill_text[:15]}..."
+        return f"Hard Skill: {self.uuid_url.user.username} - {self.lang}: {self.hard_skill_text[:15]}..."
 
     class Meta:
-        db_table = "hard_skill"
+        db_table = "hard_skills"
 
 
 class Project(models.Model):
     # obligatory fields
     project_name = models.CharField(max_length=255)
-    project_text = models.TextField(max_length=300)
+    project_text = models.TextField()
     # mandatory fields
     web_url = models.URLField(null=True, blank=True)
     git_url = models.URLField(null=True, blank=True)
@@ -190,8 +250,9 @@ class Project(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     # foreign keys
     lang = models.ForeignKey("LanguageChoice", on_delete=models.CASCADE)
-    user = models.ForeignKey("CustomUser", on_delete=models.CASCADE)
-    occupation = models.ForeignKey("OccupationChoice", on_delete=models.CASCADE)
+    uuid_url = models.ForeignKey(
+        "UuidUrl", on_delete=models.CASCADE, null=True, blank=True
+    )
 
     def __str__(self):
         return f"{self.project_name} - pk: {self.pk}"
@@ -214,8 +275,9 @@ class Experience(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     # foreign keys
     lang = models.ForeignKey("LanguageChoice", on_delete=models.CASCADE)
-    user = models.ForeignKey("CustomUser", on_delete=models.CASCADE)
-    occupation = models.ForeignKey("OccupationChoice", on_delete=models.CASCADE)
+    uuid_url = models.ForeignKey(
+        "UuidUrl", on_delete=models.CASCADE, null=True, blank=True
+    )
 
     def clean(self):
         if self.start_date and self.end_date and self.start_date > self.end_date:
@@ -240,14 +302,15 @@ class SoftSkill(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     # foreign keys
     lang = models.ForeignKey("LanguageChoice", on_delete=models.CASCADE)
-    user = models.ForeignKey("CustomUser", on_delete=models.CASCADE)
-    occupation = models.ForeignKey("OccupationChoice", on_delete=models.CASCADE)
+    uuid_url = models.ForeignKey(
+        "UuidUrl", on_delete=models.CASCADE, null=True, blank=True
+    )
 
     def __str__(self):
         return f"Soft Skill: {self.soft_skill_text[:50]}..."
 
     class Meta:
-        db_table = "soft_skill"
+        db_table = "soft_skills"
 
 
 class Education(models.Model):
@@ -261,8 +324,9 @@ class Education(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     # foreign keys
     lang = models.ForeignKey("LanguageChoice", on_delete=models.CASCADE)
-    user = models.ForeignKey("CustomUser", on_delete=models.CASCADE)
-    occupation = models.ForeignKey("OccupationChoice", on_delete=models.CASCADE)
+    uuid_url = models.ForeignKey(
+        "UuidUrl", on_delete=models.CASCADE, null=True, blank=True
+    )
 
     def clean(self):
         if self.start_date and self.end_date and self.start_date > self.end_date:
@@ -288,8 +352,15 @@ class NaturalLanguage(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     # foreign keys
     lang = models.ForeignKey("LanguageChoice", on_delete=models.CASCADE)
-    user = models.ForeignKey("CustomUser", on_delete=models.CASCADE)
-    occupation = models.ForeignKey("OccupationChoice", on_delete=models.CASCADE)
+    uuid_url = models.ForeignKey(
+        "UuidUrl", on_delete=models.CASCADE, null=True, blank=True
+    )
+
+    def __str__(self):
+        return f"{self.natural_lang}"
+
+    class Meta:
+        db_table = "natural_lang"
 
 
 class Interest(models.Model):
@@ -300,14 +371,15 @@ class Interest(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     # foreign keys
     lang = models.ForeignKey("LanguageChoice", on_delete=models.CASCADE)
-    user = models.ForeignKey("CustomUser", on_delete=models.CASCADE)
-    occupation = models.ForeignKey("OccupationChoice", on_delete=models.CASCADE)
+    uuid_url = models.ForeignKey(
+        "UuidUrl", on_delete=models.CASCADE, null=True, blank=True
+    )
 
     def __str__(self):
-        return f"Interest: {self.interest_text[:50]}..."
+        return f"Interest: {(self.interest_text or '')[:50]}..."
 
     class Meta:
-        db_table = "Interest"
+        db_table = "interest"
 
 
 class Case(models.Model):
@@ -323,8 +395,9 @@ class Case(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     # foreign keys
     lang = models.ForeignKey("LanguageChoice", on_delete=models.CASCADE)
-    user = models.ForeignKey("CustomUser", on_delete=models.CASCADE)
-    occupation = models.ForeignKey("OccupationChoice", on_delete=models.CASCADE)
+    uuid_url = models.ForeignKey(
+        "UuidUrl", on_delete=models.CASCADE, null=True, blank=True
+    )
 
     def __str__(self):
         return f"Case: {self.task[:50]}..."
@@ -342,20 +415,27 @@ class WhyMe(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     # foreign keys
     lang = models.ForeignKey("LanguageChoice", on_delete=models.CASCADE)
-    user = models.ForeignKey("CustomUser", on_delete=models.CASCADE)
-    occupation = models.ForeignKey("OccupationChoice", on_delete=models.CASCADE)
+    uuid_url = models.ForeignKey(
+        "UuidUrl", on_delete=models.CASCADE, null=True, blank=True
+    )
 
     def __str__(self):
         return f"WhyMe for {self.company or 'Unknown Company'}"
 
     class Meta:
         db_table = "why_me"
+        constraints = [
+            models.UniqueConstraint(
+                fields=["uuid_url", "lang"],
+                name="unique_why_me_per_uuid_and_lang",
+            )
+        ]
 
 
 class Feedback(models.Model):
     # obligatory fields
     company = models.CharField(max_length=255)
-    feedback_text = models.CharField(max_length=10_000)
+    feedback_text = models.TextField()
     # mandatory fields
     contacts = models.CharField(max_length=255, blank=True, null=True)
     # date time
@@ -363,8 +443,9 @@ class Feedback(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     # foreign keys
     lang = models.ForeignKey("LanguageChoice", on_delete=models.CASCADE)
-    user = models.ForeignKey("CustomUser", on_delete=models.CASCADE)
-    occupation = models.ForeignKey("OccupationChoice", on_delete=models.CASCADE)
+    uuid_url = models.ForeignKey(
+        "UuidUrl", on_delete=models.CASCADE, null=True, blank=True
+    )
 
     def __str__(self):
         return f"Feedback: {self.feedback_text[:50]}..."

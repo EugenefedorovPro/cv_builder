@@ -18,6 +18,7 @@ from cvs.types import (ProjectTuple,
 USER_SUPER = {
     "username": "user_super",
     "password": "user_super_password_1234",
+    "email": "user_super_email",
     "is_superuser": True,
     }
 

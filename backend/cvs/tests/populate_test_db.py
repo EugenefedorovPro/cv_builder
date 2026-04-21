@@ -1,56 +1,56 @@
-import ipdb
-from django.db.models import QuerySet
-from cvs.models.models import (Header,
-                               HardSkill,
-                               Photos,
-                               LanguageChoice,
-                               BlockNames,
-                               Manifest,
-                               Project,
-                               SoftSkill,
-                               Education,
-                               Experience,
-                               Interest,
-                               NaturalLanguage,
-                               OccupationChoice,
-
-                               )
-from django.contrib.auth import get_user_model
-from abc import (ABC,
-                 abstractmethod,
-                 )
-from PIL import Image
+from abc import ABC, abstractmethod
 from io import BytesIO
+
+import ipdb
+from django.contrib.auth import get_user_model
 from django.core.files.uploadedfile import SimpleUploadedFile
-from cvs.tests.data import (BLOCK_NAMES,
-                            PHOTO_ENG,
-                            USER_SUPER,
-                            USER_SIMPLE,
-                            HEADERS_ENG,
-                            HARD_SKILLS_ENG,
-                            MANIFEST_ENG,
-                            PROJECTS_ENG,
-                            ProjectTuple,
-                            HardSkillTuple,
-                            SOFT_SKILLS_ENG,
-                            SoftSkillTuple,
-                            EducationTuple,
-                            EDUCATION_ENG,
-                            EXPERIENCE_ENG,
-                            ExperienceTuple,
-                            InterestTuple,
-                            INTERESTS_ENG,
-                            NaturalLangTuple,
-                            NATURAL_LANGS_ENG,
-                            OccupationChoiceTuple,
-                            OCCUPATION_ENG,
-                            HeaderTuple,
-                            PhotoTuple,
-                            BlockNameTuple,
-                            ManifestTuple,
+from django.db.models import QuerySet
+from PIL import Image
 
-
-                            )
+from cvs.models.models import (
+    BlockNames,
+    Education,
+    Experience,
+    HardSkill,
+    Header,
+    Interest,
+    LanguageChoice,
+    Manifest,
+    NaturalLanguage,
+    OccupationChoice,
+    Photos,
+    Project,
+    SoftSkill,
+    UuidUrl,
+)
+from cvs.tests.data import (
+    BLOCK_NAMES,
+    EDUCATION_ENG,
+    EXPERIENCE_ENG,
+    HARD_SKILLS_ENG,
+    HEADERS_ENG,
+    INTERESTS_ENG,
+    MANIFEST_ENG,
+    NATURAL_LANGS_ENG,
+    OCCUPATION_ENG,
+    PHOTO_ENG,
+    PROJECTS_ENG,
+    SOFT_SKILLS_ENG,
+    USER_SIMPLE,
+    USER_SUPER,
+    BlockNameTuple,
+    EducationTuple,
+    ExperienceTuple,
+    HardSkillTuple,
+    HeaderTuple,
+    InterestTuple,
+    ManifestTuple,
+    NaturalLangTuple,
+    OccupationChoiceTuple,
+    PhotoTuple,
+    ProjectTuple,
+    SoftSkillTuple,
+)
 
 User = get_user_model()
 
@@ -71,22 +71,22 @@ class UserFactory(CvBlockInterface):
     def create_block(self) -> User:
         if self.is_superuser:
             return User.objects.create_superuser(
-                username = self.username,
-                password = self.password,
-                )
+                username=self.username,
+                password=self.password,
+            )
         else:
             return User.objects.create_user(
-                username = self.username,
-                password = self.password,
-                is_staff = self.is_staff,
-                )
+                username=self.username,
+                password=self.password,
+                is_staff=self.is_staff,
+            )
 
 
 class UserSuper(UserFactory):
     def __init__(self):
         super().__init__(
             **USER_SUPER,
-            )
+        )
 
 
 class UserSimple(UserFactory):
@@ -98,11 +98,13 @@ class OccupationFactory(CvBlockInterface):
     def __init__(self, data: OccupationChoiceTuple):
         self.data = data
 
-    def create_block(self) -> QuerySet[OccupationChoice]:
-        return OccupationChoice.objects.create(
-            id = self.data.id,
-            occupation = self.data.occupation,
-            )
+    def create_block(self, user: User) -> QuerySet[OccupationChoice]:
+        obj, _created = OccupationChoice.objects.get_or_create(
+            id=self.data.id,
+            occupation=self.data.occupation,
+            user=user,
+        )
+        return obj
 
 
 class OccupationEng(OccupationFactory):
@@ -110,149 +112,173 @@ class OccupationEng(OccupationFactory):
         super().__init__(OCCUPATION_ENG)
 
 
-class BlockNamesFactory(CvBlockInterface):
-    def __init__(self, user: User, lang: LanguageChoice, occupation: OccupationChoice, data: list[BlockNameTuple]):
+class UuidUrlUniversal(CvBlockInterface):
+    def __init__(self, user: User, occupation: OccupationChoice):
         self.user = user
-        self.lang = lang
         self.occupation = occupation
+
+    def create_block(self):
+        obj, _ = UuidUrl.objects.get_or_create(
+            id=1,
+            user=self.user,
+            occupation=self.occupation,
+        )
+        return obj
+
+
+class BlockNamesFactory(CvBlockInterface):
+    def __init__(
+        self,
+        uuid_url: UuidUrl,
+        lang: LanguageChoice,
+        data: list[BlockNameTuple],
+    ):
+        self.uuid_url = uuid_url
+        self.lang = lang
         self.data = data
 
-    def create_block(self) -> QuerySet[BlockNames]:
+    def create_block(self) -> list[BlockNames]:
         blocks: list[BlockNames] = []
         for item in self.data:
-            blocks.append(
-                BlockNames(
-                    **item._asdict(),
-                    user = self.user,
-                    lang = self.lang,
-                    occupation = self.occupation,
-                    )
-                )
-        return BlockNames.objects.bulk_create(blocks)
+            obj, _ = BlockNames.objects.get_or_create(
+                **item._asdict(),
+                uuid_url=self.uuid_url,
+                lang=self.lang,
+            )
+            blocks.append(obj)
+        return blocks
 
 
 class BlockNamesEng(BlockNamesFactory):
 
-    def __init__(self, user: User, lang: LanguageChoice, occupation: OccupationChoice):
-        self.user = user
-        self.lang = lang
-        self.occupation = occupation
-
-        super().__init__(user, lang, occupation, BLOCK_NAMES)
+    def __init__(self, uuid_url: UuidUrl, lang: LanguageChoice):
+        super().__init__(uuid_url, lang, BLOCK_NAMES)
 
 
 class PhotoFactory(CvBlockInterface):
-    def __init__(self, user: User, lang: LanguageChoice, occupation: OccupationChoice, data: PhotoTuple):
-        self.user = user
-        self.lang = lang
-        self.occupation = occupation
+    def __init__(
+        self,
+        uuid_url: UuidUrl,
+        data: PhotoTuple,
+    ):
+        self.uuid_url = uuid_url
         self.data = data
 
     def create_block(self) -> Photos:
-        image = Image.new(self.data.mode, (self.data.width, self.data.height), color = self.data.color)
+        image = Image.new(
+            self.data.mode, (self.data.width, self.data.height), color=self.data.color
+        )
         buffer = BytesIO()
-        image.save(buffer, format = self.data.format)
+        image.save(buffer, format=self.data.format)
         buffer.seek(0)
-        image_file = SimpleUploadedFile(self.data.name, buffer.read(), content_type = f"image/{self.data.format.lower()}")
-        return Photos.objects.create(
-            id = self.data.id,
-            photo_url = image_file,
-            description = self.data.description,
-            user = self.user,
-            lang = self.lang,
-            occupation = self.occupation,
-            )
+        image_file = SimpleUploadedFile(
+            self.data.name,
+            buffer.read(),
+            content_type=f"image/{self.data.format.lower()}",
+        )
+        obj, _created = Photos.objects.get_or_create(
+            id=self.data.id,
+            photo_url=image_file,
+            description=self.data.description,
+            uuid_url=self.uuid_url,
+        )
+        return obj
 
 
 class PhotoEng(PhotoFactory):
-    def __init__(self, user: User, lang: LanguageChoice, occupation: OccupationChoice):
-        self.user = user
-        self.lang = lang
-        self.occupation = occupation
+    def __init__(self, uuid_url: UuidUrl):
+        self.uuid_url: uuid_url 
 
-        super().__init__(user, lang, occupation, PHOTO_ENG)
+        super().__init__(uuid_url, PHOTO_ENG)
 
 
 class HeaderFactory(CvBlockInterface):
-    def __init__(self, user: User, lang: LanguageChoice, occupation: OccupationChoice, photo: Photos, data: HeaderTuple):
-        self.user = user
+    def __init__(
+        self,
+        uuid_url: UuidUrl,
+        lang: LanguageChoice,
+        photo: Photos,
+        data: HeaderTuple,
+    ):
+        self.uuid_url = uuid_url
         self.lang = lang
-        self.occupation = occupation
         self.photo = photo
         self.data = data
 
-
-    def create_block(self) -> QuerySet[Header]:
+    def create_block(self) -> list[Header]:
         headers: list[Header] = []
         for item in self.data:
-            headers.append(
-                Header(
-                    id = item.id,
-                    first_name = item.first_name,
-                    second_name = item.second_name,
-                    phone = item.phone,
-                    email = item.email,
-                    linkedin = item.linkedin,
-                    github = item.github,
-                    country = item.country,
-                    city = item.city,
-                    district = item.district,
-                    photo = self.photo,
-                    lang = self.lang,
-                    user = self.user,
-                    occupation = self.occupation,
-
-                    ),
-                )
-        return Header.objects.bulk_create(headers)
+            obj, _created = Header.objects.get_or_create(
+                id=item.id,
+                first_name=item.first_name,
+                second_name=item.second_name,
+                phone=item.phone,
+                email=item.email,
+                linkedin=item.linkedin,
+                github=item.github,
+                country=item.country,
+                city=item.city,
+                district=item.district,
+                photo=self.photo,
+                lang=self.lang,
+                uuid_url=self.uuid_url,
+            )
+            headers.append(obj)
+        return headers
 
 
 class HeaderEng(HeaderFactory):
-    def __init__(self, user: User, lang: LanguageChoice, occupation: OccupationChoice, photo: Photos):
-        self.user = user
-        self.lang = lang
-        self.occupation = occupation
-        self.data = photo
-        super().__init__(user, lang, occupation, photo, HEADERS_ENG)
+    def __init__(
+        self,
+        uuid_url: UuidUrl,
+        lang: LanguageChoice,
+        photo: Photos,
+    ):
+        super().__init__(uuid_url, lang, photo, HEADERS_ENG)
 
 
 class HardSkillsFactory(CvBlockInterface):
-    def __init__(self, user: User, lang: LanguageChoice, occupation: OccupationChoice, data:
-    list[HardSkillTuple]):
-        self.user = user
+    def __init__(
+        self,
+        uuid_url: UuidUrl,
+        lang: LanguageChoice,
+        data: list[HardSkillTuple],
+    ):
+        self.uuid_url = uuid_url
         self.lang = lang
-        self.occupation = occupation
         self.data = data
 
     def create_block(self) -> list[HardSkill]:
         hard_skills: list[HardSkill] = []
         for hard_skill in self.data:
-            hard_skills.append(
-                HardSkill(
-                    id = hard_skill.id,
-                    category = hard_skill.category,
-                    hard_skill_text = hard_skill.hard_skill_text,
-                    user = self.user,
-                    lang = self.lang,
-                    occupation = self.occupation,
-
-                    )
-                )
-        return HardSkill.objects.bulk_create(hard_skills)
+            obj, created = HardSkill.objects.get_or_create(
+                id=hard_skill.id,
+                category=hard_skill.category,
+                hard_skill_text=hard_skill.hard_skill_text,
+                uuid_url=self.uuid_url,
+                lang=self.lang,
+            )
+            hard_skills.append(obj)
+        return hard_skills
 
 
 class HardSkillEng(HardSkillsFactory):
 
-    def __init__(self, user: User, lang: LanguageChoice, occupation: OccupationChoice, ):
-        super().__init__(user, lang, occupation, HARD_SKILLS_ENG)
+    def __init__(
+        self,
+        uuid_url: UuidUrl,
+        lang: LanguageChoice,
+    ):
+        super().__init__(uuid_url, lang, HARD_SKILLS_ENG)
 
 
 class LangFactory(CvBlockInterface):
     def __init__(self, lang: str):
         self.lang = lang
 
-    def create_block(self):
-        return LanguageChoice.objects.create(lang = self.lang)
+    def create_block(self, user: User):
+        obj, _created = LanguageChoice.objects.get_or_create(lang=self.lang, user=user)
+        return obj
 
 
 class EngLang(LangFactory):
@@ -271,211 +297,223 @@ class RusLang(LangFactory):
 
 
 class ManifestFactory(CvBlockInterface):
-    def __init__(self, user: User, lang: LanguageChoice, occupation: OccupationChoice, manifest: ManifestTuple):
-        self.user = user
+    def __init__(
+        self,
+        uuid_url: UuidUrl,
+        lang: LanguageChoice,
+        manifest: ManifestTuple,
+    ):
+        self.uuid_url = uuid_url
         self.lang = lang
-        self.occupation = occupation
         self.manifest = manifest
 
-    def create_block(self):
-        return Manifest.objects.create(
-            id = self.manifest.id,
-            manifest_text = self.manifest.manifest_text,
-            user = self.user,
-            lang = self.lang,
-            occupation = self.occupation,
-
-            )
+    def create_block(self) -> Manifest:
+        obj, _ = Manifest.objects.get_or_create(
+            id=self.manifest.id,
+            manifest_text=self.manifest.manifest_text,
+            uuid_url=self.uuid_url,
+            lang=self.lang,
+        )
+        return obj
 
 
 class ManifestEng(ManifestFactory):
-    def __init__(self, user: User, lang: LanguageChoice, occupation: OccupationChoice):
-        super().__init__(user, lang, occupation, MANIFEST_ENG)
+    def __init__(self, uuid_url: UuidUrl, lang: LanguageChoice):
+        super().__init__(uuid_url, lang, MANIFEST_ENG)
 
 
 class ProjectsFactory(CvBlockInterface):
-    def __init__(self, user: User, lang: LanguageChoice, occupation: OccupationChoice, data:
-    dict[int, ProjectTuple]):
-        self.user = user
+    def __init__(
+        self,
+        uuid_url: UuidUrl,
+        lang: LanguageChoice,
+        data: dict[int, ProjectTuple],
+    ):
+        self.uuid_url = uuid_url
         self.lang = lang
-        self.occupation = occupation
         self.data = data
 
     def create_block(self):
         projects: list[Project] = []
         for id_num, project in self.data.items():
-            projects.append(
-                Project(
-                    id = id_num,
-                    user = self.user,
-                    lang = self.lang,
-                    project_name = project.project_name,
-                    project_text = project.project_text,
-                    web_url = project.web_url,
-                    git_url = project.git_url,
-                    occupation = self.occupation,
-
-                    )
-                )
-        return Project.objects.bulk_create(projects)
+            obj, _created = Project.objects.get_or_create(
+                id=id_num,
+                uuid_url=self.uuid_url,
+                lang=self.lang,
+                project_name=project.project_name,
+                project_text=project.project_text,
+                web_url=project.web_url,
+                git_url=project.git_url,
+            )
+            projects.append(obj)
+        return projects
 
 
 class ProjectsEng(ProjectsFactory):
-    def __init__(self, user: User, lang: LanguageChoice, occupation: OccupationChoice, ):
-        super().__init__(user, lang, occupation, PROJECTS_ENG)
+    def __init__(
+        self,
+        uuid_url: User,
+        lang: LanguageChoice,
+    ):
+        super().__init__(uuid_url, lang, PROJECTS_ENG)
 
 
 class ExperienceFactory(CvBlockInterface):
-    def __init__(self, user: User, lang: LanguageChoice, occupation: OccupationChoice, data:
-    list[ExperienceTuple]):
-        self.user = user
+    def __init__(
+        self,
+        uuid_url: UuidUrl,
+        lang: LanguageChoice,
+        data: list[ExperienceTuple],
+    ):
+        self.uuid_url = uuid_url
         self.lang = lang
-        self.occupation = occupation
         self.data = data
 
     def create_block(self):
         experience_items: list[Experience] = []
         for item in self.data:
-            experience_items.append(
-                Experience(
-                    id = item.id,
-                    user = self.user,
-                    lang = self.lang,
-                    company = item.company,
-                    position = item.position,
-                    start_date = item.start_date,
-                    end_date = item.end_date,
-                    achievements = item.achievements,
-                    occupation = self.occupation,
+            obj, _created = Experience.objects.get_or_create(
+                id=item.id,
+                uuid_url=self.uuid_url,
+                lang=self.lang,
+                company=item.company,
+                position=item.position,
+                start_date=item.start_date,
+                end_date=item.end_date,
+                achievements=item.achievements,
+            )
 
-                    )
-                )
-        return Experience.objects.bulk_create(experience_items)
+            experience_items.append(obj)
+        return experience_items
 
 
 class ExperienceEng(ExperienceFactory):
-    def __init__(self, user: User, lang: LanguageChoice, occupation: OccupationChoice):
-        super().__init__(user, lang, occupation, EXPERIENCE_ENG)
+    def __init__(self, uuid_url: UuidUrl, lang: LanguageChoice):
+        super().__init__(uuid_url, lang, EXPERIENCE_ENG)
 
 
 class SoftSkillsFactory(CvBlockInterface):
-    def __init__(self, user: User, lang: LanguageChoice, occupation: OccupationChoice, data:
-    list[SoftSkillTuple]):
-        self.user = user
+    def __init__(
+        self,
+        uuid_url: UuidUrl,
+        lang: LanguageChoice,
+        data: list[SoftSkillTuple],
+    ):
+        self.uuid_url = uuid_url
         self.lang = lang
-        self.occupation = occupation
         self.data = data
 
     def create_block(self):
         soft_skills: list[SoftSkill] = []
         for item in self.data:
-            soft_skills.append(
-                SoftSkill(
-                    id = item.id,
-                    user = self.user,
-                    lang = self.lang,
-                    soft_skill_text = item.soft_skill_text,
-                    occupation = self.occupation,
-
-                    )
-                )
-        return SoftSkill.objects.bulk_create(soft_skills)
+            obj, _created = SoftSkill.objects.get_or_create(
+                id=item.id,
+                uuid_url=self.uuid_url,
+                lang=self.lang,
+                soft_skill_text=item.soft_skill_text,
+            )
+            soft_skills.append(obj)
+        return soft_skills
 
 
 class SoftSkillsEng(SoftSkillsFactory):
-    def __init__(self, user: User, lang: LanguageChoice, occupation: OccupationChoice, ):
-        super().__init__(user, lang, occupation, SOFT_SKILLS_ENG)
+    def __init__(
+        self,
+        uuid_url: UuidUrl,
+        lang: LanguageChoice,
+    ):
+        super().__init__(uuid_url, lang, SOFT_SKILLS_ENG)
 
 
 class EducationFactory(CvBlockInterface):
-    def __init__(self, user: User, lang: LanguageChoice, occupation: OccupationChoice, data:
-    list[EducationTuple]):
-        self.user = user
+    def __init__(
+        self,
+        uuid_url: UuidUrl,
+        lang: LanguageChoice,
+        data: list[EducationTuple],
+    ):
+        self.uuid_url = uuid_url
         self.lang = lang
-        self.occupation = occupation
         self.data = data
 
     def create_block(self):
         education_items: list[Education] = []
         for item in self.data:
-            education_items.append(
-                Education(
-                    id = item.id,
-                    institution = item.institution,
-                    start_date = item.start_date,
-                    end_date = item.end_date,
-                    degree_title = item.degree_title,
-                    user = self.user,
-                    lang = self.lang,
-                    occupation = self.occupation,
-
-                    )
-                )
-        return Education.objects.bulk_create(education_items)
+            obj, _craeted = Education.objects.get_or_create(
+                id=item.id,
+                institution=item.institution,
+                start_date=item.start_date,
+                end_date=item.end_date,
+                degree_title=item.degree_title,
+                uuid_url=self.uuid_url,
+                lang=self.lang,
+            )
+            education_items.append(obj)
+        return education_items
 
 
 class EducationEng(EducationFactory):
-    def __init__(self, user: User, occupation: OccupationChoice, lang: LanguageChoice):
-        super().__init__(user, lang, occupation, EDUCATION_ENG)
+    def __init__(self, uuid_url: UuidUrl, lang: LanguageChoice):
+        super().__init__(uuid_url, lang, EDUCATION_ENG)
 
 
 class InterestFactory(CvBlockInterface):
-    def __init__(self, user: User, lang: LanguageChoice, occupation: OccupationChoice, data:
-    list[InterestTuple]):
-        self.user = user
+    def __init__(
+        self,
+        uuid_url: UuidUrl,
+        lang: LanguageChoice,
+        data: list[InterestTuple],
+    ):
+        self.uuid_url = uuid_url
         self.lang = lang
-        self.occupation = occupation
         self.data = data
-
 
     def create_block(self):
         interest_items: list[Interest] = []
         for item in self.data:
-            interest_items.append(
-                Interest(
-                    id = item.id,
-                    interest_text = item.interest_text,
-                    user = self.user,
-                    lang = self.lang,
-                    occupation = self.occupation
-
-                    )
-                )
-        return Interest.objects.bulk_create(interest_items)
+            obj, _created = Interest.objects.get_or_create(
+                id=item.id,
+                interest_text=item.interest_text,
+                uuid_url=self.uuid_url,
+                lang=self.lang,
+            )
+            interest_items.append(obj)
+        return interest_items
 
 
 class InterestEng(InterestFactory):
-    def __init__(self, user: User, occupation: OccupationChoice, lang: LanguageChoice):
-        super().__init__(user, lang, occupation, INTERESTS_ENG)
+    def __init__(self, uuid_url: UuidUrl, lang: LanguageChoice):
+        super().__init__(uuid_url, lang, INTERESTS_ENG)
 
 
 class NaturalLangFactory(CvBlockInterface):
-    def __init__(self, user: User, lang: LanguageChoice, occupation: OccupationChoice, data:
-    list[NaturalLangTuple]):
-        self.user = user
+    def __init__(
+        self,
+        uuid_url: UuidUrl,
+        lang: LanguageChoice,
+        data: list[NaturalLangTuple],
+    ):
+        self.uuid_url = uuid_url
         self.lang = lang
-        self.occupation = occupation
         self.data = data
 
     def create_block(self):
         natural_lang_items: list[NaturalLanguage] = []
         for item in self.data:
-            natural_lang_items.append(
-                NaturalLanguage(
-                    id = item.id,
-                    natural_lang = item.natural_lang,
-                    level = item.level,
-                    user = self.user,
-                    lang = self.lang,
-                    occupation = self.occupation,
-                    )
-                )
-        return NaturalLanguage.objects.bulk_create(natural_lang_items)
+            obj, _created = NaturalLanguage.objects.get_or_create(
+                id=item.id,
+                natural_lang=item.natural_lang,
+                level=item.level,
+                uuid_url=self.uuid_url,
+                lang=self.lang,
+            )
+            natural_lang_items.append(obj)
+        return natural_lang_items
 
 
 class NaturalLangEng(NaturalLangFactory):
-    def __init__(self, user: User, lang: LanguageChoice, occupation: OccupationChoice):
-        super().__init__(user, lang, occupation, NATURAL_LANGS_ENG)
+    def __init__(self, uuid_url: UuidUrl, lang: LanguageChoice):
+        super().__init__(uuid_url, lang, NATURAL_LANGS_ENG)
 
 
 class TestBuilderSuper:
@@ -485,6 +523,7 @@ class TestBuilderSuper:
         self.password: str = ""
         self.lang: LanguageChoice | None = None
         self.occupation: OccupationChoice | None = None
+        self.uuid_url: UuidUrl | None = None
         self.block_names: BlockNames | None = None
         self.photo: Photos | None = None
         self.header: Header | None = None
@@ -505,55 +544,78 @@ class TestBuilderSuper:
         self.user = inst.create_block()
         return self
 
-    def create_lang(self):
-        self.lang = EngLang().create_block()
+    def create_occupation(self):
+        self.occupation = OccupationEng().create_block(self.user)
         return self
 
-    def create_occupation(self):
-        self.occupation = OccupationEng().create_block()
+    def create_uuid_url(self):
+        self.uuid_url = UuidUrlUniversal(self.user, self.occupation).create_block()
+        return self
+
+    def create_lang(self):
+        self.lang = EngLang().create_block(self.user)
         return self
 
     def create_block_names(self):
-        self.block_names = BlockNamesEng(self.user, self.lang, self.occupation).create_block()
+        self.block_names = BlockNamesEng(self.uuid_url, self.lang).create_block()
         return self
 
-
     def create_photo(self) -> Photos:
-        self.photo = PhotoEng(user = self.user, lang = self.lang, occupation = self.occupation).create_block()
+        self.photo = PhotoEng(
+            uuid_url=self.uuid_url, lang=self.lang
+        ).create_block()
         return self
 
     def create_header(self) -> Header:
-        self.header = HeaderEng(user = self.user, lang = self.lang, occupation = self.occupation, photo = self.photo).create_block()
-        return self
-
-    def create_hard_skills(self) -> list[HardSkill]:
-        self.hard_skills = HardSkillEng(user = self.user, lang = self.lang, occupation = self.occupation).create_block()
+        self.header = HeaderEng(
+            uuid_url=self.uuid_url, lang=self.lang, photo=self.photo
+        ).create_block()
         return self
 
     def create_manifest(self):
-        self.manifest = ManifestEng(user = self.user, lang = self.lang, occupation = self.occupation).create_block()
+        self.manifest = ManifestEng(
+            uuid_url=self.uuid_url, lang=self.lang
+        ).create_block()
+        return self
+
+    def create_hard_skills(self) -> list[HardSkill]:
+        self.hard_skills = HardSkillEng(
+            uuid_url=self.uuid_url, lang=self.lang
+        ).create_block()
         return self
 
     def create_projects(self):
-        self.projects = ProjectsEng(user = self.user, lang = self.lang, occupation = self.occupation).create_block()
+        self.projects = ProjectsEng(
+            uuid_url=self.uuid_url, lang=self.lang
+        ).create_block()
         return self
 
     def create_experience(self):
-        self.experience = ExperienceEng(user = self.user, lang = self.lang, occupation = self.occupation).create_block()
+        self.experience = ExperienceEng(
+            uuid_url=self.uuid_url, lang=self.lang
+        ).create_block()
         return self
 
     def create_soft_skills(self):
-        self.soft_skills = SoftSkillsEng(user = self.user, lang = self.lang, occupation = self.occupation).create_block()
+        self.soft_skills = SoftSkillsEng(
+            uuid_url=self.uuid_url, lang=self.lang
+        ).create_block()
         return self
 
     def create_education(self):
-        self.education = EducationEng(user = self.user, lang = self.lang, occupation = self.occupation).create_block()
+        self.education = EducationEng(
+            uuid_url=self.uuid_url, lang=self.lang
+        ).create_block()
         return self
 
     def create_interest(self):
-        self.interest = InterestEng(user = self.user, lang = self.lang, occupation = self.occupation).create_block()
+        self.interest = InterestEng(
+            uuid_url=self.uuid_url, lang=self.lang
+        ).create_block()
         return self
 
     def create_natural_lang(self):
-        self.natural_lang = NaturalLangEng(user = self.user, lang = self.lang, occupation = self.occupation).create_block()
+        self.natural_lang = NaturalLangEng(
+            uuid_url=self.uuid_url, lang=self.lang
+        ).create_block()
         return self
