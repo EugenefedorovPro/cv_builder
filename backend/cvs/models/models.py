@@ -148,7 +148,7 @@ class Photos(models.Model):
     )
 
     def __str__(self):
-        return f"Photo '{self.description}' by {self.uuid_url.user.username}"
+        return f"Photo '{self.description}' by {self.uuid_url}"
 
     class Meta:
         db_table = "photos"

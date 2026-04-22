@@ -101,8 +101,6 @@ class OccupationFactory(CvBlockInterface):
     def create_block(self, user: User) -> QuerySet[OccupationChoice]:
         obj, _created = OccupationChoice.objects.get_or_create(
             id=self.data.id,
-            occupation=self.data.occupation,
-            user=user,
         )
         return obj
 
@@ -186,8 +184,8 @@ class PhotoFactory(CvBlockInterface):
 
 
 class PhotoEng(PhotoFactory):
-    def __init__(self, uuid_url: UuidUrl):
-        self.uuid_url: uuid_url 
+    def __init__(self, uuid_url: User):
+        self.uuid_url: uuid_url
 
         super().__init__(uuid_url, PHOTO_ENG)
 
@@ -562,7 +560,7 @@ class TestBuilderSuper:
 
     def create_photo(self) -> Photos:
         self.photo = PhotoEng(
-            uuid_url=self.uuid_url, lang=self.lang
+            uuid_url=self.uuid_url
         ).create_block()
         return self
 

@@ -99,8 +99,8 @@ class GenerateDocx(APIView):
 
             )
 
-    def _fetch_photo(self, lang: str, doc: DocxTemplate):
-        photo_url = str(Photos.objects.filter(lang__lang = lang).first().photo_url)
+    def _fetch_photo(self, doc: DocxTemplate):
+        photo_url = str(Photos.objects.first().photo_url)
         photo_path = os.path.join(settings.MEDIA_ROOT, photo_url)
         img = Image.open(str(photo_path))
         clean_path = Path("/tmp/clean_quattr.jpg")
@@ -111,8 +111,8 @@ class GenerateDocx(APIView):
         manifest_obj: Manifest = Manifest.objects.filter(lang__lang = lang).first()
         return self._rich_header_normal(manifest_obj.manifest_text)
 
-    def _fetch_header(self, lang: str, doc: DocxTemplate) -> dict[str, RichText]:
-        header_obj: Header = Header.objects.filter(lang__lang = lang).first()
+    def _fetch_header(self, doc: DocxTemplate) -> dict[str, RichText]:
+        header_obj: Header = Header.objects.first()
         header_names: list[str] = [item.name for item in header_obj._meta.fields]
 
         headers: dict[str, RichText] = {}
@@ -257,9 +257,9 @@ class GenerateDocx(APIView):
 
         block_names: dict[str, RichText] = self._fetch_block_names(lang)
         current = block_names["current"]
-        photo: Photos = self._fetch_photo(lang, doc)
+        photo: Photos = self._fetch_photo(doc)
         manifest: RichText = self._fetch_manifest(lang)
-        header: dict[str, RichText] = self._fetch_header(lang, doc)
+        header: dict[str, RichText] = self._fetch_header(doc)
         hard_skills: list[dict[str, RichText]] = self._fetch_hard_skills(lang)
         experience = self._fetch_experience(lang, current)
         projects = self._fetch_projects(lang, doc)
