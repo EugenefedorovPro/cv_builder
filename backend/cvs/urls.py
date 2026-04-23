@@ -8,16 +8,18 @@ from cvs.views.component_views import (
     InterestView,
     ManifestView,
     NaturalLangView,
+    OccupationChoiceView,
     ProjectView,
+    SignUpView,
     SoftSkillView,
-    UserView,
 )
 from cvs.views.generate_docx_view import GenerateDocx
 
 app_name = "cvs"
 
 urlpatterns = [
-    path("user/", UserView.as_view(), name="user"),
+    path("signup/", SignUpView.as_view(), name="signup"),
+    path("occupation_choice/", OccupationChoiceView.as_view(), name="occupation_choice"),
     path("header/", HeaderView.as_view(), name="header"),
     path("hard_skills/", HardSkillView.as_view(), name="hard_skills"),
     path("manifest/", ManifestView.as_view(), name="manifest"),

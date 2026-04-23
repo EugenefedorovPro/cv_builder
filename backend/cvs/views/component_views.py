@@ -17,8 +17,10 @@ from cvs.models.models import (
     Interest,
     Manifest,
     NaturalLanguage,
+    OccupationChoice,
     Project,
     SoftSkill,
+    UuidUrl,
 )
 from cvs.serializers import (
     CustomUserSerializer,
@@ -29,6 +31,7 @@ from cvs.serializers import (
     InterestSerializer,
     ManifestSerializer,
     NaturalLangSerializer,
+    OccupationChoiceSerializer,
     ProjectSerializer,
     SoftSkillSerializer,
 )
@@ -61,36 +64,11 @@ from cvs.types import (
     SoftSkillBlockNamesType,
     SoftSkillData,
     SoftSkillViewResponseType,
-    UserResponseType,
 )
 from cvs.views.defaults_by_lang import USER_PLACEHOLDERS
 
 
-class UserView(APIView):
-
-    def _get_user_placeholders(self, lang: str) -> UserResponseType:
-        user_data: CustomUserType = USER_PLACEHOLDERS.get(
-            lang, USER_PLACEHOLDERS["eng"]
-        )
-        return {"user_data": user_data}
-
-    def get(self, request: Request, user_id=None) -> Response:
-        # ipdb.set_trace()
-        lang: str = request.GET.get("lang", "")
-
-        # returns placeholder by lang or if no lang - placeholders in eng
-        if not user_id:
-            return Response(self._get_user_placeholders(lang))
-
-        user_obj: CustomUser | None = CustomUser.objects.filter(pk=user_id).first()
-
-        # returns placeholder by lang or if no lang - placeholders in eng
-        if not user_obj:
-            return Response(self._get_user_placeholders(lang))
-
-        user_data = cast(CustomUserType, CustomUserSerializer(user_obj).data)
-        response_data = {"user_data": user_data}
-        return Response(response_data)
+class SignUpView(APIView):
 
     def post(self, request: Request) -> Response:
         serializer = CustomUserSerializer(data=request.data)
@@ -98,6 +76,25 @@ class UserView(APIView):
             user = serializer.save()
             return Response(
                 {"user_data": CustomUserSerializer(user).data},
+                status.HTTP_201_CREATED,
+            )
+        return Response(serializer.errors, status.HTTP_400_BAD_REQUEST)
+
+
+class OccupationChoiceView(APIView):
+
+    def post(self, request: Request) -> Response:
+        serializer = OccupationChoiceSerializer(data=request.data)
+        if serializer.is_valid():
+            occupation = serializer.save(user=request.user)
+            uuid_obj, _created = UuidUrl.objects.get_or_create(
+                user=request.user, occupation=occupation
+            )
+            return Response(
+                {
+                    "occupation_data": OccupationChoiceSerializer(occupation).data,
+                    "uuid_url": uuid_obj.uuid_url,
+                },
                 status.HTTP_201_CREATED,
             )
         return Response(serializer.errors, status.HTTP_400_BAD_REQUEST)

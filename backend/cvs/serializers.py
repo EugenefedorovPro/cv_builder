@@ -9,9 +9,11 @@ from cvs.models.models import (
     Interest,
     Manifest,
     NaturalLanguage,
+    OccupationChoice,
     Photos,
     Project,
     SoftSkill,
+    UuidUrl,
 )
 
 
@@ -26,6 +28,18 @@ class CustomUserSerializer(serializers.ModelSerializer):
             email=validated_data["email"],
             password=validated_data["password"],
         )
+
+
+class UuidUrlSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UuidUrl
+        fields = ["id", "uuid_url"]
+
+
+class OccupationChoiceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = OccupationChoice
+        fields = ["id", "occupation"]
 
 
 class PhotoSerializer(serializers.ModelSerializer):

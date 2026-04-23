@@ -34,7 +34,7 @@ expected_user_placeholders_ukr = {
 }
 
 
-class TestSignUp(TestCase):
+class TestLogin(TestCase):
 
     def setUp(self):
         self.builder = TestBuilderSuper().create_user()
@@ -46,13 +46,13 @@ class TestSignUp(TestCase):
 
     # @skip("")
     def test_post(self):
-        url = reverse("cvs:signup")
+        url = reverse("cvs:user")
         data: CustomUserType = {
             "username": "test_username",
             "email": "test@gmail.com",
             "password": "Test_pass_12345",
         }
-        response = self.client.post(url, data=data)
+        response = self.client.post(url + "?lang=eng", data=data)
         self.assertEqual(response.status_code, 201)
         new_user = CustomUser.objects.filter(username="test_username").first()
         self.assertEqual(new_user.email, data["email"])

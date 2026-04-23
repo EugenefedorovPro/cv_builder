@@ -14,6 +14,9 @@ class UuidUrl(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    def __str__(self):
+        return f"username = {self.user.username} - {self.uuid_url}"
+
 
 class CustomUser(AbstractUser):
     pass
