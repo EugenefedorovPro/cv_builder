@@ -24,6 +24,7 @@ class EngCvSettle:
 
     @staticmethod
     def remove_data_from_db():
+        UuidUrl.objects.all().delete()
         User.objects.all().delete()
         LanguageChoice.objects.all().delete()
         OccupationChoice.objects.all().delete()
@@ -45,6 +46,7 @@ class EngCvSettle:
             .create_user()
             .create_lang()
             .create_occupation()
+            .create_uuid_url()
             .create_photo()
             .create_block_names()
             .create_header()

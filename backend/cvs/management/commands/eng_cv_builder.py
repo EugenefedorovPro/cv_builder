@@ -15,6 +15,7 @@ class EngCvBuilder(TestBuilderSuper):
             pk=1,
             username="admin",
             password="sql_1980",
+            email="eugene.proskulikov@gmail.com",
         )
         return self
 
