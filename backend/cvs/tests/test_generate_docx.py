@@ -53,15 +53,15 @@ class GenerateDocxTest(TestCase):
         """no city and district fields in BlockNames and Header"""
         lang = "eng"
 
-        block_names = BlockNames.objects.filter(lang__lang = lang).first()
+        block_names = BlockNames.objects.first()
         block_names.city_title = ""
-        block_names.district_title = None
+        block_names.district_title = ""
         block_names.country_title = ""
         block_names.save()
 
-        header = Header.objects.filter(lang__lang = lang).first()
-        header.city = None
-        header.district = None
+        header = Header.objects.first()
+        header.city = ""
+        header.district = ""
         header.country = ""
         header.save()
 

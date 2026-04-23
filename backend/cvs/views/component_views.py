@@ -166,7 +166,6 @@ class HardSkillView(APIView):
 
 class ManifestView(APIView):
     def get(self, request: Request) -> Response:
-        ipdb.set_trace()
         lang: str | None = request.GET.get("lang")
         manifest: Manifest | None = Manifest.objects.all().first()
         if not manifest:
