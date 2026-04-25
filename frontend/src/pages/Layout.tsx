@@ -1,6 +1,6 @@
 import { Col, Container, Row, Stack } from "react-bootstrap";
 import { Outlet } from "react-router-dom";
-import "bootstrap/dist/css/bootstrap.min.css";
+// import "bootstrap/dist/css/bootstrap.min.css";
 import NavbarCV from "../components/Navbar";
 import HeaderCV from "../components/HeaderCV";
 import HardSkillsCV from "../components/HardSkills";

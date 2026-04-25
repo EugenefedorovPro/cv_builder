@@ -1,14 +1,11 @@
-import {
-  Nav,
-  Navbar,
-  NavDropdown,
-  Container,
-} from "react-bootstrap";
-import { useLang, Lang, LangArray, LangValues } from "../contexts/LangContext";
+import { Nav, Navbar, NavDropdown, Container } from "react-bootstrap";
+// import "bootstrap/dist/css/bootstrap.min.css";
+// import "../components/Navbar.css";
+import { useLang, LangArray, LangValues } from "../contexts/LangContext";
 import { UseFetchDocx } from "../api/UseFetchDocx";
 import { useAuth } from "../contexts/AuthContext";
 
-const NavbarCV = () => {
+const NavbarBuilder = () => {
   const { lang, setLang } = useLang();
   const { isAuthenticated, logout } = useAuth();
 
@@ -49,19 +46,54 @@ const NavbarCV = () => {
         </Navbar.Brand>
 
         <Navbar.Toggle className="toggle-button" aria-controls="basic-nav-dropdown" />
-
         <Navbar.Collapse className="">
           <Nav variant="" defaultActiveKey="/" className="flex-lg-column">
             <Nav.Item>
-              <Nav.Link href="#cases">Cases</Nav.Link>
+              <Nav.Link href="#cases">User</Nav.Link>
             </Nav.Item>
 
             <Nav.Item>
-              <Nav.Link href="#why-me">Why me?</Nav.Link>
+              <Nav.Link href="#why-me">Occupation</Nav.Link>
             </Nav.Item>
 
             <Nav.Item>
-              <Nav.Link href="#feedback">Feedback</Nav.Link>
+              <Nav.Link href="#feedback">Manifest</Nav.Link>
+            </Nav.Item>
+
+            <Nav.Item>
+              <Nav.Link href="#feedback">Photo</Nav.Link>
+            </Nav.Item>
+
+            <Nav.Item>
+              <Nav.Link href="#feedback">Header</Nav.Link>
+            </Nav.Item>
+
+            <Nav.Item>
+              <Nav.Link href="#feedback">Hard Skills</Nav.Link>
+            </Nav.Item>
+
+            <Nav.Item>
+              <Nav.Link href="#feedback">Soft Skills</Nav.Link>
+            </Nav.Item>
+
+            <Nav.Item>
+              <Nav.Link href="#feedback">Experience</Nav.Link>
+            </Nav.Item>
+
+            <Nav.Item>
+              <Nav.Link href="#feedback">Interests</Nav.Link>
+            </Nav.Item>
+
+            <Nav.Item>
+              <Nav.Link href="#feedback">Languages</Nav.Link>
+            </Nav.Item>
+
+            <Nav.Item>
+              <Nav.Link href="#feedback">Cases</Nav.Link>
+            </Nav.Item>
+
+            <Nav.Item>
+              <Nav.Link href="#feedback">Why me</Nav.Link>
             </Nav.Item>
 
             <Nav.Item>
@@ -104,4 +136,4 @@ const NavbarCV = () => {
   );
 };
 
-export default NavbarCV;
+export default NavbarBuilder;

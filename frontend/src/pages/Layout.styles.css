@@ -1,74 +1,78 @@
 :root {
-    --navbar-dark-background: #1f2e1f; /* Dark forest green */
-    --navbar-text: #d7f2dc; /* Soft mint */
+  --navbar-dark-background: #1f2e1f; /* Dark forest green */
+  --navbar-text: #d7f2dc; /* Soft mint */
 
-    --overall-background: #f2f0ec; /* Pearl (a touch warmer than plain white) */
-    --overall-text: #333840; /* Slate gray */
+  --overall-background: #f2f0ec; /* Pearl (a touch warmer than plain white) */
+  --overall-text: #333840; /* Slate gray */
 
-    --accent-soft: #5a4b3c; /* Warm Taupe - Subtle, earthy neutral */
-    --accent-hard: #d8a48f; /* Terracotta - Warm, earthy vibrance */
+  --accent-soft: #5a4b3c; /* Warm Taupe - Subtle, earthy neutral */
+  --accent-hard: #d8a48f; /* Terracotta - Warm, earthy vibrance */
+}
+
+.toggle-button {
+  background-color: var(--navbar-text);
 }
 
 
 .navbar-col {
-    background-color: var(--navbar-dark-background);
+  background-color: var(--navbar-dark-background);
 }
 
 .navbar-col .nav-link,
 .navbar-col .dropdown-item,
 .navbar-col .navbar-brand,
 .navbar-col .navbar-text {
-    color: var(--navbar-text);
+  color: var(--navbar-text);
 }
 
 .overall-background {
-    background-color: var(--overall-background);
+  background-color: var(--overall-background);
 }
 
 .list-group-item {
-    background-color: var(--overall-background);
-    color: var(--overall-text);
-    border-style: none;
+  background-color: var(--overall-background);
+  color: var(--overall-text);
+  border-style: none;
 }
 
 .block-name {
-    font-weight: bolder;
-    font-size: 1.2rem;
-    color: var(--accent-soft);
+  font-weight: bolder;
+  font-size: 1.2rem;
+  color: var(--accent-soft);
 }
 
 .title {
-    font-weight: bold;
-    font-size: 1.1rem;
-
+  font-weight: bold;
+  font-size: 1.1rem;
 }
 
 .hard-skills-col {
-    border-left-style: solid;
-    border-left-width: thin;
-    border-left-color: var(--accent-hard);
+  border-left-style: solid;
+  border-left-width: thin;
+  border-left-color: var(--accent-hard);
 }
-
 
 @media (max-width: 992px) {
-    .header-col {
-        border-bottom-style: solid;
-        border-bottom-width: thin;
-        border-bottom-color: var(--accent-hard);
-    }
-
+  .header-col {
+    border-bottom-style: solid;
+    border-bottom-width: thin;
+    border-bottom-color: var(--accent-hard);
+  }
 }
 
-.projects-items, .experience-items, .soft-skills-items,
-.education-items, .natural-lang-items, .interests-items {
+.projects-items,
+.experience-items,
+.soft-skills-items,
+.education-items,
+.natural-lang-items,
+.interests-items {
+  margin-left: 1rem;
+}
+
+@media (max-width: 992px) {
+  .hard-skills-items {
     margin-left: 1rem;
-}
-
-@media (max-width: 992px) {
-    .hard-skills-items {
-        margin-left: 1rem;
-
-    }
+  }
 }
 
 /*@media(max-width: 992px) {*/

@@ -1,5 +1,5 @@
-import { urlSignup } from "../../urls";
-import { usePostData } from "../../api/UsePostData";
+import { urlSignup } from "../urls";
+import { usePostData } from "../api/UsePostData";
 import { Form, Button } from "react-bootstrap";
 import { useState } from "react";
 
