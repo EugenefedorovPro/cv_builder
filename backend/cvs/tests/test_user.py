@@ -45,7 +45,7 @@ class TestSignUp(TestCase):
         self.assertTrue(logged_in)
 
     # @skip("")
-    def test_post(self):
+    def test_signup(self):
         url = reverse("cvs:signup")
         data: CustomUserType = {
             "username": "test_username",
@@ -57,4 +57,27 @@ class TestSignUp(TestCase):
         new_user = CustomUser.objects.filter(username="test_username").first()
         self.assertEqual(new_user.email, data["email"])
         self.assertNotEqual(new_user.password, data["password"])
+
+    # @skip("")
+    def test_login(self):
+        logged_in = self.client.logout()
+        self.assertFalse(logged_in)
+
+        url = reverse("cvs:login")
+        data = {
+                "username": self.builder.username,
+                "password": self.builder.password,
+                }
+        response = self.client.post(url, data=data)
+        self.assertTrue(response.wsgi_request.user.is_authenticated)
+
+    def test_logout(self):
+        url = reverse("cvs:logout")
+        response = self.client.post(url)
+        self.assertFalse(response.wsgi_request.user.is_authenticated)
+
+
+
+
+
 

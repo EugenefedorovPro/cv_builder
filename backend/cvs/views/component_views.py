@@ -1,6 +1,7 @@
 from typing import cast
 
 import ipdb
+from django.contrib.auth import authenticate, login, logout
 from django.db.models import QuerySet
 from rest_framework import status
 from rest_framework.request import Request
@@ -36,7 +37,6 @@ from cvs.serializers import (
     SoftSkillSerializer,
 )
 from cvs.types import (
-    CustomUserType,
     EducationBlockNamesType,
     EducationData,
     EducationViewResponseType,
@@ -64,6 +64,7 @@ from cvs.types import (
     SoftSkillBlockNamesType,
     SoftSkillData,
     SoftSkillViewResponseType,
+    LoginResponseType,
 )
 from cvs.views.defaults_by_lang import USER_PLACEHOLDERS
 
@@ -79,6 +80,40 @@ class SignUpView(APIView):
                 status.HTTP_201_CREATED,
             )
         return Response(serializer.errors, status.HTTP_400_BAD_REQUEST)
+
+
+class LogoutView(APIView):
+
+    def post(self, request: Request) -> Response:
+        logout(request)
+        return Response({"detail": "Logged out successfully"}, status.HTTP_200_OK)
+
+
+class LoginView(APIView):
+
+    def post(self, request: Request) -> Response:
+        username = request.data.get("username")
+        password = request.data.get("password")
+        user = authenticate(request=request, username=username, password=password)
+        if user == None:
+            return Response(
+                {
+                    "detail": "Invalid username or password",
+                },
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        login(request, user)
+
+        data: LoginResponseType = {
+            "detail": "Logged in successfully",
+            "user": {
+                "id": user.id,
+                "username": user.username,
+                "email": user.email,
+            },
+        }
+
+        return Response(data, status=status.HTTP_200_OK)
 
 
 class OccupationChoiceView(APIView):

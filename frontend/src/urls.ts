@@ -8,5 +8,7 @@ export const urlExperience: string = `${baseUrl}experience/`;
 export const urlInterest: string = `${baseUrl}interest/`;
 export const urlManifest: string = `${baseUrl}manifest/`;
 export const urlNaturalLang: string = `${baseUrl}natural_lang/`;
-export const urlUser: string = `${baseUrl}user/`;
+export const urlSignup: string = `${baseUrl}signup/`;
+export const urlLogout: string = `${baseUrl}logout/`;
+export const urlLogin: string = `${baseUrl}login/`;
 

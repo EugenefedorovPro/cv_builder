@@ -1,4 +1,4 @@
-import { urlUser } from "../../urls";
+import { urlSignup } from "../../urls";
 import { usePostData } from "../../api/UsePostData";
 import { Form, Button } from "react-bootstrap";
 import { useState } from "react";
@@ -30,7 +30,7 @@ const UserForm = () => {
   const { data, loading, error, postData } = usePostData<
     UserResponseType,
     CreateUserPayload
-  >(urlUser);
+  >(urlSignup);
 
   const handleChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputData({

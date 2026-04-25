@@ -4,14 +4,14 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = "django-insecure-2kfkx@g84)^gku1bb4a3&3-d9wlv1vrqpj=vm=t95i3-j7i4*$"
-
 # SECURITY WARNING: don't run with debug turned on in production!
-if os.environ.get("DEBUG") == "True":
-    DEBUG = True
+DEBUG = os.environ.get("DEBUG", False) == "True"
+print(f"DEBUG = {DEBUG}")
+
+SECRET_KEY = os.environ.get("SECRET_KEY", "1234") if DEBUG == False else "1234"
 
 ALLOWED_HOSTS = (
-    os.environ.get("ALLOWED_HOSTS").split(",")
+    os.environ.get("ALLOWED_HOSTS", "").split(",")
     if os.environ.get("ALLOWED_HOSTS")
     else []
 )
@@ -19,8 +19,8 @@ ALLOWED_HOSTS = (
 # Application definition
 
 INSTALLED_APPS = [
-    "cvs",
     "corsheaders",
+    "cvs",
     "rest_framework",
     "django.contrib.admin",
     "django.contrib.auth",
@@ -33,7 +33,6 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware",
-    "django.middleware.common.CommonMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -44,8 +43,17 @@ MIDDLEWARE = [
 ]
 
 CORS_ALLOWED_ORIGINS = (
-    os.environ.get("CORS_ALLOWED_ORIGINS").split(",")
+    os.environ.get("CORS_ALLOWED_ORIGINS", "").split(",")
     if os.environ.get("CORS_ALLOWED_ORIGINS")
+    else []
+)
+
+CORS_ALLOW_CREDENTIALS = True
+
+
+CSRF_TRUSTED_ORIGINS = (
+    os.environ.get("CSRF_TRUSTED_ORIGINS", "").split(",")
+    if os.environ.get("CSRF_TRUSTED_ORIGINS")
     else []
 )
 

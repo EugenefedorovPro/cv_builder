@@ -6,20 +6,29 @@ from cvs.views.component_views import (
     HardSkillView,
     HeaderView,
     InterestView,
+    LogoutView,
     ManifestView,
     NaturalLangView,
     OccupationChoiceView,
     ProjectView,
     SignUpView,
     SoftSkillView,
+    LoginView,
 )
 from cvs.views.generate_docx_view import GenerateDocx
+
+# from django.contrib.auth.views import LogoutView
+
 
 app_name = "cvs"
 
 urlpatterns = [
     path("signup/", SignUpView.as_view(), name="signup"),
-    path("occupation_choice/", OccupationChoiceView.as_view(), name="occupation_choice"),
+    path("logout/", LogoutView.as_view(), name="logout"),
+    path("login/", LoginView.as_view(), name="login"),
+    path(
+        "occupation_choice/", OccupationChoiceView.as_view(), name="occupation_choice"
+    ),
     path("header/", HeaderView.as_view(), name="header"),
     path("hard_skills/", HardSkillView.as_view(), name="hard_skills"),
     path("manifest/", ManifestView.as_view(), name="manifest"),

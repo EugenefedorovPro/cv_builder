@@ -4,6 +4,19 @@ from typing import NotRequired, TypedDict
 DATE_FORMATTER = "%Y-%m-%d"
 
 
+# user login response
+class UserLoginResponseType(TypedDict):
+    id: int
+    username: str
+    email: str
+
+
+class LoginResponseType(TypedDict):
+    detail: str
+    user: UserLoginResponseType
+
+
+# error reponse type
 class ErrorResponseType(TypedDict):
     details: str
 
@@ -176,7 +189,7 @@ class CustomUserType(TypedDict):
     id: int | str
     username: str
     email: str
-    password: NotRequired[ str | None]
+    password: NotRequired[str | None]
 
 
 class UserResponseType(TypedDict):

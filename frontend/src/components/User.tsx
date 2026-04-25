@@ -1,4 +1,4 @@
-import { urlUser } from "../urls";
+import { urlSignup } from "../urls";
 import { useFetchData } from "../api/UseFetchData";
 import { ListGroup, ListGroupItem } from "react-bootstrap";
 
@@ -15,7 +15,7 @@ export interface UserResponseType {
 
 const User = () => {
   const name = "User";
-  const { data, loading, error } = useFetchData<UserResponseType>(urlUser);
+  const { data, loading, error } = useFetchData<UserResponseType>(urlSignup);
 
   if (loading) {
     return <div>Loading data for {name}...</div>;
